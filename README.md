@@ -1,8 +1,8 @@
 
 # IoTClient Tool 
 ![image](https://img.shields.io/github/license/alienwow/SnowLeopard.svg)
-- IoTClient Tool是IoTClient库的桌面程序工具。
-- IoTClient Tool主要作用：1、可用来测试Plc和相关协议的通信 2、可作为IoTClient库使用例子。
+- IoTClient Tool是[IoTClient](https://github.com/zhaopeiym/IoTClient)库的桌面程序工具。
+- IoTClient Tool主要作用：1、可用来测试Plc和相关协议的通信 2、可作为[IoTClient](https://github.com/zhaopeiym/IoTClient)库使用例子。
 - 开发工具：Visual Studio 2019 
 - QQ交流群：[995475200](https://jq.qq.com/?_wv=1027&k=5bz0ne5)  
 - IoTClient Tool [下载1](https://github.com/zhaopeiym/IoTClient/releases/download/0.4.0/IoTClient.0.4.0.exe) [下载2](https://download.haojima.net/api/IoTClient/Download) 
