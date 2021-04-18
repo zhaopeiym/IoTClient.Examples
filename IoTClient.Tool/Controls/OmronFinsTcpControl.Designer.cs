@@ -317,7 +317,7 @@
             this.txt_port.Name = "txt_port";
             this.txt_port.Size = new System.Drawing.Size(39, 21);
             this.txt_port.TabIndex = 5;
-            this.txt_port.Text = "10000";
+            this.txt_port.Text = "9600";
             // 
             // groupBox2
             // 
