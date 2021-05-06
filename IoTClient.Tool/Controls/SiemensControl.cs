@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Talk.Linq.Extensions;
 
 namespace IoTClient.Tool
 {
@@ -72,6 +73,18 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S7200_Address)) txt_address.Text = config.S7200_Address;
                     if (!string.IsNullOrWhiteSpace(config.S7200_Value)) txt_value.Text = config.S7200_Value;
                     chb_show_package.Checked = config.S7200_ShowPackage;
+                    switch (config.S7200_Datatype)
+                    {
+                        case "rd_bit": rd_bit.Checked = true; break;
+                        case "rd_short": rd_short.Checked = true; break;
+                        case "rd_ushort": rd_ushort.Checked = true; break;
+                        case "rd_int": rd_int.Checked = true; break;
+                        case "rd_uint": rd_uint.Checked = true; break;
+                        case "rd_long": rd_long.Checked = true; break;
+                        case "rd_ulong": rd_ulong.Checked = true; break;
+                        case "rd_float": rd_float.Checked = true; break;
+                        case "rd_double": rd_double.Checked = true; break;
+                    };
                     break;
                 case SiemensVersion.S7_200Smart:
                     if (!string.IsNullOrWhiteSpace(config.S7200Smart_IP)) txt_ip.Text = config.S7200Smart_IP;
@@ -79,6 +92,18 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S7200Smart_Address)) txt_address.Text = config.S7200Smart_Address;
                     if (!string.IsNullOrWhiteSpace(config.S7200Smart_Value)) txt_value.Text = config.S7200Smart_Value;
                     chb_show_package.Checked = config.S7200Smart_ShowPackage;
+                    switch (config.S7200Smart_Datatype)
+                    {
+                        case "rd_bit": rd_bit.Checked = true; break;
+                        case "rd_short": rd_short.Checked = true; break;
+                        case "rd_ushort": rd_ushort.Checked = true; break;
+                        case "rd_int": rd_int.Checked = true; break;
+                        case "rd_uint": rd_uint.Checked = true; break;
+                        case "rd_long": rd_long.Checked = true; break;
+                        case "rd_ulong": rd_ulong.Checked = true; break;
+                        case "rd_float": rd_float.Checked = true; break;
+                        case "rd_double": rd_double.Checked = true; break;
+                    };
                     break;
                 case SiemensVersion.S7_300:
                     if (!string.IsNullOrWhiteSpace(config.S7300_IP)) txt_ip.Text = config.S7300_IP;
@@ -86,6 +111,18 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S7300_Address)) txt_address.Text = config.S7300_Address;
                     if (!string.IsNullOrWhiteSpace(config.S7300_Value)) txt_value.Text = config.S7300_Value;
                     chb_show_package.Checked = config.S7300_ShowPackage;
+                    switch (config.S7300_Datatype)
+                    {
+                        case "rd_bit": rd_bit.Checked = true; break;
+                        case "rd_short": rd_short.Checked = true; break;
+                        case "rd_ushort": rd_ushort.Checked = true; break;
+                        case "rd_int": rd_int.Checked = true; break;
+                        case "rd_uint": rd_uint.Checked = true; break;
+                        case "rd_long": rd_long.Checked = true; break;
+                        case "rd_ulong": rd_ulong.Checked = true; break;
+                        case "rd_float": rd_float.Checked = true; break;
+                        case "rd_double": rd_double.Checked = true; break;
+                    };
                     break;
                 case SiemensVersion.S7_400:
                     if (!string.IsNullOrWhiteSpace(config.S7400_IP)) txt_ip.Text = config.S7400_IP;
@@ -93,6 +130,18 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S7400_Address)) txt_address.Text = config.S7400_Address;
                     if (!string.IsNullOrWhiteSpace(config.S7400_Value)) txt_value.Text = config.S7400_Value;
                     chb_show_package.Checked = config.S7400_ShowPackage;
+                    switch (config.S7400_Datatype)
+                    {
+                        case "rd_bit": rd_bit.Checked = true; break;
+                        case "rd_short": rd_short.Checked = true; break;
+                        case "rd_ushort": rd_ushort.Checked = true; break;
+                        case "rd_int": rd_int.Checked = true; break;
+                        case "rd_uint": rd_uint.Checked = true; break;
+                        case "rd_long": rd_long.Checked = true; break;
+                        case "rd_ulong": rd_ulong.Checked = true; break;
+                        case "rd_float": rd_float.Checked = true; break;
+                        case "rd_double": rd_double.Checked = true; break;
+                    };
                     break;
                 case SiemensVersion.S7_1200:
                     if (!string.IsNullOrWhiteSpace(config.S71200_IP)) txt_ip.Text = config.S71200_IP;
@@ -100,6 +149,18 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S71200_Address)) txt_address.Text = config.S71200_Address;
                     if (!string.IsNullOrWhiteSpace(config.S71200_Value)) txt_value.Text = config.S71200_Value;
                     chb_show_package.Checked = config.S71200_ShowPackage;
+                    switch (config.S71200_Datatype)
+                    {
+                        case "rd_bit": rd_bit.Checked = true; break;
+                        case "rd_short": rd_short.Checked = true; break;
+                        case "rd_ushort": rd_ushort.Checked = true; break;
+                        case "rd_int": rd_int.Checked = true; break;
+                        case "rd_uint": rd_uint.Checked = true; break;
+                        case "rd_long": rd_long.Checked = true; break;
+                        case "rd_ulong": rd_ulong.Checked = true; break;
+                        case "rd_float": rd_float.Checked = true; break;
+                        case "rd_double": rd_double.Checked = true; break;
+                    };
                     break;
                 case SiemensVersion.S7_1500:
                     if (!string.IsNullOrWhiteSpace(config.S71500_IP)) txt_ip.Text = config.S71500_IP;
@@ -107,6 +168,18 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S71500_Address)) txt_address.Text = config.S71500_Address;
                     if (!string.IsNullOrWhiteSpace(config.S71500_Value)) txt_value.Text = config.S71500_Value;
                     chb_show_package.Checked = config.S71500_ShowPackage;
+                    switch (config.S71500_Datatype)
+                    {
+                        case "rd_bit": rd_bit.Checked = true; break;
+                        case "rd_short": rd_short.Checked = true; break;
+                        case "rd_ushort": rd_ushort.Checked = true; break;
+                        case "rd_int": rd_int.Checked = true; break;
+                        case "rd_uint": rd_uint.Checked = true; break;
+                        case "rd_long": rd_long.Checked = true; break;
+                        case "rd_ulong": rd_ulong.Checked = true; break;
+                        case "rd_float": rd_float.Checked = true; break;
+                        case "rd_double": rd_double.Checked = true; break;
+                    };
                     break;
             }
         }
@@ -152,8 +225,21 @@ namespace IoTClient.Tool
                         //MessageBox.Show(ex.Message);
                     };
                     var result = client.Open();
+
                     if (!result.IsSucceed)
+                    {
                         MessageBox.Show($"连接失败：{result.Err}");
+                        if (chb_show_package.Checked || (ModifierKeys & Keys.Control) == Keys.Control)
+                        {
+                            AppendText($"[请求报文]{result.Requst}");
+                            if (result.Response.IsAny())
+                                AppendText($"[响应报文]{result.Response}");
+                            if (result.Requst2.IsAny())
+                                AppendText($"[请求报文]{result.Requst2}");
+                            if (result.Response2.IsAny())
+                                AppendText($"[响应报文]{result.Response2}\r\n");
+                        }
+                    }
                     else
                     {
                         but_read.Enabled = true;
@@ -162,6 +248,13 @@ namespace IoTClient.Tool
                         but_close.Enabled = true;
                         but_sendData.Enabled = true;
                         AppendText($"连接成功\t\t\t\t耗时：{result.TimeConsuming}ms");
+                        if (chb_show_package.Checked || (ModifierKeys & Keys.Control) == Keys.Control)
+                        {
+                            AppendText($"[请求报文]{result.Requst}");
+                            AppendText($"[响应报文]{result.Response}");
+                            AppendText($"[请求报文]{result.Requst2}");
+                            AppendText($"[响应报文]{result.Response2}\r\n");
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -299,6 +392,16 @@ namespace IoTClient.Tool
                         config.S7200_Address = txt_address.Text;
                         config.S7200_Value = txt_value.Text;
                         config.S7200_ShowPackage = chb_show_package.Checked;
+                        config.S7200_Datatype = string.Empty;
+                        if (rd_bit.Checked) config.S7200_Datatype = "rd_bit";
+                        else if (rd_short.Checked) config.S7200_Datatype = "rd_short";
+                        else if (rd_ushort.Checked) config.S7200_Datatype = "rd_ushort";
+                        else if (rd_int.Checked) config.S7200_Datatype = "rd_int";
+                        else if (rd_uint.Checked) config.S7200_Datatype = "rd_uint";
+                        else if (rd_long.Checked) config.S7200_Datatype = "rd_long";
+                        else if (rd_ulong.Checked) config.S7200_Datatype = "rd_ulong";
+                        else if (rd_float.Checked) config.S7200_Datatype = "rd_float";
+                        else if (rd_double.Checked) config.S7200_Datatype = "rd_double";
                         break;
                     case SiemensVersion.S7_200Smart:
                         config.S7200Smart_IP = txt_ip.Text;
@@ -306,6 +409,16 @@ namespace IoTClient.Tool
                         config.S7200Smart_Address = txt_address.Text;
                         config.S7200Smart_Value = txt_value.Text;
                         config.S7200Smart_ShowPackage = chb_show_package.Checked;
+                        config.S7200Smart_Datatype = string.Empty;
+                        if (rd_bit.Checked) config.S7200Smart_Datatype = "rd_bit";
+                        else if (rd_short.Checked) config.S7200Smart_Datatype = "rd_short";
+                        else if (rd_ushort.Checked) config.S7200Smart_Datatype = "rd_ushort";
+                        else if (rd_int.Checked) config.S7200Smart_Datatype = "rd_int";
+                        else if (rd_uint.Checked) config.S7200Smart_Datatype = "rd_uint";
+                        else if (rd_long.Checked) config.S7200Smart_Datatype = "rd_long";
+                        else if (rd_ulong.Checked) config.S7200Smart_Datatype = "rd_ulong";
+                        else if (rd_float.Checked) config.S7200Smart_Datatype = "rd_float";
+                        else if (rd_double.Checked) config.S7200Smart_Datatype = "rd_double";
                         break;
                     case SiemensVersion.S7_300:
                         config.S7300_IP = txt_ip.Text;
@@ -313,6 +426,16 @@ namespace IoTClient.Tool
                         config.S7300_Address = txt_address.Text;
                         config.S7300_Value = txt_value.Text;
                         config.S7300_ShowPackage = chb_show_package.Checked;
+                        config.S7300_Datatype = string.Empty;
+                        if (rd_bit.Checked) config.S7300_Datatype = "rd_bit";
+                        else if (rd_short.Checked) config.S7300_Datatype = "rd_short";
+                        else if (rd_ushort.Checked) config.S7300_Datatype = "rd_ushort";
+                        else if (rd_int.Checked) config.S7300_Datatype = "rd_int";
+                        else if (rd_uint.Checked) config.S7300_Datatype = "rd_uint";
+                        else if (rd_long.Checked) config.S7300_Datatype = "rd_long";
+                        else if (rd_ulong.Checked) config.S7300_Datatype = "rd_ulong";
+                        else if (rd_float.Checked) config.S7300_Datatype = "rd_float";
+                        else if (rd_double.Checked) config.S7300_Datatype = "rd_double";
                         break;
                     case SiemensVersion.S7_400:
                         config.S7400_IP = txt_ip.Text;
@@ -320,6 +443,16 @@ namespace IoTClient.Tool
                         config.S7400_Address = txt_address.Text;
                         config.S7400_Value = txt_value.Text;
                         config.S7400_ShowPackage = chb_show_package.Checked;
+                        config.S7400_Datatype = string.Empty;
+                        if (rd_bit.Checked) config.S7400_Datatype = "rd_bit";
+                        else if (rd_short.Checked) config.S7400_Datatype = "rd_short";
+                        else if (rd_ushort.Checked) config.S7400_Datatype = "rd_ushort";
+                        else if (rd_int.Checked) config.S7400_Datatype = "rd_int";
+                        else if (rd_uint.Checked) config.S7400_Datatype = "rd_uint";
+                        else if (rd_long.Checked) config.S7400_Datatype = "rd_long";
+                        else if (rd_ulong.Checked) config.S7400_Datatype = "rd_ulong";
+                        else if (rd_float.Checked) config.S7400_Datatype = "rd_float";
+                        else if (rd_double.Checked) config.S7400_Datatype = "rd_double";
                         break;
                     case SiemensVersion.S7_1200:
                         config.S71200_IP = txt_ip.Text;
@@ -327,6 +460,16 @@ namespace IoTClient.Tool
                         config.S71200_Address = txt_address.Text;
                         config.S71200_Value = txt_value.Text;
                         config.S71200_ShowPackage = chb_show_package.Checked;
+                        config.S71200_Datatype = string.Empty;
+                        if (rd_bit.Checked) config.S71200_Datatype = "rd_bit";
+                        else if (rd_short.Checked) config.S71200_Datatype = "rd_short";
+                        else if (rd_ushort.Checked) config.S71200_Datatype = "rd_ushort";
+                        else if (rd_int.Checked) config.S71200_Datatype = "rd_int";
+                        else if (rd_uint.Checked) config.S71200_Datatype = "rd_uint";
+                        else if (rd_long.Checked) config.S71200_Datatype = "rd_long";
+                        else if (rd_ulong.Checked) config.S71200_Datatype = "rd_ulong";
+                        else if (rd_float.Checked) config.S71200_Datatype = "rd_float";
+                        else if (rd_double.Checked) config.S71200_Datatype = "rd_double";
                         break;
                     case SiemensVersion.S7_1500:
                         config.S71500_IP = txt_ip.Text;
@@ -334,6 +477,16 @@ namespace IoTClient.Tool
                         config.S71500_Address = txt_address.Text;
                         config.S71500_Value = txt_value.Text;
                         config.S71500_ShowPackage = chb_show_package.Checked;
+                        config.S71500_Datatype = string.Empty;
+                        if (rd_bit.Checked) config.S71500_Datatype = "rd_bit";
+                        else if (rd_short.Checked) config.S71500_Datatype = "rd_short";
+                        else if (rd_ushort.Checked) config.S71500_Datatype = "rd_ushort";
+                        else if (rd_int.Checked) config.S71500_Datatype = "rd_int";
+                        else if (rd_uint.Checked) config.S71500_Datatype = "rd_uint";
+                        else if (rd_long.Checked) config.S71500_Datatype = "rd_long";
+                        else if (rd_ulong.Checked) config.S71500_Datatype = "rd_ulong";
+                        else if (rd_float.Checked) config.S71500_Datatype = "rd_float";
+                        else if (rd_double.Checked) config.S71500_Datatype = "rd_double";
                         break;
                 }
                 config.SaveConfig();

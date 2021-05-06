@@ -89,16 +89,19 @@ namespace IoTClient.Tool
             switch (tab.Name)
             {
                 case "三菱_MC_Qna_3E":
-                    Text = "IoTClient Tool - 三菱MC Qna-3E Beta";
+                    Text = "IoTClient Tool - 三菱MC Qna-3E";
                     break;
                 case "三菱_MC_A_1E":
-                    Text = "IoTClient Tool - 三菱MC A-1E Beta";
+                    Text = "IoTClient Tool - 三菱MC A-1E";
                     break;
                 case "OmronFinsTcp":
-                    Text = "IoTClient Tool - 欧姆龙Fins Beta";
+                    Text = "IoTClient Tool - 欧姆龙Fins";
                     break;
                 case "ModbusRtuOverTcp":
-                    Text = "IoTClient Tool - ModbusRtu Over Tcp [串口透传 即:用Tcp的方式发送Rtu格式报文] Beta";
+                    Text = "IoTClient Tool - ModbusRtu Over Tcp [串口透传 即:用Tcp的方式发送Rtu格式报文]";
+                    break;
+                case "ABCIP":
+                    Text = "IoTClient Tool - 罗克韦尔 Allen-Bradley CIP Beta";
                     break;
             }
 
@@ -182,6 +185,11 @@ namespace IoTClient.Tool
                         omronFinsTcp.Dock = DockStyle.Fill;
                         tab.Controls.Add(omronFinsTcp);
                         break;
+                    case "ABCIP":
+                        var allenBradley = new AllenBradleyControl();
+                        allenBradley.Dock = DockStyle.Fill;
+                        tab.Controls.Add(allenBradley);
+                        break;
                     case "MQTT":
                         var mqtt = new MQTTControl();
                         mqtt.Dock = DockStyle.Fill;
@@ -204,7 +212,8 @@ namespace IoTClient.Tool
                         break;
                     case nameof(ModbusRtuControl):
                         var modbusRtuControl = tab.Controls[0] as ModbusRtuControl;
-                        modbusRtuControl?.UpdatePortNames();
+                        //tab 切换会覆盖选中的端口
+                        //modbusRtuControl?.UpdatePortNames();
                         break;
                 }
             }

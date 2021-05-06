@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace IoTClient.Tool
@@ -46,13 +47,13 @@ namespace IoTClient.Tool
 
             chb_show_package.Location = new Point(776, 19);
 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.SelectedIndex = 0;
+            cmb_EndianFormat.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_EndianFormat.SelectedIndex = 0;
 
             if (overTcp)
             {
-                button1.Visible = false;
-                button2.Visible = false;
+                but_open_server.Visible = false;
+                but_close_server.Visible = false;
                 chb_rtudata.Enabled = false;
                 chb_rtudata.Checked = true;
             }
@@ -64,10 +65,10 @@ namespace IoTClient.Tool
 
             but_read.Enabled = false;
             but_write.Enabled = false;
-            button2.Enabled = false;
+            but_close_server.Enabled = false;
             but_close.Enabled = false;
             but_sendData.Enabled = false;
-            toolTip1.SetToolTip(button1, "开启本地ModbusTcp服务端仿真模拟服务");
+            toolTip1.SetToolTip(but_open_server, "开启本地ModbusTcp服务端仿真模拟服务");
             toolTip1.SetToolTip(but_open, "点击打开连接");
             toolTip1.SetToolTip(txt_address, "支持批量读取，如4-3将会读取4、5、6地址对应的数据");
             txt_content.Text = @"小技巧:
@@ -79,10 +80,25 @@ namespace IoTClient.Tool
             if (!string.IsNullOrWhiteSpace(config.ModBusTcp_Port)) txt_port.Text = config.ModBusTcp_Port;
             if (!string.IsNullOrWhiteSpace(config.ModBusTcp_Address)) txt_address.Text = config.ModBusTcp_Address;
             if (!string.IsNullOrWhiteSpace(config.ModBusTcp_Value)) txt_value.Text = config.ModBusTcp_Value;
+            if (!string.IsNullOrWhiteSpace(config.ModBusTcp_StationNumber)) txt_stationNumber.Text = config.ModBusTcp_StationNumber;
+            cmb_EndianFormat.SelectedItem = config.ModBusTcp_EndianFormat.ToString();
+            switch (config.ModBusTcp_Datatype)
+            {
+                case "rd_coil": rd_coil.Checked = true; break;
+                case "rd_discrete": rd_discrete.Checked = true; break;
+                case "rd_short": rd_short.Checked = true; break;
+                case "rd_ushort": rd_ushort.Checked = true; break;
+                case "rd_int": rd_int.Checked = true; break;
+                case "rd_uint": rd_uint.Checked = true; break;
+                case "rd_long": rd_long.Checked = true; break;
+                case "rd_ulong": rd_ulong.Checked = true; break;
+                case "rd_float": rd_float.Checked = true; break;
+                case "rd_double": rd_double.Checked = true; break;
+            };
             chb_show_package.Checked = config.ModBusTcp_ShowPackage;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void but_open_server_Click(object sender, EventArgs e)
         {
             try
             {
@@ -90,8 +106,8 @@ namespace IoTClient.Tool
                 server?.Stop();
                 server = new ModbusTcpServer(502);
                 server.Start();
-                button1.Enabled = false;
-                button2.Enabled = true;
+                but_open_server.Enabled = false;
+                but_close_server.Enabled = true;
                 AppendText($"开启仿真模拟服务");
             }
             catch (Exception ex)
@@ -100,65 +116,73 @@ namespace IoTClient.Tool
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void but_close_server_Click(object sender, EventArgs e)
         {
             server?.Stop();
-            button1.Enabled = true;
-            button2.Enabled = false;
+            but_open_server.Enabled = true;
+            but_close_server.Enabled = false;
             AppendText($"关闭仿真模拟服务");
         }
 
+        EndianFormat format = EndianFormat.ABCD;
         private void but_open_Click(object sender, EventArgs e)
         {
-            try
+            Task.Run(() =>
             {
-                if (txt_content.Text.Contains("小技巧")) txt_content.Text = string.Empty;
-                client?.Close();
-
-                EndianFormat format = EndianFormat.ABCD;
-                switch (comboBox1.SelectedIndex)
+                try
                 {
-                    case 0:
-                        format = EndianFormat.ABCD;
-                        break;
-                    case 1:
-                        format = EndianFormat.BADC;
-                        break;
-                    case 2:
-                        format = EndianFormat.CDAB;
-                        break;
-                    case 3:
-                        format = EndianFormat.DCBA;
-                        break;
-                }
+                    but_open.Text = "连接中...";
+                    if (txt_content.Text.Contains("小技巧")) txt_content.Text = string.Empty;
+                    client?.Close();
 
-                if (chb_rtudata.Checked)
-                    client = new ModbusRtuOverTcpClient(txt_ip.Text?.Trim(), int.Parse(txt_port.Text?.Trim()), format: format);
-                else
-                    client = new ModbusTcpClient(txt_ip.Text?.Trim(), int.Parse(txt_port.Text?.Trim()), format: format);
-                var result = client.Open();
-                if (result.IsSucceed)
-                {
-                    but_read.Enabled = true;
-                    but_write.Enabled = true;
-                    but_open.Enabled = false;
-                    but_close.Enabled = true;
-                    but_sendData.Enabled = true;
-                    AppendText($"连接成功");
-                    ControlEnabledFalse();
+                    switch (cmb_EndianFormat.SelectedIndex)
+                    {
+                        case 0:
+                            format = EndianFormat.ABCD;
+                            break;
+                        case 1:
+                            format = EndianFormat.BADC;
+                            break;
+                        case 2:
+                            format = EndianFormat.CDAB;
+                            break;
+                        case 3:
+                            format = EndianFormat.DCBA;
+                            break;
+                    }
+
+                    if (chb_rtudata.Checked)
+                        client = new ModbusRtuOverTcpClient(txt_ip.Text?.Trim(), int.Parse(txt_port.Text?.Trim()), format: format);
+                    else
+                        client = new ModbusTcpClient(txt_ip.Text?.Trim(), int.Parse(txt_port.Text?.Trim()), format: format);
+                    var result = client.Open();
+                    if (result.IsSucceed)
+                    {
+                        but_read.Enabled = true;
+                        but_write.Enabled = true;
+                        but_open.Enabled = false;
+                        but_close.Enabled = true;
+                        but_sendData.Enabled = true;
+                        AppendText($"连接成功\t\t\t\t耗时：{result.TimeConsuming}ms");
+                        ControlEnabledFalse();
+                    }
+                    else
+                        MessageBox.Show($"连接失败：{result.Err}");
                 }
-                else
-                    MessageBox.Show($"连接失败：{result.Err}");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    but_open.Text = "连接";
+                }
+            });
         }
 
         private void ControlEnabledFalse()
         {
-            comboBox1.Enabled = false;
+            cmb_EndianFormat.Enabled = false;
             txt_ip.Enabled = false;
             txt_port.Enabled = false;
             txt_stationNumber.Enabled = false;
@@ -166,7 +190,7 @@ namespace IoTClient.Tool
 
         private void ControlEnabledTrue()
         {
-            comboBox1.Enabled = true;
+            cmb_EndianFormat.Enabled = true;
             txt_ip.Enabled = true;
             txt_port.Enabled = true;
             txt_stationNumber.Enabled = true;
@@ -201,7 +225,7 @@ namespace IoTClient.Tool
                     var address = int.Parse(addressAndReadLength[0]);
                     var readNumber = ushort.Parse(addressAndReadLength[1]);
                     ushort bLength = 1;
-                    if (rd_bit.Checked || rd_discrete.Checked || rd_short.Checked || rd_ushort.Checked)
+                    if (rd_coil.Checked || rd_discrete.Checked || rd_short.Checked || rd_ushort.Checked)
                         bLength = 1;
                     else if (rd_int.Checked || rd_uint.Checked || rd_float.Checked)
                         bLength = 2;
@@ -210,7 +234,7 @@ namespace IoTClient.Tool
 
                     var readLength = Convert.ToUInt16(bLength * readNumber);
                     byte functionCode;
-                    if (rd_bit.Checked) functionCode = 1;
+                    if (rd_coil.Checked) functionCode = 1;
                     else if (rd_discrete.Checked) functionCode = 2;
                     else functionCode = 3;
 
@@ -224,7 +248,7 @@ namespace IoTClient.Tool
                         for (int i = 0; i < readNumber; i++)
                         {
                             var cAddress = (address + i * bLength).ToString();
-                            if (rd_bit.Checked)
+                            if (rd_coil.Checked)
                                 AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadCoil(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
                             else if (rd_discrete.Checked)
                                 AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadDiscrete(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
@@ -255,7 +279,7 @@ namespace IoTClient.Tool
                     DataTypeEnum datatype = DataTypeEnum.None;
                     byte functionCode = 3;
                     //线圈
-                    if (rd_bit.Checked)
+                    if (rd_coil.Checked)
                     {
                         datatype = DataTypeEnum.Bool;
                         functionCode = 1;
@@ -303,7 +327,7 @@ namespace IoTClient.Tool
                 //单个读取
                 else
                 {
-                    if (rd_bit.Checked)
+                    if (rd_coil.Checked)
                         result = client.ReadCoil(txt_address.Text, stationNumber);
                     else if (rd_short.Checked)
                         result = client.ReadInt16(txt_address.Text, stationNumber);
@@ -333,9 +357,22 @@ namespace IoTClient.Tool
                 var config = ConnectionConfig.GetConfig();
                 config.ModBusTcp_IP = txt_ip.Text;
                 config.ModBusTcp_Port = txt_port.Text;
+                config.ModBusTcp_StationNumber = stationNumber.ToString();
+                config.ModBusTcp_EndianFormat = format;
                 config.ModBusTcp_Address = txt_address.Text;
                 config.ModBusTcp_Value = txt_value.Text;
                 config.ModBusTcp_ShowPackage = chb_show_package.Checked;
+                config.ModBusTcp_Datatype = string.Empty;
+                if (rd_coil.Checked) config.ModBusTcp_Datatype = "rd_coil";
+                else if (rd_discrete.Checked) config.ModBusTcp_Datatype = "rd_discrete";
+                else if (rd_short.Checked) config.ModBusTcp_Datatype = "rd_short";
+                else if (rd_ushort.Checked) config.ModBusTcp_Datatype = "rd_ushort";
+                else if (rd_int.Checked) config.ModBusTcp_Datatype = "rd_int";
+                else if (rd_uint.Checked) config.ModBusTcp_Datatype = "rd_uint";
+                else if (rd_long.Checked) config.ModBusTcp_Datatype = "rd_long";
+                else if (rd_ulong.Checked) config.ModBusTcp_Datatype = "rd_ulong";
+                else if (rd_float.Checked) config.ModBusTcp_Datatype = "rd_float";
+                else if (rd_double.Checked) config.ModBusTcp_Datatype = "rd_double";
                 config.SaveConfig();
             }
             catch (Exception ex)
@@ -369,7 +406,7 @@ namespace IoTClient.Tool
             {
                 var address = txt_address.Text.Split('-')[0];
                 dynamic result = null;
-                if (rd_bit.Checked)
+                if (rd_coil.Checked)
                 {
                     if (!bool.TryParse(txt_value.Text?.Trim(), out bool coil))
                     {

@@ -46,7 +46,7 @@
             this.rd_float = new System.Windows.Forms.RadioButton();
             this.rd_double = new System.Windows.Forms.RadioButton();
             this.rd_short = new System.Windows.Forms.RadioButton();
-            this.rd_bit = new System.Windows.Forms.RadioButton();
+            this.rd_coil = new System.Windows.Forms.RadioButton();
             this.rd_ulong = new System.Windows.Forms.RadioButton();
             this.rd_ushort = new System.Windows.Forms.RadioButton();
             this.rd_long = new System.Windows.Forms.RadioButton();
@@ -54,7 +54,7 @@
             this.rd_uint = new System.Windows.Forms.RadioButton();
             this.txt_content = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cmb_EndianFormat = new System.Windows.Forms.ComboBox();
             this.cb_baudRate = new System.Windows.Forms.ComboBox();
             this.cb_parity = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -193,7 +193,7 @@
             this.groupBox1.Controls.Add(this.rd_float);
             this.groupBox1.Controls.Add(this.rd_double);
             this.groupBox1.Controls.Add(this.rd_short);
-            this.groupBox1.Controls.Add(this.rd_bit);
+            this.groupBox1.Controls.Add(this.rd_coil);
             this.groupBox1.Controls.Add(this.rd_ulong);
             this.groupBox1.Controls.Add(this.rd_ushort);
             this.groupBox1.Controls.Add(this.rd_long);
@@ -249,13 +249,13 @@
             // 
             // rd_bit
             // 
-            this.rd_bit.AutoSize = true;
-            this.rd_bit.Location = new System.Drawing.Point(11, 23);
-            this.rd_bit.Name = "rd_bit";
-            this.rd_bit.Size = new System.Drawing.Size(47, 16);
-            this.rd_bit.TabIndex = 16;
-            this.rd_bit.Text = "线圈";
-            this.rd_bit.UseVisualStyleBackColor = true;
+            this.rd_coil.AutoSize = true;
+            this.rd_coil.Location = new System.Drawing.Point(11, 23);
+            this.rd_coil.Name = "rd_bit";
+            this.rd_coil.Size = new System.Drawing.Size(47, 16);
+            this.rd_coil.TabIndex = 16;
+            this.rd_coil.Text = "线圈";
+            this.rd_coil.UseVisualStyleBackColor = true;
             // 
             // rd_ulong
             // 
@@ -319,7 +319,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.comboBox1);
+            this.groupBox2.Controls.Add(this.cmb_EndianFormat);
             this.groupBox2.Controls.Add(this.cb_baudRate);
             this.groupBox2.Controls.Add(this.cb_parity);
             this.groupBox2.Controls.Add(this.label3);
@@ -346,16 +346,16 @@
             // 
             // comboBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.cmb_EndianFormat.FormattingEnabled = true;
+            this.cmb_EndianFormat.Items.AddRange(new object[] {
             "ABCD",
             "BADC",
             "CDAB",
             "DCBA"});
-            this.comboBox1.Location = new System.Drawing.Point(420, 17);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(52, 20);
-            this.comboBox1.TabIndex = 28;
+            this.cmb_EndianFormat.Location = new System.Drawing.Point(420, 17);
+            this.cmb_EndianFormat.Name = "comboBox1";
+            this.cmb_EndianFormat.Size = new System.Drawing.Size(52, 20);
+            this.cmb_EndianFormat.TabIndex = 28;
             // 
             // cb_baudRate
             // 
@@ -565,7 +565,7 @@
         private System.Windows.Forms.RadioButton rd_float;
         private System.Windows.Forms.RadioButton rd_double;
         private System.Windows.Forms.RadioButton rd_short;
-        private System.Windows.Forms.RadioButton rd_bit;
+        private System.Windows.Forms.RadioButton rd_coil;
         private System.Windows.Forms.RadioButton rd_ulong;
         private System.Windows.Forms.RadioButton rd_ushort;
         private System.Windows.Forms.RadioButton rd_long;
@@ -594,6 +594,6 @@
         private System.Windows.Forms.ComboBox cb_parity;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cb_baudRate;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmb_EndianFormat;
     }
 }

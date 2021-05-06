@@ -47,6 +47,19 @@ namespace IoTClient.Tool
             logs.Add("3.三菱MC_Qna-3E帧模拟服务端实现");
             logs.Add("4.三菱MC_A-1E帧模拟服务端实现");
 
+            logs.Add("\r\n版本：[0.4.6]");
+            logs.Add($"时间：2021-04-25");
+            logs.Add("内容");
+            logs.Add("1.欧姆龙客户端实现"); 
+            logs.Add("2.欧姆龙模拟服务端实现"); 
+
+            logs.Add("\r\n版本：[0.4.7]");
+            logs.Add($"时间：2021-05-04");
+            logs.Add("内容");
+            logs.Add("1.罗克韦尔AB Plc客户端实现"); 
+            logs.Add("2.罗克韦尔AB Plc模拟服务端实现");
+            logs.Add("3.界面参数保存");
+
             textBox1.Text = string.Join("\r\n", logs);
             if (hasNew)
             {

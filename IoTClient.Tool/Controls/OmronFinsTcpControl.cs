@@ -4,7 +4,9 @@ using IoTServer.Common;
 using IoTServer.Servers.PLC;
 using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Talk.Linq.Extensions;
 
 namespace IoTClient.Tool.Controls
 {
@@ -55,31 +57,64 @@ namespace IoTClient.Tool.Controls
             if (!string.IsNullOrWhiteSpace(config.OmronFins_Address)) txt_address.Text = config.OmronFins_Address;
             if (!string.IsNullOrWhiteSpace(config.OmronFins_Value)) txt_value.Text = config.OmronFins_Value;
             chb_show_package.Checked = config.OmronFins_ShowPackage;
+            switch (config.OmronFins_Datatype)
+            {
+                case "rd_bit": rd_bit.Checked = true; break;
+                case "rd_short": rd_short.Checked = true; break;
+                case "rd_ushort": rd_ushort.Checked = true; break;
+                case "rd_int": rd_int.Checked = true; break;
+                case "rd_uint": rd_uint.Checked = true; break;
+                case "rd_long": rd_long.Checked = true; break;
+                case "rd_ulong": rd_ulong.Checked = true; break;
+                case "rd_float": rd_float.Checked = true; break;
+                case "rd_double": rd_double.Checked = true; break;
+            };
         }
 
         private void but_open_Click(object sender, EventArgs e)
         {
-            try
+            Task.Run(() =>
             {
-                client?.Close();
-                client = new OmronFinsClient(txt_ip.Text?.Trim(), int.Parse(txt_port.Text.Trim()));
-                var result = client.Open();
-                if (!result.IsSucceed)
-                    MessageBox.Show($"连接失败：{result.Err}");
-                else
+                try
                 {
-                    but_read.Enabled = true;
-                    but_write.Enabled = true;
-                    but_open.Enabled = false;
-                    but_close.Enabled = true;
-                    but_sendData.Enabled = true;
-                    AppendText($"连接成功");
+                    but_open.Text = "连接中...";
+                    client?.Close();
+                    client = new OmronFinsClient(txt_ip.Text?.Trim(), int.Parse(txt_port.Text.Trim()));
+                    var result = client.Open();
+                    if (!result.IsSucceed)
+                    {
+                        MessageBox.Show($"连接失败：{result.Err}");
+                        if (chb_show_package.Checked || (ModifierKeys & Keys.Control) == Keys.Control)
+                        {
+                            AppendText($"[请求报文]{result.Requst}");
+                            if (result.Response.IsAny())
+                                AppendText($"[响应报文]{result.Response}\r\n");
+                        }
+                    }
+                    else
+                    {
+                        but_read.Enabled = true;
+                        but_write.Enabled = true;
+                        but_open.Enabled = false;
+                        but_close.Enabled = true;
+                        but_sendData.Enabled = true;
+                        AppendText($"连接成功\t\t\t\t耗时：{result.TimeConsuming}ms");
+                        if (chb_show_package.Checked || (ModifierKeys & Keys.Control) == Keys.Control)
+                        {
+                            AppendText($"[请求报文]{result.Requst}");
+                            AppendText($"[响应报文]{result.Response}\r\n");
+                        }
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    but_open.Text = "连接";
+                }
+            });
         }
 
         private void AppendText(string content)
@@ -162,6 +197,16 @@ namespace IoTClient.Tool.Controls
                 config.OmronFins_Address = txt_address.Text;
                 config.OmronFins_Value = txt_value.Text;
                 config.OmronFins_ShowPackage = chb_show_package.Checked;
+                config.OmronFins_Datatype = string.Empty;
+                if (rd_bit.Checked) config.OmronFins_Datatype = "rd_bit";
+                else if (rd_short.Checked) config.OmronFins_Datatype = "rd_short";
+                else if (rd_ushort.Checked) config.OmronFins_Datatype = "rd_ushort";
+                else if (rd_int.Checked) config.OmronFins_Datatype = "rd_int";
+                else if (rd_uint.Checked) config.OmronFins_Datatype = "rd_uint";
+                else if (rd_long.Checked) config.OmronFins_Datatype = "rd_long";
+                else if (rd_ulong.Checked) config.OmronFins_Datatype = "rd_ulong";
+                else if (rd_float.Checked) config.OmronFins_Datatype = "rd_float";
+                else if (rd_double.Checked) config.OmronFins_Datatype = "rd_double";
                 config.SaveConfig();
             }
             catch (Exception ex)

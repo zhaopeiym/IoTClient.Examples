@@ -31,12 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.chb_show_package = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cmb_EndianFormat = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.chb_rtudata = new System.Windows.Forms.CheckBox();
             this.but_close = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.but_close_server = new System.Windows.Forms.Button();
+            this.but_open_server = new System.Windows.Forms.Button();
             this.but_open = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.txt_ip = new System.Windows.Forms.TextBox();
@@ -50,7 +50,7 @@
             this.rd_float = new System.Windows.Forms.RadioButton();
             this.rd_double = new System.Windows.Forms.RadioButton();
             this.rd_short = new System.Windows.Forms.RadioButton();
-            this.rd_bit = new System.Windows.Forms.RadioButton();
+            this.rd_coil = new System.Windows.Forms.RadioButton();
             this.rd_ulong = new System.Windows.Forms.RadioButton();
             this.rd_ushort = new System.Windows.Forms.RadioButton();
             this.rd_long = new System.Windows.Forms.RadioButton();
@@ -84,12 +84,12 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.comboBox1);
+            this.groupBox2.Controls.Add(this.cmb_EndianFormat);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.chb_rtudata);
             this.groupBox2.Controls.Add(this.but_close);
-            this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.but_close_server);
+            this.groupBox2.Controls.Add(this.but_open_server);
             this.groupBox2.Controls.Add(this.but_open);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.txt_ip);
@@ -105,16 +105,16 @@
             // 
             // comboBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.cmb_EndianFormat.FormattingEnabled = true;
+            this.cmb_EndianFormat.Items.AddRange(new object[] {
             "ABCD",
             "BADC",
             "CDAB",
             "DCBA"});
-            this.comboBox1.Location = new System.Drawing.Point(495, 20);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(52, 20);
-            this.comboBox1.TabIndex = 20;
+            this.cmb_EndianFormat.Location = new System.Drawing.Point(495, 20);
+            this.cmb_EndianFormat.Name = "comboBox1";
+            this.cmb_EndianFormat.Size = new System.Drawing.Size(52, 20);
+            this.cmb_EndianFormat.TabIndex = 20;
             // 
             // label3
             // 
@@ -146,23 +146,23 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(768, 19);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 16;
-            this.button2.Text = "关闭服务";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.but_close_server.Location = new System.Drawing.Point(768, 19);
+            this.but_close_server.Name = "button2";
+            this.but_close_server.Size = new System.Drawing.Size(75, 23);
+            this.but_close_server.TabIndex = 16;
+            this.but_close_server.Text = "关闭服务";
+            this.but_close_server.UseVisualStyleBackColor = true;
+            this.but_close_server.Click += new System.EventHandler(this.but_close_server_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(663, 19);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(99, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "本地模拟服务";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.but_open_server.Location = new System.Drawing.Point(663, 19);
+            this.but_open_server.Name = "button1";
+            this.but_open_server.Size = new System.Drawing.Size(99, 23);
+            this.but_open_server.TabIndex = 0;
+            this.but_open_server.Text = "本地模拟服务";
+            this.but_open_server.UseVisualStyleBackColor = true;
+            this.but_open_server.Click += new System.EventHandler(this.but_open_server_Click);
             // 
             // but_open
             // 
@@ -232,7 +232,7 @@
             this.groupBox1.Controls.Add(this.rd_float);
             this.groupBox1.Controls.Add(this.rd_double);
             this.groupBox1.Controls.Add(this.rd_short);
-            this.groupBox1.Controls.Add(this.rd_bit);
+            this.groupBox1.Controls.Add(this.rd_coil);
             this.groupBox1.Controls.Add(this.rd_ulong);
             this.groupBox1.Controls.Add(this.rd_ushort);
             this.groupBox1.Controls.Add(this.rd_long);
@@ -298,13 +298,13 @@
             // 
             // rd_bit
             // 
-            this.rd_bit.AutoSize = true;
-            this.rd_bit.Location = new System.Drawing.Point(11, 23);
-            this.rd_bit.Name = "rd_bit";
-            this.rd_bit.Size = new System.Drawing.Size(47, 16);
-            this.rd_bit.TabIndex = 16;
-            this.rd_bit.Text = "线圈";
-            this.rd_bit.UseVisualStyleBackColor = true;
+            this.rd_coil.AutoSize = true;
+            this.rd_coil.Location = new System.Drawing.Point(11, 23);
+            this.rd_coil.Name = "rd_bit";
+            this.rd_coil.Size = new System.Drawing.Size(47, 16);
+            this.rd_coil.TabIndex = 16;
+            this.rd_coil.Text = "线圈";
+            this.rd_coil.UseVisualStyleBackColor = true;
             // 
             // rd_ulong
             // 
@@ -479,7 +479,7 @@
 
         private System.Windows.Forms.CheckBox chb_show_package;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button but_open_server;
         private System.Windows.Forms.Button but_open;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txt_ip;
@@ -491,7 +491,7 @@
         private System.Windows.Forms.RadioButton rd_float;
         private System.Windows.Forms.RadioButton rd_double;
         private System.Windows.Forms.RadioButton rd_short;
-        private System.Windows.Forms.RadioButton rd_bit;
+        private System.Windows.Forms.RadioButton rd_coil;
         private System.Windows.Forms.RadioButton rd_ulong;
         private System.Windows.Forms.RadioButton rd_ushort;
         private System.Windows.Forms.RadioButton rd_long;
@@ -506,7 +506,7 @@
         private System.Windows.Forms.Label lab_value;
         private System.Windows.Forms.TextBox txt_content;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button but_close_server;
         private System.Windows.Forms.Button but_close;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.RadioButton rd_discrete;
@@ -514,6 +514,6 @@
         private System.Windows.Forms.TextBox txt_dataPackage;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chb_rtudata;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmb_EndianFormat;
     }
 }

@@ -1,23 +1,21 @@
 ﻿using IoTClient.Clients.PLC;
-using IoTClient.Common.Helpers;
-using IoTClient.Enums;
 using IoTClient.Tool.Common;
 using IoTServer.Common;
 using IoTServer.Servers.PLC;
 using System;
 using System.Drawing;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Talk.Linq.Extensions;
 
 namespace IoTClient.Tool.Controls
 {
-    public partial class MitsubishiMCControl : UserControl
+    public partial class AllenBradleyControl : UserControl
     {
-        private MitsubishiClient client;
+        private AllenBradleyClient client;
         private IIoTServer server;
-        private MitsubishiVersion version;
-        public MitsubishiMCControl(MitsubishiVersion version)
+
+        public AllenBradleyControl()
         {
             InitializeComponent();
             Size = new Size(880, 450);
@@ -51,50 +49,27 @@ namespace IoTClient.Tool.Controls
             but_close.Enabled = false;
             but_sendData.Enabled = false;
 
-            this.version = version;
+            //this.version = version;
 
             var config = ConnectionConfig.GetConfig();
-            switch (version)
+            if (!string.IsNullOrWhiteSpace(config.AllenBradley_IP)) txt_ip.Text = config.AllenBradley_IP;
+            if (!string.IsNullOrWhiteSpace(config.AllenBradley_Port)) txt_port.Text = config.AllenBradley_Port;
+            if (!string.IsNullOrWhiteSpace(config.AllenBradley_Address)) txt_address.Text = config.AllenBradley_Address;
+            if (!string.IsNullOrWhiteSpace(config.AllenBradley_Value)) txt_value.Text = config.AllenBradley_Value;
+            if (!string.IsNullOrWhiteSpace(config.AllenBradley_Slot)) txt_slot.Text = config.AllenBradley_Slot;
+            chb_show_package.Checked = config.AllenBradley_ShowPackage;
+            switch (config.AllenBradley_Datatype)
             {
-                case MitsubishiVersion.A_1E:
-                    if (!string.IsNullOrWhiteSpace(config.MitsubishiA1E_IP)) txt_ip.Text = config.MitsubishiA1E_IP;
-                    if (!string.IsNullOrWhiteSpace(config.MitsubishiA1E_Port)) txt_port.Text = config.MitsubishiA1E_Port;
-                    if (!string.IsNullOrWhiteSpace(config.MitsubishiA1E_Address)) txt_address.Text = config.MitsubishiA1E_Address;
-                    if (!string.IsNullOrWhiteSpace(config.MitsubishiA1E_Value)) txt_value.Text = config.MitsubishiA1E_Value;
-                    chb_show_package.Checked = config.MitsubishiA1E_ShowPackage;
-                    switch (config.MitsubishiA1E_Datatype)
-                    {
-                        case "rd_bit": rd_bit.Checked = true; break;
-                        case "rd_short": rd_short.Checked = true; break;
-                        case "rd_ushort": rd_ushort.Checked = true; break;
-                        case "rd_int": rd_int.Checked = true; break;
-                        case "rd_uint": rd_uint.Checked = true; break;
-                        case "rd_long": rd_long.Checked = true; break;
-                        case "rd_ulong": rd_ulong.Checked = true; break;
-                        case "rd_float": rd_float.Checked = true; break;
-                        case "rd_double": rd_double.Checked = true; break;
-                    };
-                    break;
-                case MitsubishiVersion.Qna_3E:
-                    if (!string.IsNullOrWhiteSpace(config.MitsubishiQna3E_IP)) txt_ip.Text = config.MitsubishiQna3E_IP;
-                    if (!string.IsNullOrWhiteSpace(config.MitsubishiQna3E_Port)) txt_port.Text = config.MitsubishiQna3E_Port;
-                    if (!string.IsNullOrWhiteSpace(config.MitsubishiQna3E_Address)) txt_address.Text = config.MitsubishiQna3E_Address;
-                    if (!string.IsNullOrWhiteSpace(config.MitsubishiQna3E_Value)) txt_value.Text = config.MitsubishiQna3E_Value;
-                    chb_show_package.Checked = config.MitsubishiQna3E_ShowPackage;
-                    switch (config.MitsubishiQna3E_Datatype)
-                    {
-                        case "rd_bit": rd_bit.Checked = true; break;
-                        case "rd_short": rd_short.Checked = true; break;
-                        case "rd_ushort": rd_ushort.Checked = true; break;
-                        case "rd_int": rd_int.Checked = true; break;
-                        case "rd_uint": rd_uint.Checked = true; break;
-                        case "rd_long": rd_long.Checked = true; break;
-                        case "rd_ulong": rd_ulong.Checked = true; break;
-                        case "rd_float": rd_float.Checked = true; break;
-                        case "rd_double": rd_double.Checked = true; break;
-                    };
-                    break;
-            }
+                case "rd_bit": rd_bit.Checked = true; break;
+                case "rd_short": rd_short.Checked = true; break;
+                case "rd_ushort": rd_ushort.Checked = true; break;
+                case "rd_int": rd_int.Checked = true; break;
+                case "rd_uint": rd_uint.Checked = true; break;
+                case "rd_long": rd_long.Checked = true; break;
+                case "rd_ulong": rd_ulong.Checked = true; break;
+                case "rd_float": rd_float.Checked = true; break;
+                case "rd_double": rd_double.Checked = true; break;
+            };
         }
 
         private void but_open_Click(object sender, EventArgs e)
@@ -105,10 +80,18 @@ namespace IoTClient.Tool.Controls
                 {
                     but_open.Text = "连接中...";
                     client?.Close();
-                    client = new MitsubishiClient(version, txt_ip.Text?.Trim(), int.Parse(txt_port.Text.Trim()));
+                    client = new AllenBradleyClient(txt_ip.Text?.Trim(), int.Parse(txt_port.Text.Trim()), byte.Parse(txt_slot.Text.Trim()));
                     var result = client.Open();
                     if (!result.IsSucceed)
+                    { 
                         MessageBox.Show($"连接失败：{result.Err}");
+                        if (chb_show_package.Checked || (ModifierKeys & Keys.Control) == Keys.Control)
+                        {
+                            AppendText($"[请求报文]{result.Requst}");
+                            if (result.Response.IsAny())
+                                AppendText($"[响应报文]{result.Response}\r\n");
+                        }
+                    }
                     else
                     {
                         but_read.Enabled = true;
@@ -117,6 +100,11 @@ namespace IoTClient.Tool.Controls
                         but_close.Enabled = true;
                         but_sendData.Enabled = true;
                         AppendText($"连接成功\t\t\t\t耗时：{result.TimeConsuming}ms");
+                        if (chb_show_package.Checked || (ModifierKeys & Keys.Control) == Keys.Control)
+                        {
+                            AppendText($"[请求报文]{result.Requst}");
+                            AppendText($"[响应报文]{result.Response}\r\n");
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -130,6 +118,14 @@ namespace IoTClient.Tool.Controls
             });
         }
 
+        private void AppendText(string content)
+        {
+            txt_content.Invoke((Action)(() =>
+            {
+                txt_content.AppendText($"[{DateTime.Now.ToLongTimeString()}]{content}\r\n");
+            }));
+        }
+
         private void but_close_Click(object sender, EventArgs e)
         {
             client?.Close();
@@ -137,14 +133,6 @@ namespace IoTClient.Tool.Controls
             but_close.Enabled = false;
             but_sendData.Enabled = false;
             AppendText($"连接关闭");
-        }
-
-        private void AppendText(string content)
-        {
-            txt_content.Invoke((Action)(() =>
-            {
-                txt_content.AppendText($"[{DateTime.Now.ToLongTimeString()}]{content}\r\n");
-            }));
         }
 
         private void but_read_Click(object sender, EventArgs e)
@@ -205,43 +193,22 @@ namespace IoTClient.Tool.Controls
                 }
 
                 var config = ConnectionConfig.GetConfig();
-                switch (version)
-                {
-                    case MitsubishiVersion.A_1E:
-                        config.MitsubishiA1E_IP = txt_ip.Text;
-                        config.MitsubishiA1E_Port = txt_port.Text;
-                        config.MitsubishiA1E_Address = txt_address.Text;
-                        config.MitsubishiA1E_Value = txt_value.Text;
-                        config.MitsubishiA1E_ShowPackage = chb_show_package.Checked;
-                        config.MitsubishiA1E_Datatype = string.Empty;
-                        if (rd_bit.Checked) config.MitsubishiA1E_Datatype = "rd_bit";
-                        else if (rd_short.Checked) config.MitsubishiA1E_Datatype = "rd_short";
-                        else if (rd_ushort.Checked) config.MitsubishiA1E_Datatype = "rd_ushort";
-                        else if (rd_int.Checked) config.MitsubishiA1E_Datatype = "rd_int";
-                        else if (rd_uint.Checked) config.MitsubishiA1E_Datatype = "rd_uint";
-                        else if (rd_long.Checked) config.MitsubishiA1E_Datatype = "rd_long";
-                        else if (rd_ulong.Checked) config.MitsubishiA1E_Datatype = "rd_ulong";
-                        else if (rd_float.Checked) config.MitsubishiA1E_Datatype = "rd_float";
-                        else if (rd_double.Checked) config.MitsubishiA1E_Datatype = "rd_double";
-                        break;
-                    case MitsubishiVersion.Qna_3E:
-                        config.MitsubishiQna3E_IP = txt_ip.Text;
-                        config.MitsubishiQna3E_Port = txt_port.Text;
-                        config.MitsubishiQna3E_Address = txt_address.Text;
-                        config.MitsubishiQna3E_Value = txt_value.Text;
-                        config.MitsubishiQna3E_ShowPackage = chb_show_package.Checked;
-                        config.MitsubishiQna3E_Datatype = string.Empty;
-                        if (rd_bit.Checked) config.MitsubishiQna3E_Datatype = "rd_bit";
-                        else if (rd_short.Checked) config.MitsubishiQna3E_Datatype = "rd_short";
-                        else if (rd_ushort.Checked) config.MitsubishiQna3E_Datatype = "rd_ushort";
-                        else if (rd_int.Checked) config.MitsubishiQna3E_Datatype = "rd_int";
-                        else if (rd_uint.Checked) config.MitsubishiQna3E_Datatype = "rd_uint";
-                        else if (rd_long.Checked) config.MitsubishiQna3E_Datatype = "rd_long";
-                        else if (rd_ulong.Checked) config.MitsubishiQna3E_Datatype = "rd_ulong";
-                        else if (rd_float.Checked) config.MitsubishiQna3E_Datatype = "rd_float";
-                        else if (rd_double.Checked) config.MitsubishiQna3E_Datatype = "rd_double";
-                        break;
-                }
+                config.AllenBradley_IP = txt_ip.Text;
+                config.AllenBradley_Port = txt_port.Text;
+                config.AllenBradley_Address = txt_address.Text;
+                config.AllenBradley_Value = txt_value.Text;
+                config.AllenBradley_Slot = txt_slot.Text;
+                config.AllenBradley_ShowPackage = chb_show_package.Checked;
+                config.AllenBradley_Datatype = string.Empty;
+                if (rd_bit.Checked) config.AllenBradley_Datatype = "rd_bit";
+                else if (rd_short.Checked) config.AllenBradley_Datatype = "rd_short";
+                else if (rd_ushort.Checked) config.AllenBradley_Datatype = "rd_ushort";
+                else if (rd_int.Checked) config.AllenBradley_Datatype = "rd_int";
+                else if (rd_uint.Checked) config.AllenBradley_Datatype = "rd_uint";
+                else if (rd_long.Checked) config.AllenBradley_Datatype = "rd_long";
+                else if (rd_ulong.Checked) config.AllenBradley_Datatype = "rd_ulong";
+                else if (rd_float.Checked) config.AllenBradley_Datatype = "rd_float";
+                else if (rd_double.Checked) config.AllenBradley_Datatype = "rd_double";
                 config.SaveConfig();
             }
             catch (Exception ex)
@@ -338,16 +305,7 @@ namespace IoTClient.Tool.Controls
             try
             {
                 server?.Stop();
-                switch (version)
-                {
-                    case MitsubishiVersion.A_1E:
-                        server = new MitsubishiA1EServer(int.Parse(txt_port.Text.Trim()));
-                        break;
-                    case MitsubishiVersion.Qna_3E:
-                        server = new MitsubishiQna3EServer(int.Parse(txt_port.Text.Trim()));
-                        break;
-
-                }
+                server = new AllenBradleyServer(int.Parse(txt_port.Text.Trim()));
                 server.Start();
                 but_server.Enabled = false;
                 but_close_server.Enabled = true;
@@ -356,35 +314,6 @@ namespace IoTClient.Tool.Controls
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void but_sendData_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(txt_dataPackage.Text))
-                {
-                    MessageBox.Show("请输入要发送的报文");
-                    return;
-                }
-                var dataPackageString = txt_dataPackage.Text.Replace(" ", "");
-                if (dataPackageString.Length % 2 != 0)
-                {
-                    MessageBox.Show("请输入正确的的报文");
-                    return;
-                }
-
-                var dataPackage = DataConvert.StringToByteArray(txt_dataPackage.Text?.Trim(), false);
-                var msg = client.SendPackage(dataPackage);
-                AppendText($"[请求报文]{string.Join(" ", dataPackage.Select(t => t.ToString("X2")))}");
-                AppendText($"[响应报文]{string.Join(" ", msg.Value.Select(t => t.ToString("X2")))}\r\n");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                client.Close();
-                client.Open();
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using IoTClient.Clients.Modbus;
 using IoTClient.Common.Helpers;
 using IoTClient.Enums;
+using IoTClient.Tool.Common;
 using IoTServer.Common;
 using IoTServer.Servers.Modbus;
 using System;
@@ -44,8 +45,8 @@ namespace IoTClient.Tool.Controls
             but_sendData.Location = new Point(620, 17);
 
             chb_show_package.Location = new Point(776, 19);
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.SelectedIndex = 0;
+            cmb_EndianFormat.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_EndianFormat.SelectedIndex = 0;
 
             but_read.Enabled = false;
             but_write.Enabled = false;
@@ -58,6 +59,31 @@ namespace IoTClient.Tool.Controls
             cb_parity.SelectedIndex = 0;
             cb_parity.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_baudRate.SelectedIndex = 2;
+
+            var config = ConnectionConfig.GetConfig();
+            if (!string.IsNullOrWhiteSpace(config.ModBusAscii_Address)) txt_address.Text = config.ModBusAscii_Address;
+            if (!string.IsNullOrWhiteSpace(config.ModBusAscii_Value)) txt_value.Text = config.ModBusAscii_Value;
+            if (!string.IsNullOrWhiteSpace(config.ModBusAscii_StationNumber)) txt_stationNumber.Text = config.ModBusAscii_StationNumber;
+            if (!string.IsNullOrWhiteSpace(config.ModBusAscii_PortName)) cb_portNameSend.SelectedItem = config.ModBusAscii_PortName;
+            if (!string.IsNullOrWhiteSpace(config.ModBusAscii_BaudRate)) cb_baudRate.SelectedItem = config.ModBusAscii_BaudRate;
+            if (!string.IsNullOrWhiteSpace(config.ModBusAscii_DataBits)) txt_dataBit.Text = config.ModBusAscii_DataBits;
+            txt_stopBit.Text = ((int)config.ModBusAscii_StopBits).ToString();
+            cb_parity.SelectedIndex = (int)config.ModBusAscii_Parity;
+            cmb_EndianFormat.SelectedItem = config.ModBusAscii_EndianFormat.ToString();
+            switch (config.ModBusAscii_Datatype)
+            {
+                case "rd_coil": rd_coil.Checked = true; break;
+                case "rd_discrete": rd_discrete.Checked = true; break;
+                case "rd_short": rd_short.Checked = true; break;
+                case "rd_ushort": rd_ushort.Checked = true; break;
+                case "rd_int": rd_int.Checked = true; break;
+                case "rd_uint": rd_uint.Checked = true; break;
+                case "rd_long": rd_long.Checked = true; break;
+                case "rd_ulong": rd_ulong.Checked = true; break;
+                case "rd_float": rd_float.Checked = true; break;
+                case "rd_double": rd_double.Checked = true; break;
+            };
+            chb_show_package.Checked = config.ModBusAscii_ShowPackage;
         }
 
         /// <summary>
@@ -117,7 +143,7 @@ namespace IoTClient.Tool.Controls
                 client?.Close();
 
                 EndianFormat format = EndianFormat.ABCD;
-                switch (comboBox1.SelectedIndex)
+                switch (cmb_EndianFormat.SelectedIndex)
                 {
                     case 0:
                         format = EndianFormat.ABCD;
@@ -143,11 +169,23 @@ namespace IoTClient.Tool.Controls
                     but_open.Enabled = false;
                     but_close.Enabled = true;
                     but_sendData.Enabled = true;
-                    AppendText("连接成功");
+                    AppendText($"连接成功\t\t\t\t耗时：{result.TimeConsuming}ms");
                     ControlEnabledFalse();
                 }
                 else
-                    AppendText($"连接失败：{result.Err}");               
+                    AppendText($"连接失败：{result.Err}");
+
+                var config = ConnectionConfig.GetConfig();
+                config.ModBusAscii_PortName = PortName;
+                config.ModBusAscii_BaudRate = BaudRate.ToString();
+                config.ModBusAscii_DataBits = DataBits.ToString();
+                config.ModBusAscii_StopBits = StopBits;
+                config.ModBusAscii_Parity = parity;
+                config.ModBusAscii_Value = txt_value.Text;
+                config.ModBusAscii_Address = txt_address.Text;
+                config.ModBusAscii_ShowPackage = chb_show_package.Checked;
+                config.ModBusAscii_EndianFormat = format;                
+                config.SaveConfig();
             }
             catch (Exception ex)
             {
@@ -157,7 +195,7 @@ namespace IoTClient.Tool.Controls
 
         private void ControlEnabledFalse()
         {
-            comboBox1.Enabled = false;
+            cmb_EndianFormat.Enabled = false;
             cb_portNameSend.Enabled = false;
             cb_baudRate.Enabled = false;
             txt_dataBit.Enabled = false;
@@ -168,7 +206,7 @@ namespace IoTClient.Tool.Controls
 
         private void ControlEnabledTrue()
         {
-            comboBox1.Enabled = true;
+            cmb_EndianFormat.Enabled = true;
             cb_portNameSend.Enabled = true;
             cb_baudRate.Enabled = true;
             txt_dataBit.Enabled = true;
@@ -202,7 +240,7 @@ namespace IoTClient.Tool.Controls
                     return;
                 }
                 dynamic result = null;
-                if (rd_bit.Checked)
+                if (rd_coil.Checked)
                 {
                     result = client.ReadCoil(txt_address.Text, stationNumber);
                 }
@@ -252,6 +290,24 @@ namespace IoTClient.Tool.Controls
                     AppendText($"[请求报文]{result.Requst}");
                     AppendText($"[响应报文]{result.Response}\r\n");
                 }
+
+                var config = ConnectionConfig.GetConfig();
+                config.ModBusAscii_Value = txt_value.Text;
+                config.ModBusAscii_Address = txt_address.Text;
+                config.ModBusAscii_StationNumber = txt_stationNumber.Text;
+                config.ModBusAscii_ShowPackage = chb_show_package.Checked;
+                config.ModBusAscii_Datatype = string.Empty;
+                if (rd_coil.Checked) config.ModBusAscii_Datatype = "rd_coil";
+                else if (rd_discrete.Checked) config.ModBusAscii_Datatype = "rd_discrete";
+                else if (rd_short.Checked) config.ModBusAscii_Datatype = "rd_short";
+                else if (rd_ushort.Checked) config.ModBusAscii_Datatype = "rd_ushort";
+                else if (rd_int.Checked) config.ModBusAscii_Datatype = "rd_int";
+                else if (rd_uint.Checked) config.ModBusAscii_Datatype = "rd_uint";
+                else if (rd_long.Checked) config.ModBusAscii_Datatype = "rd_long";
+                else if (rd_ulong.Checked) config.ModBusAscii_Datatype = "rd_ulong";
+                else if (rd_float.Checked) config.ModBusAscii_Datatype = "rd_float";
+                else if (rd_double.Checked) config.ModBusAscii_Datatype = "rd_double";
+                config.SaveConfig();
             }
             catch (Exception ex)
             {
@@ -277,7 +333,7 @@ namespace IoTClient.Tool.Controls
             {
 
                 dynamic result = null;
-                if (rd_bit.Checked)
+                if (rd_coil.Checked)
                 {
                     if (!bool.TryParse(txt_value.Text?.Trim(), out bool coil))
                     {

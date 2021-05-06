@@ -193,7 +193,7 @@ namespace IoTClient.Tool.Controls
             var dbindex = address.Length >= 3 ? address[2] : "1";
             var config = $"{ip}:{port},allowAdmin=true,password=,syncTimeout=15000,defaultdatabase={dbindex}";
             var initialTime = DateTime.Now;
-            redis = new RedisManager(int.Parse(dbindex), config);
+            redis = new RedisManager(config, int.Parse(dbindex));
             var timeConsuming = (DateTime.Now - initialTime).TotalMilliseconds;
             AppendText($"连接成功\t\t\t\t耗时：{timeConsuming}ms");
         }
