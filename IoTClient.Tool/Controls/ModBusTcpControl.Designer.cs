@@ -67,6 +67,7 @@
             this.lab_value = new System.Windows.Forms.Label();
             this.txt_content = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.but_brokenline = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -103,7 +104,7 @@
             this.groupBox2.TabIndex = 29;
             this.groupBox2.TabStop = false;
             // 
-            // comboBox1
+            // cmb_EndianFormat
             // 
             this.cmb_EndianFormat.FormattingEnabled = true;
             this.cmb_EndianFormat.Items.AddRange(new object[] {
@@ -112,7 +113,7 @@
             "CDAB",
             "DCBA"});
             this.cmb_EndianFormat.Location = new System.Drawing.Point(495, 20);
-            this.cmb_EndianFormat.Name = "comboBox1";
+            this.cmb_EndianFormat.Name = "cmb_EndianFormat";
             this.cmb_EndianFormat.Size = new System.Drawing.Size(52, 20);
             this.cmb_EndianFormat.TabIndex = 20;
             // 
@@ -144,20 +145,20 @@
             this.but_close.UseVisualStyleBackColor = true;
             this.but_close.Click += new System.EventHandler(this.but_close_Click);
             // 
-            // button2
+            // but_close_server
             // 
             this.but_close_server.Location = new System.Drawing.Point(768, 19);
-            this.but_close_server.Name = "button2";
+            this.but_close_server.Name = "but_close_server";
             this.but_close_server.Size = new System.Drawing.Size(75, 23);
             this.but_close_server.TabIndex = 16;
             this.but_close_server.Text = "关闭服务";
             this.but_close_server.UseVisualStyleBackColor = true;
             this.but_close_server.Click += new System.EventHandler(this.but_close_server_Click);
             // 
-            // button1
+            // but_open_server
             // 
             this.but_open_server.Location = new System.Drawing.Point(663, 19);
-            this.but_open_server.Name = "button1";
+            this.but_open_server.Name = "but_open_server";
             this.but_open_server.Size = new System.Drawing.Size(99, 23);
             this.but_open_server.TabIndex = 0;
             this.but_open_server.Text = "本地模拟服务";
@@ -296,11 +297,11 @@
             this.rd_short.Text = "short";
             this.rd_short.UseVisualStyleBackColor = true;
             // 
-            // rd_bit
+            // rd_coil
             // 
             this.rd_coil.AutoSize = true;
             this.rd_coil.Location = new System.Drawing.Point(11, 23);
-            this.rd_coil.Name = "rd_bit";
+            this.rd_coil.Name = "rd_coil";
             this.rd_coil.Size = new System.Drawing.Size(47, 16);
             this.rd_coil.TabIndex = 16;
             this.rd_coil.Text = "线圈";
@@ -358,6 +359,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.but_brokenline);
             this.groupBox3.Controls.Add(this.but_sendData);
             this.groupBox3.Controls.Add(this.txt_dataPackage);
             this.groupBox3.Controls.Add(this.chb_show_package);
@@ -375,7 +377,7 @@
             // 
             // but_sendData
             // 
-            this.but_sendData.Location = new System.Drawing.Point(622, 15);
+            this.but_sendData.Location = new System.Drawing.Point(694, 15);
             this.but_sendData.Name = "but_sendData";
             this.but_sendData.Size = new System.Drawing.Size(75, 23);
             this.but_sendData.TabIndex = 14;
@@ -385,7 +387,7 @@
             // 
             // txt_dataPackage
             // 
-            this.txt_dataPackage.Location = new System.Drawing.Point(430, 16);
+            this.txt_dataPackage.Location = new System.Drawing.Point(502, 16);
             this.txt_dataPackage.Name = "txt_dataPackage";
             this.txt_dataPackage.Size = new System.Drawing.Size(186, 21);
             this.txt_dataPackage.TabIndex = 15;
@@ -419,7 +421,7 @@
             // 
             // but_write
             // 
-            this.but_write.Location = new System.Drawing.Point(328, 14);
+            this.but_write.Location = new System.Drawing.Point(400, 14);
             this.but_write.Name = "but_write";
             this.but_write.Size = new System.Drawing.Size(75, 23);
             this.but_write.TabIndex = 10;
@@ -429,7 +431,7 @@
             // 
             // txt_value
             // 
-            this.txt_value.Location = new System.Drawing.Point(249, 15);
+            this.txt_value.Location = new System.Drawing.Point(321, 15);
             this.txt_value.Name = "txt_value";
             this.txt_value.Size = new System.Drawing.Size(74, 21);
             this.txt_value.TabIndex = 12;
@@ -438,7 +440,7 @@
             // lab_value
             // 
             this.lab_value.AutoSize = true;
-            this.lab_value.Location = new System.Drawing.Point(227, 19);
+            this.lab_value.Location = new System.Drawing.Point(299, 19);
             this.lab_value.Name = "lab_value";
             this.lab_value.Size = new System.Drawing.Size(17, 12);
             this.lab_value.TabIndex = 11;
@@ -453,6 +455,16 @@
             this.txt_content.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txt_content.Size = new System.Drawing.Size(855, 272);
             this.txt_content.TabIndex = 27;
+            // 
+            // but_brokenline
+            // 
+            this.but_brokenline.Location = new System.Drawing.Point(218, 15);
+            this.but_brokenline.Name = "but_brokenline";
+            this.but_brokenline.Size = new System.Drawing.Size(75, 23);
+            this.but_brokenline.TabIndex = 19;
+            this.but_brokenline.Text = "折线图";
+            this.but_brokenline.UseVisualStyleBackColor = true;
+            this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
             // 
             // ModbusTcpControl
             // 
@@ -515,5 +527,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chb_rtudata;
         private System.Windows.Forms.ComboBox cmb_EndianFormat;
+        private System.Windows.Forms.Button but_brokenline;
     }
 }

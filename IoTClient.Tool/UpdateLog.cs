@@ -60,6 +60,11 @@ namespace IoTClient.Tool
             logs.Add("2.罗克韦尔AB Plc模拟服务端实现");
             logs.Add("3.界面参数保存");
 
+            logs.Add("\r\n版本：[0.4.8]");
+            logs.Add($"时间：2021-05-06");
+            logs.Add("内容");
+            logs.Add("1.折线图显示");
+
             textBox1.Text = string.Join("\r\n", logs);
             if (hasNew)
             {

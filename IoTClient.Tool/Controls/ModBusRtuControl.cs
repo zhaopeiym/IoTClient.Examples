@@ -44,20 +44,23 @@ namespace IoTClient.Tool.Controls
             txt_address.Size = new Size(88, 21);
             but_read.Location = new Point(132, 17);
 
-            lab_value.Location = new Point(227, 22);
-            txt_value.Location = new Point(249, 18);
+            but_brokenline.Location = new Point(209, 17);
+
+            lab_value.Location = new Point(297, 22);
+            txt_value.Location = new Point(319, 18);
             txt_value.Size = new Size(74, 21);
-            but_write.Location = new Point(328, 17);
+            but_write.Location = new Point(398, 17);
 
-            txt_dataPackage.Location = new Point(430, 18);
+            txt_dataPackage.Location = new Point(490, 18);
             txt_dataPackage.Size = new Size(186, 21);
-            but_sendData.Location = new Point(620, 17);
+            but_sendData.Location = new Point(680, 17);
 
-            chb_show_package.Location = new Point(776, 19);
+            chb_show_package.Location = new Point(776, 20);
             cmb_EndianFormat.DropDownStyle = ComboBoxStyle.DropDownList;
             cmb_EndianFormat.SelectedIndex = 0;
 
             but_read.Enabled = false;
+            but_brokenline.Enabled = false;
             but_write.Enabled = false;
             but_server_close.Enabled = false;
             but_close.Enabled = false;
@@ -152,6 +155,7 @@ namespace IoTClient.Tool.Controls
                     but_open.Enabled = false;
                     cb_portNameSend.Enabled = false;
                     but_read.Enabled = true;
+                    but_brokenline.Enabled = true;
                     but_write.Enabled = true;
                     but_open.Enabled = false;
                     but_close.Enabled = true;
@@ -701,6 +705,48 @@ namespace IoTClient.Tool.Controls
             {
                 txt_content.AppendText($"\r\n");
             }));
+        }
+
+        private async void but_brokenline_ClickAsync(object sender, EventArgs e)
+        {
+            try
+            {
+                byte.TryParse(txt_stationNumber.Text?.Trim(), out byte stationNumber);
+
+                var constant = new BrokenLineChart(txt_address.Text);
+                constant.Show();
+                while (!constant.IsDisposed)
+                {
+                    await Task.Delay(800);
+
+                    dynamic result = null;
+                    if (rd_coil.Checked)
+                        result = client.ReadCoil(txt_address.Text, stationNumber);
+                    else if (rd_short.Checked)
+                        result = client.ReadInt16(txt_address.Text, stationNumber);
+                    else if (rd_ushort.Checked)
+                        result = client.ReadUInt16(txt_address.Text, stationNumber);
+                    else if (rd_int.Checked)
+                        result = client.ReadInt32(txt_address.Text, stationNumber);
+                    else if (rd_uint.Checked)
+                        result = client.ReadUInt32(txt_address.Text, stationNumber);
+                    else if (rd_long.Checked)
+                        result = client.ReadInt64(txt_address.Text, stationNumber);
+                    else if (rd_ulong.Checked)
+                        result = client.ReadUInt64(txt_address.Text, stationNumber);
+                    else if (rd_float.Checked)
+                        result = client.ReadFloat(txt_address.Text, stationNumber);
+                    else if (rd_double.Checked)
+                        result = client.ReadDouble(txt_address.Text, stationNumber);
+                    else if (rd_discrete.Checked)
+                        result = client.ReadDiscrete(txt_address.Text, stationNumber);
+
+                    if (result.IsSucceed)
+                        constant.AddData(result.Value);
+                }
+            }
+            catch (Exception)
+            { }
         }
     }
 }

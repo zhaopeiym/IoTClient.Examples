@@ -64,6 +64,7 @@ namespace IoTClient.Tool.Controls
             this.but_write = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txt_content = new System.Windows.Forms.TextBox();
+            this.but_brokenline = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -303,16 +304,16 @@ namespace IoTClient.Tool.Controls
             // 
             // txt_value
             // 
-            this.txt_value.Location = new System.Drawing.Point(278, 17);
+            this.txt_value.Location = new System.Drawing.Point(313, 17);
             this.txt_value.Name = "txt_value";
-            this.txt_value.Size = new System.Drawing.Size(100, 21);
+            this.txt_value.Size = new System.Drawing.Size(75, 21);
             this.txt_value.TabIndex = 12;
             this.txt_value.Text = "18.88";
             // 
             // lab_value
             // 
             this.lab_value.AutoSize = true;
-            this.lab_value.Location = new System.Drawing.Point(255, 21);
+            this.lab_value.Location = new System.Drawing.Point(290, 21);
             this.lab_value.Name = "lab_value";
             this.lab_value.Size = new System.Drawing.Size(17, 12);
             this.lab_value.TabIndex = 11;
@@ -346,7 +347,7 @@ namespace IoTClient.Tool.Controls
             // 
             // but_read
             // 
-            this.but_read.Location = new System.Drawing.Point(178, 14);
+            this.but_read.Location = new System.Drawing.Point(123, 14);
             this.but_read.Name = "but_read";
             this.but_read.Size = new System.Drawing.Size(75, 23);
             this.but_read.TabIndex = 7;
@@ -367,7 +368,7 @@ namespace IoTClient.Tool.Controls
             // 
             this.txt_address.Location = new System.Drawing.Point(42, 16);
             this.txt_address.Name = "txt_address";
-            this.txt_address.Size = new System.Drawing.Size(121, 21);
+            this.txt_address.Size = new System.Drawing.Size(75, 21);
             this.txt_address.TabIndex = 9;
             this.txt_address.Text = "A1";
             // 
@@ -383,6 +384,7 @@ namespace IoTClient.Tool.Controls
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.but_brokenline);
             this.groupBox3.Controls.Add(this.but_sendData);
             this.groupBox3.Controls.Add(this.txt_dataPackage);
             this.groupBox3.Controls.Add(this.chb_show_package);
@@ -407,6 +409,16 @@ namespace IoTClient.Tool.Controls
             this.txt_content.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txt_content.Size = new System.Drawing.Size(855, 272);
             this.txt_content.TabIndex = 43;
+            // 
+            // but_brokenline
+            // 
+            this.but_brokenline.Location = new System.Drawing.Point(200, 14);
+            this.but_brokenline.Name = "but_brokenline";
+            this.but_brokenline.Size = new System.Drawing.Size(75, 23);
+            this.but_brokenline.TabIndex = 47;
+            this.but_brokenline.Text = "折线图";
+            this.but_brokenline.UseVisualStyleBackColor = true;
+            this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
             // 
             // AllenBradleyControl
             // 
@@ -465,5 +477,6 @@ namespace IoTClient.Tool.Controls
         private System.Windows.Forms.TextBox txt_content;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txt_slot;
+        private System.Windows.Forms.Button but_brokenline;
     }
 }

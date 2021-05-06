@@ -36,6 +36,7 @@
             this.but_write = new System.Windows.Forms.Button();
             this.txt_value = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.but_brokenline = new System.Windows.Forms.Button();
             this.but_sendData = new System.Windows.Forms.Button();
             this.txt_dataPackage = new System.Windows.Forms.TextBox();
             this.chb_show_package = new System.Windows.Forms.CheckBox();
@@ -96,7 +97,7 @@
             // 
             // but_write
             // 
-            this.but_write.Location = new System.Drawing.Point(319, 17);
+            this.but_write.Location = new System.Drawing.Point(408, 17);
             this.but_write.Name = "but_write";
             this.but_write.Size = new System.Drawing.Size(75, 23);
             this.but_write.TabIndex = 10;
@@ -106,7 +107,7 @@
             // 
             // txt_value
             // 
-            this.txt_value.Location = new System.Drawing.Point(238, 17);
+            this.txt_value.Location = new System.Drawing.Point(327, 17);
             this.txt_value.Name = "txt_value";
             this.txt_value.Size = new System.Drawing.Size(75, 21);
             this.txt_value.TabIndex = 12;
@@ -114,6 +115,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.but_brokenline);
             this.groupBox3.Controls.Add(this.but_sendData);
             this.groupBox3.Controls.Add(this.txt_dataPackage);
             this.groupBox3.Controls.Add(this.chb_show_package);
@@ -129,9 +131,19 @@
             this.groupBox3.TabIndex = 34;
             this.groupBox3.TabStop = false;
             // 
+            // but_brokenline
+            // 
+            this.but_brokenline.Location = new System.Drawing.Point(209, 16);
+            this.but_brokenline.Name = "but_brokenline";
+            this.but_brokenline.Size = new System.Drawing.Size(75, 23);
+            this.but_brokenline.TabIndex = 18;
+            this.but_brokenline.Text = "折线图";
+            this.but_brokenline.UseVisualStyleBackColor = true;
+            this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
+            // 
             // but_sendData
             // 
-            this.but_sendData.Location = new System.Drawing.Point(682, 15);
+            this.but_sendData.Location = new System.Drawing.Point(693, 16);
             this.but_sendData.Name = "but_sendData";
             this.but_sendData.Size = new System.Drawing.Size(75, 23);
             this.but_sendData.TabIndex = 16;
@@ -141,7 +153,7 @@
             // 
             // txt_dataPackage
             // 
-            this.txt_dataPackage.Location = new System.Drawing.Point(490, 16);
+            this.txt_dataPackage.Location = new System.Drawing.Point(501, 17);
             this.txt_dataPackage.Name = "txt_dataPackage";
             this.txt_dataPackage.Size = new System.Drawing.Size(186, 21);
             this.txt_dataPackage.TabIndex = 17;
@@ -149,7 +161,7 @@
             // chb_show_package
             // 
             this.chb_show_package.AutoSize = true;
-            this.chb_show_package.Location = new System.Drawing.Point(776, 17);
+            this.chb_show_package.Location = new System.Drawing.Point(776, 20);
             this.chb_show_package.Name = "chb_show_package";
             this.chb_show_package.Size = new System.Drawing.Size(72, 16);
             this.chb_show_package.TabIndex = 13;
@@ -159,7 +171,7 @@
             // lab_value
             // 
             this.lab_value.AutoSize = true;
-            this.lab_value.Location = new System.Drawing.Point(215, 21);
+            this.lab_value.Location = new System.Drawing.Point(304, 21);
             this.lab_value.Name = "lab_value";
             this.lab_value.Size = new System.Drawing.Size(17, 12);
             this.lab_value.TabIndex = 11;
@@ -453,5 +465,6 @@
         private System.Windows.Forms.Button but_sendData;
         private System.Windows.Forms.TextBox txt_dataPackage;
         private System.Windows.Forms.RadioButton rd_byte;
+        private System.Windows.Forms.Button but_brokenline;
     }
 }

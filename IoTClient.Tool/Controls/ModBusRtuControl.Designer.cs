@@ -73,6 +73,7 @@
             this.txt_stationNumber = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.but_brokenline = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -107,7 +108,7 @@
             // 
             // but_write
             // 
-            this.but_write.Location = new System.Drawing.Point(337, 17);
+            this.but_write.Location = new System.Drawing.Point(410, 17);
             this.but_write.Name = "but_write";
             this.but_write.Size = new System.Drawing.Size(75, 23);
             this.but_write.TabIndex = 10;
@@ -117,7 +118,7 @@
             // 
             // txt_value
             // 
-            this.txt_value.Location = new System.Drawing.Point(256, 17);
+            this.txt_value.Location = new System.Drawing.Point(329, 17);
             this.txt_value.Name = "txt_value";
             this.txt_value.Size = new System.Drawing.Size(74, 21);
             this.txt_value.TabIndex = 12;
@@ -125,6 +126,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.but_brokenline);
             this.groupBox3.Controls.Add(this.but_sendData);
             this.groupBox3.Controls.Add(this.txt_dataPackage);
             this.groupBox3.Controls.Add(this.chb_show_package);
@@ -142,7 +144,7 @@
             // 
             // but_sendData
             // 
-            this.but_sendData.Location = new System.Drawing.Point(616, 17);
+            this.but_sendData.Location = new System.Drawing.Point(689, 17);
             this.but_sendData.Name = "but_sendData";
             this.but_sendData.Size = new System.Drawing.Size(75, 23);
             this.but_sendData.TabIndex = 16;
@@ -152,7 +154,7 @@
             // 
             // txt_dataPackage
             // 
-            this.txt_dataPackage.Location = new System.Drawing.Point(424, 18);
+            this.txt_dataPackage.Location = new System.Drawing.Point(497, 18);
             this.txt_dataPackage.Name = "txt_dataPackage";
             this.txt_dataPackage.Size = new System.Drawing.Size(186, 21);
             this.txt_dataPackage.TabIndex = 17;
@@ -170,7 +172,7 @@
             // lab_value
             // 
             this.lab_value.AutoSize = true;
-            this.lab_value.Location = new System.Drawing.Point(228, 24);
+            this.lab_value.Location = new System.Drawing.Point(301, 24);
             this.lab_value.Name = "lab_value";
             this.lab_value.Size = new System.Drawing.Size(17, 12);
             this.lab_value.TabIndex = 11;
@@ -247,11 +249,11 @@
             this.rd_short.Text = "short";
             this.rd_short.UseVisualStyleBackColor = true;
             // 
-            // rd_bit
+            // rd_coil
             // 
             this.rd_coil.AutoSize = true;
             this.rd_coil.Location = new System.Drawing.Point(11, 23);
-            this.rd_coil.Name = "rd_bit";
+            this.rd_coil.Name = "rd_coil";
             this.rd_coil.Size = new System.Drawing.Size(47, 16);
             this.rd_coil.TabIndex = 16;
             this.rd_coil.Text = "线圈";
@@ -344,7 +346,7 @@
             this.groupBox2.TabIndex = 33;
             this.groupBox2.TabStop = false;
             // 
-            // comboBox1
+            // cmb_EndianFormat
             // 
             this.cmb_EndianFormat.FormattingEnabled = true;
             this.cmb_EndianFormat.Items.AddRange(new object[] {
@@ -353,7 +355,7 @@
             "CDAB",
             "DCBA"});
             this.cmb_EndianFormat.Location = new System.Drawing.Point(420, 17);
-            this.cmb_EndianFormat.Name = "comboBox1";
+            this.cmb_EndianFormat.Name = "cmb_EndianFormat";
             this.cmb_EndianFormat.Size = new System.Drawing.Size(52, 20);
             this.cmb_EndianFormat.TabIndex = 28;
             // 
@@ -528,6 +530,16 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "波特率";
             // 
+            // but_brokenline
+            // 
+            this.but_brokenline.Location = new System.Drawing.Point(214, 17);
+            this.but_brokenline.Name = "but_brokenline";
+            this.but_brokenline.Size = new System.Drawing.Size(75, 23);
+            this.but_brokenline.TabIndex = 20;
+            this.but_brokenline.Text = "折线图";
+            this.but_brokenline.UseVisualStyleBackColor = true;
+            this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
+            // 
             // ModbusRtuControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -595,5 +607,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cb_baudRate;
         private System.Windows.Forms.ComboBox cmb_EndianFormat;
+        private System.Windows.Forms.Button but_brokenline;
     }
 }

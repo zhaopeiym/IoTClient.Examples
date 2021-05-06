@@ -69,6 +69,15 @@
     <Reference Include="IoTServer, Version=0.0.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IoTServer.0.0.14\lib\netstandard2.0\IoTServer.dll</HintPath>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.WinForms, Version=0.9.7.1, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.WinForms.0.9.7.1\lib\net45\LiveCharts.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -126,6 +135,8 @@
     <Reference Include="Pipelines.Sockets.Unofficial, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42ea0a778e13fbe2, processorArchitecture=MSIL">
       <HintPath>..\packages\Pipelines.Sockets.Unofficial.2.0.22\lib\net461\Pipelines.Sockets.Unofficial.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="SharpPcap, Version=4.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpPcap.4.5.0\lib\netstandard2.0\SharpPcap.dll</HintPath>
     </Reference>
@@ -214,6 +225,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -238,8 +250,17 @@
     <Reference Include="Talk.Redis, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Talk.Redis.1.0.9\lib\netstandard2.0\Talk.Redis.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Charts\BrokenLineChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Charts\BrokenLineChart.designer.cs">
+      <DependentUpon>BrokenLineChart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Charts\MeasureModel.cs" />
     <Compile Include="Controls\AllenBradleyControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -336,6 +357,9 @@
     <Compile Include="UpgradeForm.Designer.cs">
       <DependentUpon>UpgradeForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Charts\BrokenLineChart.resx">
+      <DependentUpon>BrokenLineChart.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AllenBradleyControl.resx">
       <DependentUpon>AllenBradleyControl.cs</DependentUpon>
     </EmbeddedResource>

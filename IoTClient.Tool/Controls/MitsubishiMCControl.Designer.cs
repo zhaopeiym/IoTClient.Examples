@@ -61,6 +61,7 @@
             this.txt_value = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.txt_content = new System.Windows.Forms.TextBox();
+            this.but_brokenline = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -289,7 +290,7 @@
             // lab_value
             // 
             this.lab_value.AutoSize = true;
-            this.lab_value.Location = new System.Drawing.Point(255, 21);
+            this.lab_value.Location = new System.Drawing.Point(288, 21);
             this.lab_value.Name = "lab_value";
             this.lab_value.Size = new System.Drawing.Size(17, 12);
             this.lab_value.TabIndex = 11;
@@ -297,6 +298,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.but_brokenline);
             this.groupBox3.Controls.Add(this.but_sendData);
             this.groupBox3.Controls.Add(this.txt_dataPackage);
             this.groupBox3.Controls.Add(this.chb_show_package);
@@ -331,7 +333,7 @@
             // 
             // but_read
             // 
-            this.but_read.Location = new System.Drawing.Point(178, 14);
+            this.but_read.Location = new System.Drawing.Point(131, 14);
             this.but_read.Name = "but_read";
             this.but_read.Size = new System.Drawing.Size(75, 23);
             this.but_read.TabIndex = 7;
@@ -352,7 +354,7 @@
             // 
             this.txt_address.Location = new System.Drawing.Point(42, 16);
             this.txt_address.Name = "txt_address";
-            this.txt_address.Size = new System.Drawing.Size(121, 21);
+            this.txt_address.Size = new System.Drawing.Size(81, 21);
             this.txt_address.TabIndex = 9;
             this.txt_address.Text = "D263";
             // 
@@ -368,9 +370,9 @@
             // 
             // txt_value
             // 
-            this.txt_value.Location = new System.Drawing.Point(278, 17);
+            this.txt_value.Location = new System.Drawing.Point(306, 17);
             this.txt_value.Name = "txt_value";
-            this.txt_value.Size = new System.Drawing.Size(100, 21);
+            this.txt_value.Size = new System.Drawing.Size(81, 21);
             this.txt_value.TabIndex = 12;
             this.txt_value.Text = "18.88";
             // 
@@ -383,6 +385,16 @@
             this.txt_content.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txt_content.Size = new System.Drawing.Size(855, 272);
             this.txt_content.TabIndex = 35;
+            // 
+            // but_brokenline
+            // 
+            this.but_brokenline.Location = new System.Drawing.Point(212, 15);
+            this.but_brokenline.Name = "but_brokenline";
+            this.but_brokenline.Size = new System.Drawing.Size(75, 23);
+            this.but_brokenline.TabIndex = 44;
+            this.but_brokenline.Text = "折线图";
+            this.but_brokenline.UseVisualStyleBackColor = true;
+            this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
             // 
             // MitsubishiMCControl
             // 
@@ -439,5 +451,6 @@
         private System.Windows.Forms.TextBox txt_content;
         private System.Windows.Forms.Button but_sendData;
         private System.Windows.Forms.TextBox txt_dataPackage;
+        private System.Windows.Forms.Button but_brokenline;
     }
 }
