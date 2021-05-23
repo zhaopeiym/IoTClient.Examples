@@ -25,7 +25,7 @@ namespace IoTClient.Tool.Common
         public bool ModBusTcp_ShowPackage;
         public string ModBusTcp_Datatype;
 
-        
+
         public string ModBusRtu_Address;
         public string ModBusRtu_Value;
         public bool ModBusRtu_ShowPackage;
@@ -37,7 +37,7 @@ namespace IoTClient.Tool.Common
         public string ModBusRtu_Datatype;
         public EndianFormat ModBusRtu_EndianFormat;
         public string ModBusRtu_StationNumber;
-      
+
         public string ModBusAscii_Address;
         public string ModBusAscii_Value;
         public bool ModBusAscii_ShowPackage;
@@ -121,6 +121,19 @@ namespace IoTClient.Tool.Common
         public bool AllenBradley_ShowPackage;
         public string AllenBradley_Datatype;
         public string AllenBradley_Slot;
+
+        public string S7200_Rack { get; set; }
+        public string S7200_Slot { get; set; }
+        public string S7200Smart_Slot { get; set; }
+        public string S7200Smart_Rack { get; set; }
+        public string S7300_Slot { get; set; }
+        public string S7300_Rack { get; set; }
+        public string S7400_Slot { get; set; }
+        public string S7400_Rack { get; set; }
+        public string S71200_Slot { get; set; }
+        public string S71200_Rack { get; set; }
+        public string S71500_Slot { get; set; }
+        public string S71500_Rack { get; set; }
 
         public static ConnectionConfig GetConfig()
         {

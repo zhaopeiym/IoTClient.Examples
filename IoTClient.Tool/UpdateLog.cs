@@ -65,6 +65,11 @@ namespace IoTClient.Tool
             logs.Add("内容");
             logs.Add("1.折线图显示");
 
+            logs.Add("\r\n版本：[0.4.9]");
+            logs.Add($"时间：2021-05-23");
+            logs.Add("内容");
+            logs.Add("1.西门子插槽和机架号的配置");
+
             textBox1.Text = string.Join("\r\n", logs);
             if (hasNew)
             {

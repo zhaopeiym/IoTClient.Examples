@@ -63,6 +63,10 @@
             this.rd_byte = new System.Windows.Forms.RadioButton();
             this.button3 = new System.Windows.Forms.Button();
             this.txt_content = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txt_rack = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txt_slot = new System.Windows.Forms.TextBox();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -222,7 +226,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(148, 24);
+            this.label2.Location = new System.Drawing.Point(140, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 4;
@@ -230,7 +234,7 @@
             // 
             // txt_port
             // 
-            this.txt_port.Location = new System.Drawing.Point(180, 20);
+            this.txt_port.Location = new System.Drawing.Point(172, 20);
             this.txt_port.Name = "txt_port";
             this.txt_port.Size = new System.Drawing.Size(39, 21);
             this.txt_port.TabIndex = 5;
@@ -298,7 +302,7 @@
             // 
             // but_open
             // 
-            this.but_open.Location = new System.Drawing.Point(238, 18);
+            this.but_open.Location = new System.Drawing.Point(394, 18);
             this.but_open.Name = "but_open";
             this.but_open.Size = new System.Drawing.Size(75, 23);
             this.but_open.TabIndex = 1;
@@ -325,6 +329,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.txt_slot);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.txt_rack);
             this.groupBox2.Controls.Add(this.but_close_server);
             this.groupBox2.Controls.Add(this.but_close);
             this.groupBox2.Controls.Add(this.but_server);
@@ -351,7 +359,7 @@
             // 
             // but_close
             // 
-            this.but_close.Location = new System.Drawing.Point(319, 18);
+            this.but_close.Location = new System.Drawing.Point(475, 18);
             this.but_close.Name = "but_close";
             this.but_close.Size = new System.Drawing.Size(75, 23);
             this.but_close.TabIndex = 6;
@@ -407,6 +415,40 @@
             this.txt_content.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txt_content.Size = new System.Drawing.Size(855, 272);
             this.txt_content.TabIndex = 31;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(223, 24);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 12);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "机架号";
+            // 
+            // textBox1
+            // 
+            this.txt_rack.Location = new System.Drawing.Point(267, 20);
+            this.txt_rack.Name = "textBox1";
+            this.txt_rack.Size = new System.Drawing.Size(39, 21);
+            this.txt_rack.TabIndex = 9;
+            this.txt_rack.Text = "0";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(313, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(29, 12);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "槽号";
+            // 
+            // textBox2
+            // 
+            this.txt_slot.Location = new System.Drawing.Point(345, 20);
+            this.txt_slot.Name = "textBox2";
+            this.txt_slot.Size = new System.Drawing.Size(39, 21);
+            this.txt_slot.TabIndex = 11;
+            this.txt_slot.Text = "0";
             // 
             // SiemensControl
             // 
@@ -466,5 +508,9 @@
         private System.Windows.Forms.TextBox txt_dataPackage;
         private System.Windows.Forms.RadioButton rd_byte;
         private System.Windows.Forms.Button but_brokenline;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txt_slot;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txt_rack;
     }
 }

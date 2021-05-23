@@ -75,6 +75,8 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S7200_Port)) txt_port.Text = config.S7200_Port;
                     if (!string.IsNullOrWhiteSpace(config.S7200_Address)) txt_address.Text = config.S7200_Address;
                     if (!string.IsNullOrWhiteSpace(config.S7200_Value)) txt_value.Text = config.S7200_Value;
+                    if (!string.IsNullOrWhiteSpace(config.S7200_Slot)) txt_slot.Text = config.S7200_Slot;
+                    if (!string.IsNullOrWhiteSpace(config.S7200_Rack)) txt_rack.Text = config.S7200_Rack;
                     chb_show_package.Checked = config.S7200_ShowPackage;
                     switch (config.S7200_Datatype)
                     {
@@ -94,6 +96,8 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S7200Smart_Port)) txt_port.Text = config.S7200Smart_Port;
                     if (!string.IsNullOrWhiteSpace(config.S7200Smart_Address)) txt_address.Text = config.S7200Smart_Address;
                     if (!string.IsNullOrWhiteSpace(config.S7200Smart_Value)) txt_value.Text = config.S7200Smart_Value;
+                    if (!string.IsNullOrWhiteSpace(config.S7200Smart_Slot)) txt_slot.Text = config.S7200Smart_Slot;
+                    if (!string.IsNullOrWhiteSpace(config.S7200Smart_Rack)) txt_rack.Text = config.S7200Smart_Rack;
                     chb_show_package.Checked = config.S7200Smart_ShowPackage;
                     switch (config.S7200Smart_Datatype)
                     {
@@ -113,6 +117,8 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S7300_Port)) txt_port.Text = config.S7300_Port;
                     if (!string.IsNullOrWhiteSpace(config.S7300_Address)) txt_address.Text = config.S7300_Address;
                     if (!string.IsNullOrWhiteSpace(config.S7300_Value)) txt_value.Text = config.S7300_Value;
+                    if (!string.IsNullOrWhiteSpace(config.S7300_Slot)) txt_slot.Text = config.S7300_Slot;
+                    if (!string.IsNullOrWhiteSpace(config.S7300_Rack)) txt_rack.Text = config.S7300_Rack;
                     chb_show_package.Checked = config.S7300_ShowPackage;
                     switch (config.S7300_Datatype)
                     {
@@ -132,6 +138,8 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S7400_Port)) txt_port.Text = config.S7400_Port;
                     if (!string.IsNullOrWhiteSpace(config.S7400_Address)) txt_address.Text = config.S7400_Address;
                     if (!string.IsNullOrWhiteSpace(config.S7400_Value)) txt_value.Text = config.S7400_Value;
+                    if (!string.IsNullOrWhiteSpace(config.S7400_Slot)) txt_slot.Text = config.S7400_Slot;
+                    if (!string.IsNullOrWhiteSpace(config.S7400_Rack)) txt_rack.Text = config.S7400_Rack;
                     chb_show_package.Checked = config.S7400_ShowPackage;
                     switch (config.S7400_Datatype)
                     {
@@ -151,6 +159,8 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S71200_Port)) txt_port.Text = config.S71200_Port;
                     if (!string.IsNullOrWhiteSpace(config.S71200_Address)) txt_address.Text = config.S71200_Address;
                     if (!string.IsNullOrWhiteSpace(config.S71200_Value)) txt_value.Text = config.S71200_Value;
+                    if (!string.IsNullOrWhiteSpace(config.S71200_Slot)) txt_slot.Text = config.S71200_Slot;
+                    if (!string.IsNullOrWhiteSpace(config.S71200_Rack)) txt_rack.Text = config.S71200_Rack;
                     chb_show_package.Checked = config.S71200_ShowPackage;
                     switch (config.S71200_Datatype)
                     {
@@ -170,6 +180,8 @@ namespace IoTClient.Tool
                     if (!string.IsNullOrWhiteSpace(config.S71500_Port)) txt_port.Text = config.S71500_Port;
                     if (!string.IsNullOrWhiteSpace(config.S71500_Address)) txt_address.Text = config.S71500_Address;
                     if (!string.IsNullOrWhiteSpace(config.S71500_Value)) txt_value.Text = config.S71500_Value;
+                    if (!string.IsNullOrWhiteSpace(config.S71500_Slot)) txt_slot.Text = config.S71500_Slot;
+                    if (!string.IsNullOrWhiteSpace(config.S71500_Rack)) txt_rack.Text = config.S71500_Rack;
                     chb_show_package.Checked = config.S71500_ShowPackage;
                     switch (config.S71500_Datatype)
                     {
@@ -222,7 +234,9 @@ namespace IoTClient.Tool
                     but_open.Text = "连接中...";
                     if (txt_content.Text.Contains("小技巧")) txt_content.Text = string.Empty;
                     client?.Close();
-                    client = new SiemensClient(siemensVersion, txt_ip.Text?.Trim(), int.Parse(txt_port.Text.Trim()));
+                    var slot = byte.Parse(txt_slot.Text?.Trim());
+                    var rack = byte.Parse(txt_rack.Text?.Trim());
+                    client = new SiemensClient(siemensVersion, txt_ip.Text?.Trim(), int.Parse(txt_port.Text.Trim()), slot, rack);
                     client.WarningLog = (msg, ex) =>
                     {
                         //MessageBox.Show(ex.Message);
@@ -395,6 +409,8 @@ namespace IoTClient.Tool
                         config.S7200_Port = txt_port.Text;
                         config.S7200_Address = txt_address.Text;
                         config.S7200_Value = txt_value.Text;
+                        config.S7200_Slot = txt_slot.Text;
+                        config.S7200_Rack = txt_rack.Text;
                         config.S7200_ShowPackage = chb_show_package.Checked;
                         config.S7200_Datatype = string.Empty;
                         if (rd_bit.Checked) config.S7200_Datatype = "rd_bit";
@@ -412,6 +428,8 @@ namespace IoTClient.Tool
                         config.S7200Smart_Port = txt_port.Text;
                         config.S7200Smart_Address = txt_address.Text;
                         config.S7200Smart_Value = txt_value.Text;
+                        config.S7200Smart_Slot = txt_slot.Text;
+                        config.S7200Smart_Rack = txt_rack.Text;
                         config.S7200Smart_ShowPackage = chb_show_package.Checked;
                         config.S7200Smart_Datatype = string.Empty;
                         if (rd_bit.Checked) config.S7200Smart_Datatype = "rd_bit";
@@ -429,6 +447,8 @@ namespace IoTClient.Tool
                         config.S7300_Port = txt_port.Text;
                         config.S7300_Address = txt_address.Text;
                         config.S7300_Value = txt_value.Text;
+                        config.S7300_Slot = txt_slot.Text;
+                        config.S7300_Rack = txt_rack.Text;
                         config.S7300_ShowPackage = chb_show_package.Checked;
                         config.S7300_Datatype = string.Empty;
                         if (rd_bit.Checked) config.S7300_Datatype = "rd_bit";
@@ -446,6 +466,8 @@ namespace IoTClient.Tool
                         config.S7400_Port = txt_port.Text;
                         config.S7400_Address = txt_address.Text;
                         config.S7400_Value = txt_value.Text;
+                        config.S7400_Slot = txt_slot.Text;
+                        config.S7400_Rack = txt_rack.Text;
                         config.S7400_ShowPackage = chb_show_package.Checked;
                         config.S7400_Datatype = string.Empty;
                         if (rd_bit.Checked) config.S7400_Datatype = "rd_bit";
@@ -463,6 +485,8 @@ namespace IoTClient.Tool
                         config.S71200_Port = txt_port.Text;
                         config.S71200_Address = txt_address.Text;
                         config.S71200_Value = txt_value.Text;
+                        config.S71200_Slot = txt_slot.Text;
+                        config.S71200_Rack = txt_rack.Text;
                         config.S71200_ShowPackage = chb_show_package.Checked;
                         config.S71200_Datatype = string.Empty;
                         if (rd_bit.Checked) config.S71200_Datatype = "rd_bit";
@@ -480,6 +504,8 @@ namespace IoTClient.Tool
                         config.S71500_Port = txt_port.Text;
                         config.S71500_Address = txt_address.Text;
                         config.S71500_Value = txt_value.Text;
+                        config.S71500_Slot = txt_slot.Text;
+                        config.S71500_Rack = txt_rack.Text;
                         config.S71500_ShowPackage = chb_show_package.Checked;
                         config.S71500_Datatype = string.Empty;
                         if (rd_bit.Checked) config.S71500_Datatype = "rd_bit";
