@@ -1,9 +1,11 @@
 ﻿using IoTClient.Clients.PLC;
+using IoTClient.Common.Helpers;
 using IoTClient.Tool.Common;
 using IoTServer.Common;
 using IoTServer.Servers.PLC;
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Talk.Linq.Extensions;
@@ -388,6 +390,35 @@ namespace IoTClient.Tool.Controls
             }
             catch (Exception)
             { }
+        }
+
+        private void but_sendData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txt_dataPackage.Text))
+                {
+                    MessageBox.Show("请输入要发送的报文");
+                    return;
+                }
+                var dataPackageString = txt_dataPackage.Text.Replace(" ", "");
+                if (dataPackageString.Length % 2 != 0)
+                {
+                    MessageBox.Show("请输入正确的的报文");
+                    return;
+                }
+
+                var dataPackage = DataConvert.StringToByteArray(txt_dataPackage.Text?.Trim(), false);
+                var msg = client.SendPackageSingle(dataPackage);
+                AppendText($"[请求报文]{string.Join(" ", dataPackage.Select(t => t.ToString("X2")))}");
+                AppendText($"[响应报文]{string.Join(" ", msg.Value.Select(t => t.ToString("X2")))}\r\n");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                client.Close();
+                client.Open();
+            }
         }
     }
 }

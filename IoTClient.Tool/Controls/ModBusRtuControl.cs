@@ -187,7 +187,7 @@ namespace IoTClient.Tool.Controls
                 config.ModBusRtu_Value = txt_value.Text;
                 config.ModBusRtu_Address = txt_address.Text;
                 config.ModBusRtu_ShowPackage = chb_show_package.Checked;
-                config.ModBusRtu_EndianFormat = format;                
+                config.ModBusRtu_EndianFormat = format;
                 config.SaveConfig();
             }
             catch (Exception ex)
@@ -679,7 +679,7 @@ namespace IoTClient.Tool.Controls
                 }
 
                 var dataPackage = DataConvert.StringToByteArray(txt_dataPackage.Text?.Trim(), false);
-                var msg = client.SendPackage(dataPackage);
+                var msg = client.SendPackageReliable(dataPackage).Value;
                 AppendText($"[请求报文]{string.Join(" ", dataPackage.Select(t => t.ToString("X2")))}\r");
                 AppendText($"[响应报文]{string.Join(" ", msg.Select(t => t.ToString("X2")))}\r\n");
             }

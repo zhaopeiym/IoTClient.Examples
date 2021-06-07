@@ -71,9 +71,10 @@ namespace IoTClient.Tool
             logs.Add("1.西门子插槽和机架号的配置");
 
             logs.Add("\r\n版本：[0.5.0]");
-            logs.Add($"时间：2021-05-27");
+            logs.Add($"时间：2021-06-07");
             logs.Add("内容");
             logs.Add("1.西门子读写结果验证，友好提示plc中不存在点位。");
+            logs.Add("2.AllenBradley、OmronFinsTcp发送报文");
 
             textBox1.Text = string.Join("\r\n", logs);
             if (hasNew)

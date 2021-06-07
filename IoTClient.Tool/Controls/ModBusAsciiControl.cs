@@ -425,7 +425,7 @@ namespace IoTClient.Tool.Controls
                 }
 
                 var dataPackage = DataConvert.StringToByteArray(txt_dataPackage.Text?.Trim(), false);
-                var msg = client.SendPackage(dataPackage);
+                var msg = client.SendPackageReliable(dataPackage).Value;
                 AppendText($"[请求报文]{string.Join(" ", dataPackage.Select(t => t.ToString("X2")))}\r");
                 AppendText($"[响应报文]{string.Join(" ", msg.Select(t => t.ToString("X2")))}\r\n");
             }

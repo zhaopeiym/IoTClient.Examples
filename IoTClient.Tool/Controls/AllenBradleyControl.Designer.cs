@@ -63,8 +63,8 @@ namespace IoTClient.Tool.Controls
             this.txt_address = new System.Windows.Forms.TextBox();
             this.but_write = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.txt_content = new System.Windows.Forms.TextBox();
             this.but_brokenline = new System.Windows.Forms.Button();
+            this.txt_content = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -337,6 +337,7 @@ namespace IoTClient.Tool.Controls
             this.but_sendData.TabIndex = 16;
             this.but_sendData.Text = "发送报文";
             this.but_sendData.UseVisualStyleBackColor = true;
+            this.but_sendData.Click += new System.EventHandler(this.but_sendData_Click);
             // 
             // txt_dataPackage
             // 
@@ -400,16 +401,6 @@ namespace IoTClient.Tool.Controls
             this.groupBox3.TabIndex = 46;
             this.groupBox3.TabStop = false;
             // 
-            // txt_content
-            // 
-            this.txt_content.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txt_content.Location = new System.Drawing.Point(13, 168);
-            this.txt_content.Multiline = true;
-            this.txt_content.Name = "txt_content";
-            this.txt_content.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_content.Size = new System.Drawing.Size(855, 272);
-            this.txt_content.TabIndex = 43;
-            // 
             // but_brokenline
             // 
             this.but_brokenline.Location = new System.Drawing.Point(200, 14);
@@ -419,6 +410,16 @@ namespace IoTClient.Tool.Controls
             this.but_brokenline.Text = "折线图";
             this.but_brokenline.UseVisualStyleBackColor = true;
             this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
+            // 
+            // txt_content
+            // 
+            this.txt_content.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txt_content.Location = new System.Drawing.Point(13, 168);
+            this.txt_content.Multiline = true;
+            this.txt_content.Name = "txt_content";
+            this.txt_content.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txt_content.Size = new System.Drawing.Size(855, 272);
+            this.txt_content.TabIndex = 43;
             // 
             // AllenBradleyControl
             // 

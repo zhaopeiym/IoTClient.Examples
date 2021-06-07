@@ -45,6 +45,7 @@
             this.rd_float = new System.Windows.Forms.RadioButton();
             this.rd_ulong = new System.Windows.Forms.RadioButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.but_brokenline = new System.Windows.Forms.Button();
             this.txt_value = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.rd_ushort = new System.Windows.Forms.RadioButton();
@@ -61,7 +62,6 @@
             this.but_close = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txt_content = new System.Windows.Forms.TextBox();
-            this.but_brokenline = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -95,6 +95,7 @@
             this.but_sendData.TabIndex = 16;
             this.but_sendData.Text = "发送报文";
             this.but_sendData.UseVisualStyleBackColor = true;
+            this.but_sendData.Click += new System.EventHandler(this.but_sendData_Click);
             // 
             // txt_dataPackage
             // 
@@ -228,6 +229,16 @@
             this.groupBox3.Size = new System.Drawing.Size(855, 47);
             this.groupBox3.TabIndex = 42;
             this.groupBox3.TabStop = false;
+            // 
+            // but_brokenline
+            // 
+            this.but_brokenline.Location = new System.Drawing.Point(213, 14);
+            this.but_brokenline.Name = "but_brokenline";
+            this.but_brokenline.Size = new System.Drawing.Size(75, 23);
+            this.but_brokenline.TabIndex = 43;
+            this.but_brokenline.Text = "折线图";
+            this.but_brokenline.UseVisualStyleBackColor = true;
+            this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
             // 
             // txt_value
             // 
@@ -384,16 +395,6 @@
             this.txt_content.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txt_content.Size = new System.Drawing.Size(855, 272);
             this.txt_content.TabIndex = 39;
-            // 
-            // but_brokenline
-            // 
-            this.but_brokenline.Location = new System.Drawing.Point(213, 14);
-            this.but_brokenline.Name = "but_brokenline";
-            this.but_brokenline.Size = new System.Drawing.Size(75, 23);
-            this.but_brokenline.TabIndex = 43;
-            this.but_brokenline.Text = "折线图";
-            this.but_brokenline.UseVisualStyleBackColor = true;
-            this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
             // 
             // OmronFinsTcpControl
             // 
