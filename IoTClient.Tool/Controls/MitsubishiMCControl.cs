@@ -413,9 +413,7 @@ namespace IoTClient.Tool.Controls
                 var constant = new BrokenLineChart(txt_address.Text);
                 constant.Show();
                 while (!constant.IsDisposed)
-                {
-                    await Task.Delay(800);
-
+                { 
                     dynamic result = null;
                     if (rd_bit.Checked)
                     {
@@ -457,10 +455,13 @@ namespace IoTClient.Tool.Controls
                     {
                         constant.AddData(result.Value);
                     }
+                    await Task.Delay(800);
                 }
             }
-            catch (Exception)
-            { }
+            catch (Exception ex)
+            {
+                AppendText($"[折线图更新失败]：{ex.Message}");
+            }
         }
     }
 }
