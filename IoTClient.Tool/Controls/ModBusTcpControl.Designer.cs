@@ -57,6 +57,7 @@
             this.rd_int = new System.Windows.Forms.RadioButton();
             this.rd_uint = new System.Windows.Forms.RadioButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.but_brokenline = new System.Windows.Forms.Button();
             this.but_sendData = new System.Windows.Forms.Button();
             this.txt_dataPackage = new System.Windows.Forms.TextBox();
             this.but_read = new System.Windows.Forms.Button();
@@ -67,7 +68,7 @@
             this.lab_value = new System.Windows.Forms.Label();
             this.txt_content = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.but_brokenline = new System.Windows.Forms.Button();
+            this.che_plcadd = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -228,6 +229,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.che_plcadd);
             this.groupBox1.Controls.Add(this.rd_discrete);
             this.groupBox1.Controls.Add(this.button6);
             this.groupBox1.Controls.Add(this.rd_float);
@@ -257,7 +259,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(768, 16);
+            this.button6.Location = new System.Drawing.Point(768, 19);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
             this.button6.TabIndex = 18;
@@ -375,6 +377,16 @@
             this.groupBox3.TabIndex = 30;
             this.groupBox3.TabStop = false;
             // 
+            // but_brokenline
+            // 
+            this.but_brokenline.Location = new System.Drawing.Point(218, 15);
+            this.but_brokenline.Name = "but_brokenline";
+            this.but_brokenline.Size = new System.Drawing.Size(75, 23);
+            this.but_brokenline.TabIndex = 19;
+            this.but_brokenline.Text = "折线图";
+            this.but_brokenline.UseVisualStyleBackColor = true;
+            this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
+            // 
             // but_sendData
             // 
             this.but_sendData.Location = new System.Drawing.Point(694, 15);
@@ -456,15 +468,15 @@
             this.txt_content.Size = new System.Drawing.Size(855, 272);
             this.txt_content.TabIndex = 27;
             // 
-            // but_brokenline
+            // che_plcadd
             // 
-            this.but_brokenline.Location = new System.Drawing.Point(218, 15);
-            this.but_brokenline.Name = "but_brokenline";
-            this.but_brokenline.Size = new System.Drawing.Size(75, 23);
-            this.but_brokenline.TabIndex = 19;
-            this.but_brokenline.Text = "折线图";
-            this.but_brokenline.UseVisualStyleBackColor = true;
-            this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
+            this.che_plcadd.AutoSize = true;
+            this.che_plcadd.Location = new System.Drawing.Point(616, 23);
+            this.che_plcadd.Name = "che_plcadd";
+            this.che_plcadd.Size = new System.Drawing.Size(150, 16);
+            this.che_plcadd.TabIndex = 25;
+            this.che_plcadd.Text = "PLC Addresses(Base 1)";
+            this.che_plcadd.UseVisualStyleBackColor = true;
             // 
             // ModbusTcpControl
             // 
@@ -528,5 +540,6 @@
         private System.Windows.Forms.CheckBox chb_rtudata;
         private System.Windows.Forms.ComboBox cmb_EndianFormat;
         private System.Windows.Forms.Button but_brokenline;
+        private System.Windows.Forms.CheckBox che_plcadd;
     }
 }

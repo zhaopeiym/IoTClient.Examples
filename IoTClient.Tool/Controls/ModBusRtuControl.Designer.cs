@@ -36,6 +36,7 @@
             this.but_write = new System.Windows.Forms.Button();
             this.txt_value = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.but_brokenline = new System.Windows.Forms.Button();
             this.but_sendData = new System.Windows.Forms.Button();
             this.txt_dataPackage = new System.Windows.Forms.TextBox();
             this.chb_show_package = new System.Windows.Forms.CheckBox();
@@ -73,7 +74,7 @@
             this.txt_stationNumber = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.but_brokenline = new System.Windows.Forms.Button();
+            this.che_plcadd = new System.Windows.Forms.CheckBox();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -142,6 +143,16 @@
             this.groupBox3.TabIndex = 34;
             this.groupBox3.TabStop = false;
             // 
+            // but_brokenline
+            // 
+            this.but_brokenline.Location = new System.Drawing.Point(214, 17);
+            this.but_brokenline.Name = "but_brokenline";
+            this.but_brokenline.Size = new System.Drawing.Size(75, 23);
+            this.but_brokenline.TabIndex = 20;
+            this.but_brokenline.Text = "折线图";
+            this.but_brokenline.UseVisualStyleBackColor = true;
+            this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
+            // 
             // but_sendData
             // 
             this.but_sendData.Location = new System.Drawing.Point(689, 17);
@@ -190,6 +201,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.che_plcadd);
             this.groupBox1.Controls.Add(this.rd_discrete);
             this.groupBox1.Controls.Add(this.button6);
             this.groupBox1.Controls.Add(this.rd_float);
@@ -530,15 +542,15 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "波特率";
             // 
-            // but_brokenline
+            // che_plcadd
             // 
-            this.but_brokenline.Location = new System.Drawing.Point(214, 17);
-            this.but_brokenline.Name = "but_brokenline";
-            this.but_brokenline.Size = new System.Drawing.Size(75, 23);
-            this.but_brokenline.TabIndex = 20;
-            this.but_brokenline.Text = "折线图";
-            this.but_brokenline.UseVisualStyleBackColor = true;
-            this.but_brokenline.Click += new System.EventHandler(this.but_brokenline_ClickAsync);
+            this.che_plcadd.AutoSize = true;
+            this.che_plcadd.Location = new System.Drawing.Point(610, 23);
+            this.che_plcadd.Name = "che_plcadd";
+            this.che_plcadd.Size = new System.Drawing.Size(150, 16);
+            this.che_plcadd.TabIndex = 26;
+            this.che_plcadd.Text = "PLC Addresses(Base 1)";
+            this.che_plcadd.UseVisualStyleBackColor = true;
             // 
             // ModbusRtuControl
             // 
@@ -608,5 +620,6 @@
         private System.Windows.Forms.ComboBox cb_baudRate;
         private System.Windows.Forms.ComboBox cmb_EndianFormat;
         private System.Windows.Forms.Button but_brokenline;
+        private System.Windows.Forms.CheckBox che_plcadd;
     }
 }

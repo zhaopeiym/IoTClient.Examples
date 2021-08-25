@@ -74,6 +74,7 @@
             this.rd_int = new System.Windows.Forms.RadioButton();
             this.rd_uint = new System.Windows.Forms.RadioButton();
             this.txt_content = new System.Windows.Forms.TextBox();
+            this.che_plcadd = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -123,7 +124,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(768, 16);
+            this.button6.Location = new System.Drawing.Point(768, 17);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
             this.button6.TabIndex = 18;
@@ -483,6 +484,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.che_plcadd);
             this.groupBox1.Controls.Add(this.rd_discrete);
             this.groupBox1.Controls.Add(this.button6);
             this.groupBox1.Controls.Add(this.rd_float);
@@ -539,6 +541,16 @@
             this.txt_content.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txt_content.Size = new System.Drawing.Size(855, 272);
             this.txt_content.TabIndex = 35;
+            // 
+            // che_plcadd
+            // 
+            this.che_plcadd.AutoSize = true;
+            this.che_plcadd.Location = new System.Drawing.Point(610, 23);
+            this.che_plcadd.Name = "che_plcadd";
+            this.che_plcadd.Size = new System.Drawing.Size(150, 16);
+            this.che_plcadd.TabIndex = 26;
+            this.che_plcadd.Text = "PLC Addresses(Base 1)";
+            this.che_plcadd.UseVisualStyleBackColor = true;
             // 
             // ModbusAsciiControl
             // 
@@ -607,5 +619,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmb_EndianFormat;
         private System.Windows.Forms.Button but_brokenline;
+        private System.Windows.Forms.CheckBox che_plcadd;
     }
 }

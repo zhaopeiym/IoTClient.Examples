@@ -43,6 +43,9 @@ namespace IoTClient.Tool
             txt_value.Size = new Size(74, 21);
             but_write.Location = new Point(398, 17);
 
+            che_plcadd.Location = new Point(616, 23);
+            button6.Location = new Point(768, 17);
+
             txt_dataPackage.Location = new Point(490, 18);
             txt_dataPackage.Size = new Size(186, 21);
             but_sendData.Location = new Point(680, 17);
@@ -153,11 +156,12 @@ namespace IoTClient.Tool
                             format = EndianFormat.DCBA;
                             break;
                     }
+                    var plcadd = che_plcadd.Checked;
 
                     if (chb_rtudata.Checked)
-                        client = new ModbusRtuOverTcpClient(txt_ip.Text?.Trim(), int.Parse(txt_port.Text?.Trim()), format: format);
+                        client = new ModbusRtuOverTcpClient(txt_ip.Text?.Trim(), int.Parse(txt_port.Text?.Trim()), format: format, plcAddresses: plcadd);
                     else
-                        client = new ModbusTcpClient(txt_ip.Text?.Trim(), int.Parse(txt_port.Text?.Trim()), format: format);
+                        client = new ModbusTcpClient(txt_ip.Text?.Trim(), int.Parse(txt_port.Text?.Trim()), format: format, plcAddresses: plcadd);
                     var result = client.Open();
                     if (result.IsSucceed)
                     {

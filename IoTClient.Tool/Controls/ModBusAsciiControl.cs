@@ -43,6 +43,9 @@ namespace IoTClient.Tool.Controls
             txt_value.Size = new Size(74, 21);
             but_write.Location = new Point(398, 17);
 
+            che_plcadd.Location = new Point(616, 23);
+            button6.Location = new Point(768, 17);
+
             txt_dataPackage.Location = new Point(490, 18);
             txt_dataPackage.Size = new Size(186, 21);
             but_sendData.Location = new Point(680, 17);
@@ -162,7 +165,8 @@ namespace IoTClient.Tool.Controls
                         format = EndianFormat.DCBA;
                         break;
                 }
-                client = new ModbusAsciiClient(PortName, BaudRate, DataBits, StopBits, parity, format: format);
+                var plcadd = che_plcadd.Checked;
+                client = new ModbusAsciiClient(PortName, BaudRate, DataBits, StopBits, parity, format: format,plcAddresses: plcadd);
                 var result = client.Open();
                 if (result.IsSucceed)
                 {
@@ -189,7 +193,7 @@ namespace IoTClient.Tool.Controls
                 config.ModBusAscii_Value = txt_value.Text;
                 config.ModBusAscii_Address = txt_address.Text;
                 config.ModBusAscii_ShowPackage = chb_show_package.Checked;
-                config.ModBusAscii_EndianFormat = format;                
+                config.ModBusAscii_EndianFormat = format;
                 config.SaveConfig();
             }
             catch (Exception ex)
@@ -463,7 +467,7 @@ namespace IoTClient.Tool.Controls
                 var constant = new BrokenLineChart(txt_address.Text);
                 constant.Show();
                 while (!constant.IsDisposed)
-                { 
+                {
                     dynamic result = null;
                     if (rd_coil.Checked)
                         result = client.ReadCoil(txt_address.Text, stationNumber);
