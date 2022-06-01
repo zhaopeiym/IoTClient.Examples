@@ -53,8 +53,6 @@
             this.toolStripMenuItemBlogPath = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.商务合作ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -277,8 +275,6 @@
             this.toolStripMenuItemBlogPath,
             this.toolStripMenuItem4,
             this.toolStripMenuItem3,
-            this.商务合作ToolStripMenuItem,
-            this.toolStripMenuItem5,
             this.toolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -318,28 +314,12 @@
             this.toolStripMenuItem3.Text = "提问帮助";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
-            // 商务合作ToolStripMenuItem
-            // 
-            this.商务合作ToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.商务合作ToolStripMenuItem.Name = "商务合作ToolStripMenuItem";
-            this.商务合作ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
-            this.商务合作ToolStripMenuItem.Text = "商务合作";
-            this.商务合作ToolStripMenuItem.Click += new System.EventHandler(this.cooperationToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.ForeColor = System.Drawing.Color.White;
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(68, 21);
-            this.toolStripMenuItem5.Text = "擎呐官网";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
-            // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(111, 21);
-            this.toolStripMenuItem1.Text = "检查更新  V0.5.0";
+            this.toolStripMenuItem1.Text = "检查更新  V1.0.2";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // IndexForm
@@ -375,7 +355,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.TabPage BACnet;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
         private System.Windows.Forms.TabPage Ports;
         private System.Windows.Forms.TabPage ModbusRtu;
         private System.Windows.Forms.TabPage 三菱_MC_Qna_3E;
@@ -386,7 +365,6 @@
         private System.Windows.Forms.TabPage 西门子S71200;
         private System.Windows.Forms.TabPage 西门子S71500;
         private System.Windows.Forms.TabPage Other;
-        private System.Windows.Forms.ToolStripMenuItem 商务合作ToolStripMenuItem;
         private System.Windows.Forms.TabPage 西门子S7200;
         private System.Windows.Forms.TabPage MQTT;
         private System.Windows.Forms.TabPage 三菱_MC_A_1E;

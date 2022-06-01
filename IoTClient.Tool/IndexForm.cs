@@ -284,7 +284,7 @@ namespace IoTClient.Tool
         {
             try
             {
-                Process.Start("https://jq.qq.com/?_wv=1027&k=5bz0ne5");
+                Process.Start("https://jq.qq.com/?_wv=1027&k=tIRmmGbt");
             }
             catch (Exception) { }
         }
