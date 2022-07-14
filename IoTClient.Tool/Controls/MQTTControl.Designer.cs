@@ -32,8 +32,11 @@
             this.txt_msg = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.txt_subscribe_topic = new IoTClient.Tool.Controls.TextBoxEx();
             this.but_Subscribe = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.txt_publish_payload = new IoTClient.Tool.Controls.TextBoxEx();
+            this.txt_publish_topic = new IoTClient.Tool.Controls.TextBoxEx();
             this.but_Publish = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.but_Stop = new System.Windows.Forms.Button();
@@ -46,9 +49,6 @@
             this.txt_ClientID = new IoTClient.Tool.Controls.TextBoxEx();
             this.txt_Port = new IoTClient.Tool.Controls.TextBoxEx();
             this.txt_Address = new IoTClient.Tool.Controls.TextBoxEx();
-            this.txt_subscribe_topic = new IoTClient.Tool.Controls.TextBoxEx();
-            this.txt_publish_payload = new IoTClient.Tool.Controls.TextBoxEx();
-            this.txt_publish_topic = new IoTClient.Tool.Controls.TextBoxEx();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -99,6 +99,14 @@
             this.tabPage1.Text = "订阅";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // txt_subscribe_topic
+            // 
+            this.txt_subscribe_topic.Location = new System.Drawing.Point(3, 17);
+            this.txt_subscribe_topic.Name = "txt_subscribe_topic";
+            this.txt_subscribe_topic.PlaceHolder = "Topic";
+            this.txt_subscribe_topic.Size = new System.Drawing.Size(406, 21);
+            this.txt_subscribe_topic.TabIndex = 8;
+            // 
             // but_Subscribe
             // 
             this.but_Subscribe.Location = new System.Drawing.Point(414, 16);
@@ -122,6 +130,23 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "发布";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // txt_publish_payload
+            // 
+            this.txt_publish_payload.Location = new System.Drawing.Point(3, 37);
+            this.txt_publish_payload.Multiline = true;
+            this.txt_publish_payload.Name = "txt_publish_payload";
+            this.txt_publish_payload.PlaceHolder = "Payload";
+            this.txt_publish_payload.Size = new System.Drawing.Size(630, 49);
+            this.txt_publish_payload.TabIndex = 12;
+            // 
+            // txt_publish_topic
+            // 
+            this.txt_publish_topic.Location = new System.Drawing.Point(3, 10);
+            this.txt_publish_topic.Name = "txt_publish_topic";
+            this.txt_publish_topic.PlaceHolder = "Topic";
+            this.txt_publish_topic.Size = new System.Drawing.Size(630, 21);
+            this.txt_publish_topic.TabIndex = 11;
             // 
             // but_Publish
             // 
@@ -167,6 +192,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "tcp",
@@ -237,31 +263,6 @@
             this.txt_Address.PlaceHolder = "Address";
             this.txt_Address.Size = new System.Drawing.Size(156, 21);
             this.txt_Address.TabIndex = 3;
-            // 
-            // txt_subscribe_topic
-            // 
-            this.txt_subscribe_topic.Location = new System.Drawing.Point(3, 17);
-            this.txt_subscribe_topic.Name = "txt_subscribe_topic";
-            this.txt_subscribe_topic.PlaceHolder = "Topic";
-            this.txt_subscribe_topic.Size = new System.Drawing.Size(406, 21);
-            this.txt_subscribe_topic.TabIndex = 8;
-            // 
-            // txt_publish_payload
-            // 
-            this.txt_publish_payload.Location = new System.Drawing.Point(3, 37);
-            this.txt_publish_payload.Multiline = true;
-            this.txt_publish_payload.Name = "txt_publish_payload";
-            this.txt_publish_payload.PlaceHolder = "Payload";
-            this.txt_publish_payload.Size = new System.Drawing.Size(630, 49);
-            this.txt_publish_payload.TabIndex = 12;
-            // 
-            // txt_publish_topic
-            // 
-            this.txt_publish_topic.Location = new System.Drawing.Point(3, 10);
-            this.txt_publish_topic.Name = "txt_publish_topic";
-            this.txt_publish_topic.PlaceHolder = "Topic";
-            this.txt_publish_topic.Size = new System.Drawing.Size(630, 21);
-            this.txt_publish_topic.TabIndex = 11;
             // 
             // MQTTControl
             // 

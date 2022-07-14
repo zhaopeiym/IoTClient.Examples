@@ -1,15 +1,19 @@
-﻿using System;
+﻿using IoTClient.Enums;
+using IoTClient.Tool.Helper;
+using IoTClient.Tool.Model;
+using IoTServer.Servers.BACnet;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
+using System.IO.BACnet;
 using System.Linq;
-using System.Text;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO.BACnet;
-using IoTClient.Tool.Helper;
-using IoTServer.Servers.BACnet;
+using Talk.Linq.Extensions;
+using Talk.NPOI;
 
 namespace IoTClient.Tool
 {
@@ -27,20 +31,68 @@ namespace IoTClient.Tool
 
         private void BACnetControl_Load(object sender, EventArgs e)
         {
+            but_export.Enabled = false;
+
+            comboBox1.Items.Clear();
+            comboBox1.Items.AddRange(GetIpList().ToArray());
+            comboBox1.SelectedIndex = 0;
+            toolTip1.SetToolTip(comboBox2, "写入优先级");
+            toolTip1.SetToolTip(txt_address, "填入点名或地址");
+            //这里会调用 comboBox1_TextChanged
+        }
+
+
+
+        public List<string> GetIpList()
+        {
+            return NetworkInterface.GetAllNetworkInterfaces()
+                       .Where(c => c.NetworkInterfaceType != NetworkInterfaceType.Loopback && c.OperationalStatus == OperationalStatus.Up)
+                       //.OrderByDescending(c => c.Speed)
+                       .SelectMany(c => c.GetIPProperties().UnicastAddresses.Where(t => t.Address.AddressFamily == AddressFamily.InterNetwork).Select(t => t.Address.ToString()))
+                       .OrderBy(t => t.StartsWith("192.168") ? 0 : 1).ThenBy(t => t)
+                       .ToList();
+        }
+
+        private void comboBox1_TextChanged(object sender, EventArgs e)
+        {
+            button1_Click_1(null, null);
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            txt_msgList.Text = string.Empty;
+            button1.Enabled = false;
+            button1.Text = "扫描中...";
+            comboBox1.Enabled = false;
+            but_export.Enabled = false;
+            devicesList = new List<BacNode>();
+            listBox1.Items.Clear();
+            Bacnet_client?.Dispose();
             //BACnet的默认端口47808
-            Bacnet_client = new BacnetClient(new BacnetIpUdpProtocolTransport(47808, false));
+            Bacnet_client = new BacnetClient(new BacnetIpUdpProtocolTransport(47808, false, localEndpointIp: comboBox1.SelectedItem.ToString()));
+            //Bacnet_client.WritePriority = 1;
+            //写入优先级需要做界面设置
+            comboBox2.SelectedIndex = 0;
             Bacnet_client.OnIam -= new BacnetClient.IamHandler(handler_OnIam);
             Bacnet_client.OnIam += new BacnetClient.IamHandler(handler_OnIam);
             Bacnet_client.Start();
             Bacnet_client.WhoIs();
             Task.Run(async () =>
             {
+                //Log("准备扫描...");
                 for (int i = 0; i < 10; i++)
                 {
                     await Task.Delay(100);
                     Log($"等待扫描...[{9 - i}]");
                 }
+                if (listBox1.Items.Count == 1)
+                    listBox1.SelectedIndex = 0;
                 Scan();
+                button1.Enabled = true;
+                button1.Text = "重新扫描";
+                comboBox1.Enabled = true;
+                if (bacnetPropertyInfos.IsAny())
+                    but_export.Enabled = true;
             });
         }
 
@@ -59,32 +111,14 @@ namespace IoTClient.Tool
             }));
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            txt_msgList.Text = string.Empty;
-            button1.Enabled = false;
-            devicesList = new List<BacNode>();
-            listBox1.Items.Clear();
-            Bacnet_client.WhoIs();
-            Task.Run(async () =>
-            {
-                //Log("准备扫描...");
-                for (int i = 0; i < 10; i++)
-                {
-                    await Task.Delay(100);
-                    Log($"等待扫描...[{9 - i}]");
-                }
-                Scan();
-                button1.Enabled = true;
-            });
-        }
-
+        private List<BacnetPropertyInfo> bacnetPropertyInfos = new List<BacnetPropertyInfo>();
         /// <summary>
         /// 扫描
         /// </summary>
         private void Scan()
         {
-            Log("开始扫描设备");
+            bacnetPropertyInfos = new List<BacnetPropertyInfo>();
+            Log("开始扫描设备...");
             foreach (var device in devicesList)
             {
                 //获取子节点个数
@@ -95,8 +129,10 @@ namespace IoTClient.Tool
             foreach (var device in devicesList)
             {
                 LogEmpty();
-                Log($"开始扫描属性,Address:{device.Address.ToString()} DeviceId:{device.DeviceId}");
+                Log($"开始扫描属性,Address:{device.Address} DeviceId:{device.DeviceId}");
                 ScanSubProperties(device);
+                if (bacnetPropertyInfos.IsAny())
+                    bacnetPropertyInfos.Add(new BacnetPropertyInfo());
             }
             Log("扫描完成");
         }
@@ -157,7 +193,7 @@ namespace IoTClient.Tool
             }
             catch (Exception exp)
             {
-                Log("【Err】:" + exp.Message);
+                Log("=== 【Err】" + exp.Message + " ===");
             }
         }
 
@@ -176,7 +212,7 @@ namespace IoTClient.Tool
             }
             catch (Exception ex)
             {
-                Log("【Err】:" + ex.Message);
+                Log("=== 【Err】" + ex.Message + " ===");
             }
             return 0;
         }
@@ -191,7 +227,7 @@ namespace IoTClient.Tool
             }
             catch (Exception ex)
             {
-                Log("【Err】:" + ex.Message);
+                Log("=== 【Err】" + ex.Message + " ===");
             }
             return new BacnetValue();
         }
@@ -244,29 +280,47 @@ namespace IoTClient.Tool
                             {
                                 case BacnetPropertyIds.PROP_DESCRIPTION://描述
                                     {
-                                        subNode.PROP_DESCRIPTION = bValue.ToString()?.Trim();
+                                        subNode.Prop_Description = bValue.ToString()?.Trim();
                                     }
                                     break;
                                 case BacnetPropertyIds.PROP_OBJECT_NAME://点名
                                     {
-                                        subNode.PROP_OBJECT_NAME = bValue.ToString()?.Trim();
+                                        subNode.Prop_Object_Name = bValue.ToString()?.Trim();
                                     }
                                     break;
                                 case BacnetPropertyIds.PROP_PRESENT_VALUE://值
                                     {
-                                        subNode.PROP_PRESENT_VALUE = bValue.Value;
-                                        subNode.DataType = bValue.Value.GetType();
+                                        subNode.Prop_Present_Value = bValue.Value;
+                                        subNode.Prop_DataType = DataTypeConversion(aRst.objectIdentifier.Type);
                                     }
                                     break;
                             }
                         }
-                        ShwoText(string.Format("地址:{0,-6} 值:{2,-8}  类型:{3,-8}  点名:{1}\t 描述:{4} ", $"{subNode.ObjectId.Instance}_{(int)subNode.ObjectId.Type}", subNode.PROP_OBJECT_NAME, subNode.PROP_PRESENT_VALUE, subNode.PROP_PRESENT_VALUE.GetType().ToString().Split('.')[1], subNode.PROP_DESCRIPTION));
+                        ShwoText(string.Format("地址:{0,-6} 值:{2,-8}  类型:{3,-8}  点名:{1}\t 描述:{4} ",
+                            $"{subNode.ObjectId.Instance}_{(int)subNode.ObjectId.Type}",
+                            subNode.Prop_Object_Name,
+                            subNode.Prop_Present_Value,
+                            subNode.Prop_DataType,
+                            subNode.Prop_Description));
+
+                        bacnetPropertyInfos.Add(new BacnetPropertyInfo()
+                        {
+                            IpAddress = $"{device.Address}:{device.DeviceId}",
+                            Address = $"{subNode.ObjectId.Instance}_{(int)subNode.ObjectId.Type}",
+                            DataType = subNode.Prop_DataType.ToString(),
+                            Value = subNode.Prop_Present_Value.ToString(),
+                            PropName = subNode.Prop_Object_Name,
+                            Describe = subNode.Prop_Description,
+
+                            ObjectType = aRst.objectIdentifier.Type.ToString(),
+                            ReadWrite = aRst.objectIdentifier.Type == BacnetObjectTypes.OBJECT_ANALOG_INPUT ? "只读" : ""
+                        });
                     }
                 }
             }
             catch (Exception ex)
             {
-                Log("【Err】:" + ex.Message);
+                Log("=== 【Err】" + ex.Message + " ===");
             }
         }
 
@@ -298,7 +352,7 @@ namespace IoTClient.Tool
         {
             if (listBox1.SelectedIndex < 0)
             {
-                Log("请选择要操作的设备");
+                Log("=== 请在左边设备列表选择要操作的设备 ===");
                 return;
             }
             var deviceId = listBox1.SelectedItem.ToString().Split(' ')[1];
@@ -306,11 +360,11 @@ namespace IoTClient.Tool
 
             var address = txt_address.Text?.Trim();
             var addressPart = address.Split('_');
-            BacProperty rpop = null;            
+            BacProperty rpop = null;
 
             if (addressPart.Length == 1)
             {
-                rpop = bacnet?.Properties.Where(t => t.PROP_OBJECT_NAME == address).FirstOrDefault();
+                rpop = bacnet?.Properties.Where(t => t.Prop_Object_Name == address).FirstOrDefault();
                 //bacnet = devicesList.Where(t => t.Properties.Any(p => p.PROP_OBJECT_NAME == address)).FirstOrDefault();
             }
             else if (addressPart.Length == 2)
@@ -342,18 +396,22 @@ namespace IoTClient.Tool
                 try
                 {
                     var value = NoScalarValue[0].Value;
-                    ShwoText(string.Format("[读取成功][{3}] 点:{0,-15} 值:{1,-10} 类型:{2}", address, value?.ToString(), value?.GetType().ToString(), retry));
+                    ShwoText(string.Format("[读取成功][{3}] 点:{0,-15} 值:{1,-10} 类型:{2}",
+                        address,
+                        value?.ToString(),
+                        rpop?.Prop_DataType.ToString(),
+                        retry));
                 }
-                catch
+                catch (Exception ex)
                 {
-                    Log("【Err】:读取失败.");
+                    Log($"=== 【Err】读取失败.[{retry}]{ex.Message}" + " ===");
                 }
             }
             else
             {
                 retry++;
                 if (retry < 4) goto tag_retry;
-                Log($"【Err】:读取失败[{retry - 1}]");
+                Log($"=== 【Err】读取失败[{retry - 1}]" + " ===");
             }
         }
 
@@ -361,7 +419,7 @@ namespace IoTClient.Tool
         {
             if (listBox1.SelectedIndex < 0)
             {
-                Log("请选择要操作的设备");
+                Log("=== 请在左边设备列表选择要操作的设备 ===");
                 return;
             }
             var deviceId = listBox1.SelectedItem.ToString().Split(' ')[1];
@@ -371,11 +429,11 @@ namespace IoTClient.Tool
             var value = txt_value.Text?.Trim();
             var addressPart = address.Split('_');
 
-            BacProperty rpop = null; 
+            BacProperty rpop = null;
 
             if (addressPart.Length == 1)
             {
-                rpop = bacnet?.Properties.Where(t => t.PROP_OBJECT_NAME == address).FirstOrDefault();
+                rpop = bacnet?.Properties.Where(t => t.Prop_Object_Name == address).FirstOrDefault();
                 //bacnet = devicesList.Where(t => t.Properties.Any(p => p.PROP_OBJECT_NAME == address)).FirstOrDefault();
             }
             else if (addressPart.Length == 2)
@@ -399,7 +457,14 @@ namespace IoTClient.Tool
                 return;
             }
 
-            BacnetValue[] NoScalarValue = { new BacnetValue(value.ToDataFormType(rpop.DataType)) };
+            List<BacnetValue> NoScalarValue = new List<BacnetValue>() { new BacnetValue(value.ToDataFormType(rpop.Prop_DataType)) };
+            //如果是Bool类型，且原值是1、0枚举类型
+            if (rpop.Prop_DataType == DataTypeEnum.Bool && (rpop.Prop_Present_Value?.ToString() == "1" || rpop.Prop_Present_Value?.ToString() == "0"))
+            {
+                var tempValue = value == "1" || value.ToLower() == "true" ? 1 : 0;
+                NoScalarValue = new List<BacnetValue>() { new BacnetValue(BacnetApplicationTags.BACNET_APPLICATION_TAG_ENUMERATED, tempValue) };
+            }
+
             int retry = 0;//重试
             tag_retry:
             try
@@ -410,15 +475,84 @@ namespace IoTClient.Tool
             }
             catch (Exception ex)
             {
-                retry++;
-                if (retry < 4) goto tag_retry;//强行重试
-                Log($"写入失败:{ex.Message} [{retry - 1}]");
+                //Bool写入如果类型错误，则可能是BACNET_APPLICATION_TAG_ENUMERATED （Bool类型值的存储可能是 True、False 或者 1、0）
+                if (rpop.Prop_DataType == DataTypeEnum.Bool && ex.Message.EndsWith("ERROR_CODE_INVALID_DATA_TYPE"))
+                {
+                    var tempValue = value == "1" || value.ToLower() == "true" ? 1 : 0;
+                    BacnetValue[] newNoScalarValue = { new BacnetValue(BacnetApplicationTags.BACNET_APPLICATION_TAG_ENUMERATED, tempValue) };
+                    Bacnet_client.WritePropertyRequest(bacnet.Address, rpop.ObjectId, BacnetPropertyIds.PROP_PRESENT_VALUE, newNoScalarValue);
+                    ShwoText(string.Format("[写入成功][e] 点:{0,-15} 值:{1}", address, tempValue, retry));
+                }
+                else
+                {
+                    retry++;
+                    if (retry < 4) goto tag_retry;//强行重试
+                    Log($"写入失败[{retry - 1}]:{ex.Message}");
+                }
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            new BACnetServer().Start();
+            new BACnetServer().Start(comboBox1.SelectedItem.ToString());
+            button1_Click_1(null, null);
+        }
+
+        private DataTypeEnum DataTypeConversion(BacnetObjectTypes bacnetObjectType)
+        {
+            DataTypeEnum type;
+            switch (bacnetObjectType)
+            {
+                case BacnetObjectTypes.OBJECT_ANALOG_INPUT:
+                case BacnetObjectTypes.OBJECT_ANALOG_OUTPUT:
+                case BacnetObjectTypes.OBJECT_ANALOG_VALUE:
+                    type = DataTypeEnum.Float;
+                    break;
+                case BacnetObjectTypes.OBJECT_BINARY_INPUT:
+                case BacnetObjectTypes.OBJECT_BINARY_OUTPUT:
+                case BacnetObjectTypes.OBJECT_BINARY_VALUE:
+                    type = DataTypeEnum.Bool;
+                    break;
+                case BacnetObjectTypes.OBJECT_MULTI_STATE_INPUT:
+                case BacnetObjectTypes.OBJECT_MULTI_STATE_OUTPUT:
+                case BacnetObjectTypes.OBJECT_MULTI_STATE_VALUE:
+                    type = DataTypeEnum.UInt32;
+                    break;
+                case BacnetObjectTypes.OBJECT_CHARACTERSTRING_VALUE:
+                    type = DataTypeEnum.String;
+                    break;
+                default:
+                    type = DataTypeEnum.None;
+                    break;
+            }
+            return type;
+        }
+
+        private void but_export_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            //设置保存文件对话框的标题
+            sfd.Title = "请选择要保存的文件路径";
+            //设置保存文件的类型
+            sfd.Filter = "Excel文件|*.xls";
+            //文件名
+            sfd.FileName = $"BACnet_{DateTime.Now.ToString("yyyyMMddHHmmss")}";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    bacnetPropertyInfos?.ToExcel(sfd.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void comboBox2_TextChanged(object sender, EventArgs e)
+        {
+            Bacnet_client.WritePriority = uint.Parse(comboBox2.SelectedItem.ToString());
         }
     }
 }
