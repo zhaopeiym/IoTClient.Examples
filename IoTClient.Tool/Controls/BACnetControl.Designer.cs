@@ -47,6 +47,7 @@
             this.but_export = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -74,9 +75,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(221, 9);
+            this.button3.Location = new System.Drawing.Point(217, 9);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(67, 23);
+            this.button3.Size = new System.Drawing.Size(55, 23);
             this.button3.TabIndex = 17;
             this.button3.Text = "读 取";
             this.button3.UseVisualStyleBackColor = true;
@@ -85,7 +86,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(298, 14);
+            this.label3.Location = new System.Drawing.Point(283, 14);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 12);
             this.label3.TabIndex = 16;
@@ -94,7 +95,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(110, 14);
+            this.label2.Location = new System.Drawing.Point(106, 14);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 15;
@@ -102,23 +103,23 @@
             // 
             // txt_address
             // 
-            this.txt_address.Location = new System.Drawing.Point(142, 10);
+            this.txt_address.Location = new System.Drawing.Point(138, 10);
             this.txt_address.Name = "txt_address";
             this.txt_address.Size = new System.Drawing.Size(74, 21);
             this.txt_address.TabIndex = 14;
             // 
             // txt_value
             // 
-            this.txt_value.Location = new System.Drawing.Point(319, 10);
+            this.txt_value.Location = new System.Drawing.Point(304, 10);
             this.txt_value.Name = "txt_value";
             this.txt_value.Size = new System.Drawing.Size(73, 21);
             this.txt_value.TabIndex = 13;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(435, 9);
+            this.button2.Location = new System.Drawing.Point(420, 9);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(67, 23);
+            this.button2.Size = new System.Drawing.Size(55, 23);
             this.button2.TabIndex = 12;
             this.button2.Text = "写 入";
             this.button2.UseVisualStyleBackColor = true;
@@ -126,7 +127,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(729, 9);
+            this.button1.Location = new System.Drawing.Point(752, 9);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 11;
@@ -155,7 +156,7 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(672, 10);
+            this.numericUpDown1.Location = new System.Drawing.Point(695, 10);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             20,
             0,
@@ -178,7 +179,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(639, 15);
+            this.label1.Location = new System.Drawing.Point(662, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 12);
             this.label1.TabIndex = 21;
@@ -198,17 +199,17 @@
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(519, 10);
+            this.comboBox1.Location = new System.Drawing.Point(550, 10);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(114, 20);
+            this.comboBox1.Size = new System.Drawing.Size(108, 20);
             this.comboBox1.TabIndex = 23;
             this.comboBox1.TextChanged += new System.EventHandler(this.comboBox1_TextChanged);
             // 
             // but_export
             // 
-            this.but_export.Location = new System.Drawing.Point(810, 9);
+            this.but_export.Location = new System.Drawing.Point(829, 9);
             this.but_export.Name = "but_export";
-            this.but_export.Size = new System.Drawing.Size(64, 23);
+            this.but_export.Size = new System.Drawing.Size(45, 23);
             this.but_export.TabIndex = 24;
             this.but_export.Text = "导出";
             this.but_export.UseVisualStyleBackColor = true;
@@ -235,16 +236,27 @@
             "14",
             "15",
             "16"});
-            this.comboBox2.Location = new System.Drawing.Point(395, 10);
+            this.comboBox2.Location = new System.Drawing.Point(380, 10);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(38, 20);
             this.comboBox2.TabIndex = 25;
             this.comboBox2.TextChanged += new System.EventHandler(this.comboBox2_TextChanged);
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(477, 9);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(55, 23);
+            this.button5.TabIndex = 26;
+            this.button5.Text = "释 放";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_ClickAsync);
+            // 
             // BACnetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.but_export);
             this.Controls.Add(this.comboBox1);
@@ -280,7 +292,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txt_address;
-        private System.Windows.Forms.TextBox txt_value;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -292,5 +303,7 @@
         private System.Windows.Forms.Button but_export;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TextBox txt_value;
     }
 }

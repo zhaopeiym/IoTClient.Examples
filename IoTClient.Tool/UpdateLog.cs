@@ -86,6 +86,11 @@ namespace IoTClient.Tool
             logs.Add("2.BACnet切换网卡扫描");
             logs.Add("3.BACnet导出Excel扫描结果");
 
+            logs.Add("\r\n版本：[1.0.8]");
+            logs.Add($"时间：2022-07-22");
+            logs.Add("内容");
+            logs.Add("1.BACnet释放优先级的值");
+
             textBox1.Text = string.Join("\r\n", logs);
             if (hasNew)
             {

@@ -38,6 +38,8 @@ namespace IoTClient.Tool
             comboBox1.SelectedIndex = 0;
             toolTip1.SetToolTip(comboBox2, "写入优先级");
             toolTip1.SetToolTip(txt_address, "填入点名或地址");
+            toolTip1.SetToolTip(button5, "按住Ctrl后点击会释放所有优先级的值");
+
             //这里会调用 comboBox1_TextChanged
         }
 
@@ -72,7 +74,7 @@ namespace IoTClient.Tool
             Bacnet_client = new BacnetClient(new BacnetIpUdpProtocolTransport(47808, false, localEndpointIp: comboBox1.SelectedItem.ToString()));
             //Bacnet_client.WritePriority = 1;
             //写入优先级需要做界面设置
-            comboBox2.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 15;
             Bacnet_client.OnIam -= new BacnetClient.IamHandler(handler_OnIam);
             Bacnet_client.OnIam += new BacnetClient.IamHandler(handler_OnIam);
             Bacnet_client.Start();
@@ -355,8 +357,9 @@ namespace IoTClient.Tool
                 Log("=== 请在左边设备列表选择要操作的设备 ===");
                 return;
             }
+            var ipAddress = listBox1.SelectedItem.ToString().Split(' ')[0];
             var deviceId = listBox1.SelectedItem.ToString().Split(' ')[1];
-            BacNode bacnet = devicesList.Where(t => t.DeviceId.ToString() == deviceId).FirstOrDefault();
+            BacNode bacnet = devicesList.Where(t => t.Address.ToString() == ipAddress && t.DeviceId.ToString() == deviceId).FirstOrDefault();
 
             var address = txt_address.Text?.Trim();
             var addressPart = address.Split('_');
@@ -422,8 +425,9 @@ namespace IoTClient.Tool
                 Log("=== 请在左边设备列表选择要操作的设备 ===");
                 return;
             }
+            var ipAddress = listBox1.SelectedItem.ToString().Split(' ')[0];
             var deviceId = listBox1.SelectedItem.ToString().Split(' ')[1];
-            BacNode bacnet = devicesList.Where(t => t.DeviceId.ToString() == deviceId).FirstOrDefault();
+            BacNode bacnet = devicesList.Where(t => t.Address.ToString() == ipAddress && t.DeviceId.ToString() == deviceId).FirstOrDefault();
 
             var address = txt_address.Text?.Trim();
             var value = txt_value.Text?.Trim();
@@ -457,6 +461,8 @@ namespace IoTClient.Tool
                 return;
             }
 
+            var writePriority = uint.Parse(comboBox2.SelectedItem.ToString());
+            Bacnet_client.WritePriority = writePriority;
             List<BacnetValue> NoScalarValue = new List<BacnetValue>() { new BacnetValue(value.ToDataFormType(rpop.Prop_DataType)) };
             //如果是Bool类型，且原值是1、0枚举类型
             if (rpop.Prop_DataType == DataTypeEnum.Bool && (rpop.Prop_Present_Value?.ToString() == "1" || rpop.Prop_Present_Value?.ToString() == "0"))
@@ -471,7 +477,7 @@ namespace IoTClient.Tool
             {
                 await Task.Delay(retry * 200);
                 Bacnet_client.WritePropertyRequest(bacnet.Address, rpop.ObjectId, BacnetPropertyIds.PROP_PRESENT_VALUE, NoScalarValue);
-                ShwoText(string.Format("[写入成功][{2}] 点:{0,-15} 值:{1}", address, value, retry));
+                ShwoText(string.Format("[写入成功][{2}] 点:{0,-15} 值:{1,-10} 优先级[{3}]", address, value, retry, writePriority));
             }
             catch (Exception ex)
             {
@@ -481,7 +487,7 @@ namespace IoTClient.Tool
                     var tempValue = value == "1" || value.ToLower() == "true" ? 1 : 0;
                     BacnetValue[] newNoScalarValue = { new BacnetValue(BacnetApplicationTags.BACNET_APPLICATION_TAG_ENUMERATED, tempValue) };
                     Bacnet_client.WritePropertyRequest(bacnet.Address, rpop.ObjectId, BacnetPropertyIds.PROP_PRESENT_VALUE, newNoScalarValue);
-                    ShwoText(string.Format("[写入成功][e] 点:{0,-15} 值:{1}", address, tempValue, retry));
+                    ShwoText(string.Format("[写入成功][e] 点:{0,-15} 值:{1,-10} 优先级[{3}]", address, tempValue, retry, writePriority));
                 }
                 else
                 {
@@ -553,6 +559,98 @@ namespace IoTClient.Tool
         private void comboBox2_TextChanged(object sender, EventArgs e)
         {
             Bacnet_client.WritePriority = uint.Parse(comboBox2.SelectedItem.ToString());
+        }
+
+        private async void button5_ClickAsync(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedIndex < 0)
+            {
+                Log("=== 请在左边设备列表选择要操作的设备 ===");
+                return;
+            }
+            var ipAddress = listBox1.SelectedItem.ToString().Split(' ')[0];
+            var deviceId = listBox1.SelectedItem.ToString().Split(' ')[1];
+            BacNode bacnet = devicesList.Where(t => t.Address.ToString() == ipAddress && t.DeviceId.ToString() == deviceId).FirstOrDefault();
+            if ((ModifierKeys & Keys.Control) == Keys.Control && (ModifierKeys & Keys.Shift) == Keys.Shift)
+            {
+                if (MessageBox.Show($"确认要释放设备[{bacnet.Address}]所有点的值吗？", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+                {
+                    foreach (var objectId in bacnet?.Properties.Select(t => t.ObjectId))
+                    {
+                        for (uint i = 1; i <= 16; i++)
+                        {
+                            await PresentValueAsync(bacnet.Address, objectId, i);
+                        }
+                    }
+                }
+                return;
+            }
+
+            var address = txt_address.Text?.Trim();
+            var value = txt_value.Text?.Trim();
+            var addressPart = address.Split('_');
+            BacProperty rpop = null;
+            if (addressPart.Length == 1)
+            {
+                rpop = bacnet?.Properties.Where(t => t.Prop_Object_Name == address).FirstOrDefault();
+            }
+            else if (addressPart.Length == 2)
+            {
+                rpop = bacnet?.Properties
+                    .Where(t => t.ObjectId.Instance == uint.Parse(addressPart[0]) && t.ObjectId.Type == (BacnetObjectTypes)int.Parse(addressPart[1]))
+                    .FirstOrDefault();
+            }
+            else
+            {
+                Log("请输入正确的地址");
+                return;
+            }
+            if (rpop == null)
+            {
+                Log("没有找到对应的点");
+                return;
+            }
+
+            if ((ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                for (uint i = 1; i <= 16; i++)
+                {
+                    await PresentValueAsync(bacnet.Address, rpop.ObjectId, i);
+                }
+            }
+            else
+            {
+                var writePriority = uint.Parse(comboBox2.SelectedItem.ToString());
+                await PresentValueAsync(bacnet.Address, rpop.ObjectId, writePriority);
+            }
+        }
+
+        /// <summary>
+        /// 释放值
+        /// </summary>
+        /// <param name="bacnetAddress"></param>
+        /// <param name="objectId"></param>
+        /// <param name="address"></param>
+        /// <param name="writePriority"></param>
+        private async Task PresentValueAsync(BacnetAddress bacnetAddress, BacnetObjectId objectId, uint writePriority)
+        {
+            List<BacnetValue> nullValue = new List<BacnetValue>() { new BacnetValue(null) };
+            string address = $"{objectId.Instance}_{(uint)objectId.Type}";
+            int retry = 0;//重试
+            tag_retry:
+            try
+            {
+                await Task.Delay(retry * 200);
+                Bacnet_client.WritePriority = writePriority;
+                Bacnet_client.WritePropertyRequest(bacnetAddress, objectId, BacnetPropertyIds.PROP_PRESENT_VALUE, nullValue);
+                ShwoText(string.Format("[释放成功][{0}] 点:{1,-15} 优先级[{2}]", retry, address, writePriority));
+            }
+            catch (Exception ex)
+            {
+                retry++;
+                if (retry < 2) goto tag_retry;//强行重试                
+                ShwoText(string.Format(":[释放失败][{0}] 点:{1,-15} 优先级[{2}] {3}", retry, address, writePriority, ex.Message));
+            }
         }
     }
 }
