@@ -64,7 +64,7 @@ namespace IoTClient.Tool.Controls
             chb_show_package.Checked = config.OmronFins_ShowPackage;
             switch (config.OmronFins_Datatype)
             {
-                case "rd_bit": rd_bit.Checked = true; break;
+                case "rd_bool": rd_bool.Checked = true; break;
                 case "rd_short": rd_short.Checked = true; break;
                 case "rd_ushort": rd_ushort.Checked = true; break;
                 case "rd_int": rd_int.Checked = true; break;
@@ -150,7 +150,7 @@ namespace IoTClient.Tool.Controls
                     return;
                 }
                 dynamic result = null;
-                if (rd_bit.Checked)
+                if (rd_bool.Checked)
                 {
                     result = client.ReadBoolean(txt_address.Text);
                 }
@@ -204,7 +204,7 @@ namespace IoTClient.Tool.Controls
                 config.OmronFins_Value = txt_value.Text;
                 config.OmronFins_ShowPackage = chb_show_package.Checked;
                 config.OmronFins_Datatype = string.Empty;
-                if (rd_bit.Checked) config.OmronFins_Datatype = "rd_bit";
+                if (rd_bool.Checked) config.OmronFins_Datatype = "rd_bool";
                 else if (rd_short.Checked) config.OmronFins_Datatype = "rd_short";
                 else if (rd_ushort.Checked) config.OmronFins_Datatype = "rd_ushort";
                 else if (rd_int.Checked) config.OmronFins_Datatype = "rd_int";
@@ -238,7 +238,7 @@ namespace IoTClient.Tool.Controls
             try
             {
                 dynamic result = null;
-                if (rd_bit.Checked)
+                if (rd_bool.Checked)
                 {
                     if (!bool.TryParse(txt_value.Text?.Trim(), out bool bit))
                     {
@@ -344,7 +344,7 @@ namespace IoTClient.Tool.Controls
                 while (!constant.IsDisposed)
                 { 
                     dynamic result = null;
-                    if (rd_bit.Checked)
+                    if (rd_bool.Checked)
                     {
                         result = client.ReadBoolean(txt_address.Text);
                     }

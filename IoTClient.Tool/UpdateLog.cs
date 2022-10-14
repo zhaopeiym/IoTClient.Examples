@@ -91,6 +91,12 @@ namespace IoTClient.Tool
             logs.Add("内容");
             logs.Add("1.BACnet释放优先级的值");
 
+            logs.Add("\r\n版本：[1.1.0]");
+            logs.Add($"时间：2022-10-14");
+            logs.Add("内容");
+            logs.Add("1.Modbus按位读取如：1.11");
+            logs.Add("2.Modbus异常码提示");
+
             textBox1.Text = string.Join("\r\n", logs);
             if (hasNew)
             {

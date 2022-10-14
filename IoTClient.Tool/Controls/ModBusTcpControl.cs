@@ -344,9 +344,19 @@ namespace IoTClient.Tool
                         if (rd_coil.Checked)
                             result = client.ReadCoil(txt_address.Text, stationNumber);
                         else if (rd_short.Checked)
-                            result = client.ReadInt16(txt_address.Text, stationNumber);
+                        {
+                            if (txt_address.Text.Contains("."))
+                                result = client.ReadInt16Bit(txt_address.Text, stationNumber);
+                            else
+                                result = client.ReadInt16(txt_address.Text, stationNumber);
+                        }
                         else if (rd_ushort.Checked)
-                            result = client.ReadUInt16(txt_address.Text, stationNumber);
+                        {
+                            if (txt_address.Text.Contains("."))
+                                result = client.ReadUInt16Bit(txt_address.Text, stationNumber);
+                            else
+                                result = client.ReadUInt16(txt_address.Text, stationNumber);
+                        }
                         else if (rd_int.Checked)
                             result = client.ReadInt32(txt_address.Text, stationNumber);
                         else if (rd_uint.Checked)
@@ -369,9 +379,19 @@ namespace IoTClient.Tool
                         if (rd_coil.Checked)
                             result = client.ReadCoil(address, stationNumber, functionCode);
                         else if (rd_short.Checked)
-                            result = client.ReadInt16(address, stationNumber, functionCode);
+                        {
+                            if (address.Contains("."))
+                                result = client.ReadInt16Bit(address, stationNumber, functionCode);
+                            else
+                                result = client.ReadInt16(address, stationNumber, functionCode);
+                        }
                         else if (rd_ushort.Checked)
-                            result = client.ReadUInt16(address, stationNumber, functionCode);
+                        {
+                            if (address.Contains("."))
+                                result = client.ReadUInt16Bit(address, stationNumber, functionCode);
+                            else
+                                result = client.ReadUInt16(address, stationNumber, functionCode);
+                        }
                         else if (rd_int.Checked)
                             result = client.ReadInt32(address, stationNumber, functionCode);
                         else if (rd_uint.Checked)

@@ -37,7 +37,7 @@
             this.lab_address = new System.Windows.Forms.Label();
             this.txt_address = new System.Windows.Forms.TextBox();
             this.but_write = new System.Windows.Forms.Button();
-            this.rd_bit = new System.Windows.Forms.RadioButton();
+            this.rd_bool = new System.Windows.Forms.RadioButton();
             this.rd_int = new System.Windows.Forms.RadioButton();
             this.chb_show_package = new System.Windows.Forms.CheckBox();
             this.rd_long = new System.Windows.Forms.RadioButton();
@@ -143,13 +143,13 @@
             // 
             // rd_bit
             // 
-            this.rd_bit.AutoSize = true;
-            this.rd_bit.Location = new System.Drawing.Point(11, 23);
-            this.rd_bit.Name = "rd_bit";
-            this.rd_bit.Size = new System.Drawing.Size(41, 16);
-            this.rd_bit.TabIndex = 16;
-            this.rd_bit.Text = "bit";
-            this.rd_bit.UseVisualStyleBackColor = true;
+            this.rd_bool.AutoSize = true;
+            this.rd_bool.Location = new System.Drawing.Point(11, 23);
+            this.rd_bool.Name = "rd_bit";
+            this.rd_bool.Size = new System.Drawing.Size(47, 16);
+            this.rd_bool.TabIndex = 16;
+            this.rd_bool.Text = "bool";
+            this.rd_bool.UseVisualStyleBackColor = true;
             // 
             // rd_int
             // 
@@ -374,7 +374,7 @@
             this.groupBox1.Controls.Add(this.rd_float);
             this.groupBox1.Controls.Add(this.rd_double);
             this.groupBox1.Controls.Add(this.rd_short);
-            this.groupBox1.Controls.Add(this.rd_bit);
+            this.groupBox1.Controls.Add(this.rd_bool);
             this.groupBox1.Controls.Add(this.rd_ulong);
             this.groupBox1.Controls.Add(this.rd_ushort);
             this.groupBox1.Controls.Add(this.rd_long);
@@ -427,7 +427,7 @@
         private System.Windows.Forms.Label lab_address;
         private System.Windows.Forms.TextBox txt_address;
         private System.Windows.Forms.Button but_write;
-        private System.Windows.Forms.RadioButton rd_bit;
+        private System.Windows.Forms.RadioButton rd_bool;
         private System.Windows.Forms.RadioButton rd_int;
         private System.Windows.Forms.CheckBox chb_show_package;
         private System.Windows.Forms.RadioButton rd_long;
