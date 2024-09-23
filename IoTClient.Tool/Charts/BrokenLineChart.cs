@@ -49,8 +49,14 @@ namespace IoTClient.Tool
 
         private void SetAxisLimits(DateTime now)
         {
-            cartesianChart1.AxisX[0].MaxValue = now.Ticks + TimeSpan.FromSeconds(0).Ticks;
-            cartesianChart1.AxisX[0].MinValue = now.Ticks - TimeSpan.FromSeconds(60).Ticks;
+            var step = ChartValues.Count * 800 / 1000 / 15f;
+            var new_step = step <= 1 ? 1 : step;
+            cartesianChart1.AxisX[0].Separator = new Separator
+            {
+                Step = TimeSpan.FromSeconds(new_step).Ticks
+            };
+            //cartesianChart1.AxisX[0].MaxValue = now.Ticks + TimeSpan.FromSeconds(0).Ticks;
+            //cartesianChart1.AxisX[0].MinValue = now.Ticks - TimeSpan.FromSeconds(60).Ticks;
         }
 
         public void AddData(double value)
