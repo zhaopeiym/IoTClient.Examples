@@ -89,6 +89,7 @@ namespace IoTClient.Tool
                         case "rd_ulong": rd_ulong.Checked = true; break;
                         case "rd_float": rd_float.Checked = true; break;
                         case "rd_double": rd_double.Checked = true; break;
+                        case "rd_string": rd_string.Checked = true; break;
                     };
                     break;
                 case SiemensVersion.S7_200Smart:
@@ -110,6 +111,7 @@ namespace IoTClient.Tool
                         case "rd_ulong": rd_ulong.Checked = true; break;
                         case "rd_float": rd_float.Checked = true; break;
                         case "rd_double": rd_double.Checked = true; break;
+                        case "rd_string": rd_string.Checked = true; break;
                     };
                     break;
                 case SiemensVersion.S7_300:
@@ -131,6 +133,7 @@ namespace IoTClient.Tool
                         case "rd_ulong": rd_ulong.Checked = true; break;
                         case "rd_float": rd_float.Checked = true; break;
                         case "rd_double": rd_double.Checked = true; break;
+                        case "rd_string": rd_string.Checked = true; break;
                     };
                     break;
                 case SiemensVersion.S7_400:
@@ -152,6 +155,7 @@ namespace IoTClient.Tool
                         case "rd_ulong": rd_ulong.Checked = true; break;
                         case "rd_float": rd_float.Checked = true; break;
                         case "rd_double": rd_double.Checked = true; break;
+                        case "rd_string": rd_string.Checked = true; break;
                     };
                     break;
                 case SiemensVersion.S7_1200:
@@ -173,6 +177,7 @@ namespace IoTClient.Tool
                         case "rd_ulong": rd_ulong.Checked = true; break;
                         case "rd_float": rd_float.Checked = true; break;
                         case "rd_double": rd_double.Checked = true; break;
+                        case "rd_string": rd_string.Checked = true; break;
                     };
                     break;
                 case SiemensVersion.S7_1500:
@@ -194,6 +199,7 @@ namespace IoTClient.Tool
                         case "rd_ulong": rd_ulong.Checked = true; break;
                         case "rd_float": rd_float.Checked = true; break;
                         case "rd_double": rd_double.Checked = true; break;
+                        case "rd_string": rd_string.Checked = true; break;
                     };
                     break;
             }
@@ -326,6 +332,7 @@ namespace IoTClient.Tool
                     else if (rd_ulong.Checked) datatype = DataTypeEnum.UInt64;
                     else if (rd_float.Checked) datatype = DataTypeEnum.Float;
                     else if (rd_double.Checked) datatype = DataTypeEnum.Double;
+                    else if (rd_string.Checked) datatype = DataTypeEnum.String;
 
                     Dictionary<string, DataTypeEnum> addresses = new Dictionary<string, DataTypeEnum>();
                     foreach (var item in addressAndReadNumber)
@@ -389,6 +396,10 @@ namespace IoTClient.Tool
                     {
                         result = client.ReadDouble(txt_address.Text);
                     }
+                    else if (rd_string.Checked)
+                    {
+                        result = client.ReadString(txt_address.Text);
+                    }
                     if (result.IsSucceed)
                         AppendText($"[读取 {txt_address.Text?.Trim()} 成功]：{result.Value}\t\t耗时：{result.TimeConsuming}ms");
                     else
@@ -422,6 +433,7 @@ namespace IoTClient.Tool
                         else if (rd_ulong.Checked) config.S7200_Datatype = "rd_ulong";
                         else if (rd_float.Checked) config.S7200_Datatype = "rd_float";
                         else if (rd_double.Checked) config.S7200_Datatype = "rd_double";
+                        else if (rd_string.Checked) config.S7200_Datatype = "rd_string";
                         break;
                     case SiemensVersion.S7_200Smart:
                         config.S7200Smart_IP = txt_ip.Text;
@@ -441,6 +453,7 @@ namespace IoTClient.Tool
                         else if (rd_ulong.Checked) config.S7200Smart_Datatype = "rd_ulong";
                         else if (rd_float.Checked) config.S7200Smart_Datatype = "rd_float";
                         else if (rd_double.Checked) config.S7200Smart_Datatype = "rd_double";
+                        else if (rd_string.Checked) config.S7200Smart_Datatype = "rd_string";
                         break;
                     case SiemensVersion.S7_300:
                         config.S7300_IP = txt_ip.Text;
@@ -460,6 +473,7 @@ namespace IoTClient.Tool
                         else if (rd_ulong.Checked) config.S7300_Datatype = "rd_ulong";
                         else if (rd_float.Checked) config.S7300_Datatype = "rd_float";
                         else if (rd_double.Checked) config.S7300_Datatype = "rd_double";
+                        else if (rd_string.Checked) config.S7300_Datatype = "rd_string";
                         break;
                     case SiemensVersion.S7_400:
                         config.S7400_IP = txt_ip.Text;
@@ -479,6 +493,7 @@ namespace IoTClient.Tool
                         else if (rd_ulong.Checked) config.S7400_Datatype = "rd_ulong";
                         else if (rd_float.Checked) config.S7400_Datatype = "rd_float";
                         else if (rd_double.Checked) config.S7400_Datatype = "rd_double";
+                        else if (rd_string.Checked) config.S7400_Datatype = "rd_string";
                         break;
                     case SiemensVersion.S7_1200:
                         config.S71200_IP = txt_ip.Text;
@@ -498,6 +513,7 @@ namespace IoTClient.Tool
                         else if (rd_ulong.Checked) config.S71200_Datatype = "rd_ulong";
                         else if (rd_float.Checked) config.S71200_Datatype = "rd_float";
                         else if (rd_double.Checked) config.S71200_Datatype = "rd_double";
+                        else if (rd_string.Checked) config.S71200_Datatype = "rd_string";
                         break;
                     case SiemensVersion.S7_1500:
                         config.S71500_IP = txt_ip.Text;
@@ -517,6 +533,7 @@ namespace IoTClient.Tool
                         else if (rd_ulong.Checked) config.S71500_Datatype = "rd_ulong";
                         else if (rd_float.Checked) config.S71500_Datatype = "rd_float";
                         else if (rd_double.Checked) config.S71500_Datatype = "rd_double";
+                        else if (rd_string.Checked) config.S71500_Datatype = "rd_string";
                         break;
                 }
                 config.SaveConfig();
@@ -535,7 +552,7 @@ namespace IoTClient.Tool
                 var constant = new BrokenLineChart(txt_address.Text);
                 constant.Show();
                 while (!constant.IsDisposed)
-                { 
+                {
                     dynamic result = null;
                     if (rd_byte.Checked)
                     {
@@ -664,7 +681,10 @@ namespace IoTClient.Tool
                 {
                     result = client.Write(address, double.Parse(txt_value.Text?.Trim()));
                 }
-
+                else if (rd_string.Checked)
+                {
+                    result = client.Write(address, txt_value.Text?.Trim());
+                }
 
                 if (result.IsSucceed)
                     AppendText($"[写入 {address?.Trim()} 成功]：{txt_value.Text?.Trim()} OK\t\t耗时：{result.TimeConsuming}ms");
