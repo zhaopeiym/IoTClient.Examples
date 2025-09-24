@@ -3,13 +3,9 @@
     public class VersionCheckOutput
     {
         /// <summary>
-        /// 更新Code
+        /// 下载地址
         /// </summary>
-        public int Code { get; set; }
 
-        /// <summary>
-        /// 文件大小
-        /// </summary>
-        public int FileSize { get; set; }
+        public string Url { get; set; }
     }
 }

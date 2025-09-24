@@ -8,7 +8,7 @@ namespace IoTClient.Tool
 {
     public partial class UpgradeForm : Form
     {
-        public UpgradeForm()
+        public UpgradeForm(string downloadUrl)
         {
             InitializeComponent();
             TopMost = true;
@@ -17,19 +17,19 @@ namespace IoTClient.Tool
             CheckForIllegalCrossThreadCalls = false;
             Task.Run(async () =>
             {
-                await DownloadAsync();
+                await DownloadAsync(downloadUrl);
                 DialogResult = DialogResult.OK;
                 Close();
             });
         }
 
-        public async Task DownloadAsync()
+        public async Task DownloadAsync(string downloadUrl)
         {
             long downloadSize = 0;//已经下载大小
             long downloadSpeed = 0;//下载速度
             using (HttpClient http = new HttpClient())
             {
-                var httpResponseMessage = await http.GetAsync("https://download.haojima.net/api/IoTClient/Download", HttpCompletionOption.ResponseHeadersRead);//发送请求
+                var httpResponseMessage = await http.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead);//发送请求
                 var contentLength = httpResponseMessage.Content.Headers.ContentLength;   //文件大小    
                 if (contentLength == null)
                 {

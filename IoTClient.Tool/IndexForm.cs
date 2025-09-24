@@ -12,6 +12,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Talk.Extensions;
 
 namespace IoTClient.Tool
 {
@@ -325,16 +326,16 @@ namespace IoTClient.Tool
             HttpClient http = new HttpClient();
             var content = new StringContent(JsonConvert.SerializeObject(new VersionCheckInput()));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var response = await http.PostAsync("https://download.haojima.net/api/IoTClient/VersionCheck", content);
+            var response = await http.PostAsync("https://appmanager.haojima.net/api/AppDownloads/GetNewAppUrl", content);
             var result = await response.Content.ReadAsStringAsync();
             var VersionObj = JsonConvert.DeserializeObject<ResultBase<VersionCheckOutput>>(result);
             //VersionObj.IsSuccess  有问题 TODO
-            if (VersionObj.Code == 200 && VersionObj.Data.Code == 1)
+            if (VersionObj.Code == 200 && !VersionObj.Data.Url.IsNullOrWhiteSpace())
             {
                 //if (MessageBox.Show("IoTClient有新版本，是否升级到最新版本？", "版本升级", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 if (new UpdateLog(true).ShowDialog() == DialogResult.OK)
                 {
-                    if (new UpgradeForm().ShowDialog() != DialogResult.OK) return;
+                    if (new UpgradeForm(VersionObj.Data.Url).ShowDialog() != DialogResult.OK) return;
                     var newApp = Application.StartupPath + @"\temp." + Path.GetFileName(Application.ExecutablePath);
                     //1、检查更新文件 复制临时文件
                     //File.Copy(Application.ExecutablePath, newApp, true);

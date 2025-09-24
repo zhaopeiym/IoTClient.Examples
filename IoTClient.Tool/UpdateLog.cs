@@ -97,6 +97,11 @@ namespace IoTClient.Tool
             logs.Add("1.Modbus按位读取如：1.11");
             logs.Add("2.Modbus异常码提示");
 
+            logs.Add("\r\n版本：[1.1.01]");
+            logs.Add($"时间：2025-09-24");
+            logs.Add("内容");
+            logs.Add("1.西门子PLC字符串读写");
+
             textBox1.Text = string.Join("\r\n", logs);
             if (hasNew)
             {
