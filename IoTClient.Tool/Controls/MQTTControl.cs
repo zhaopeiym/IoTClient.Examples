@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using MQTTnet.Extensions.ManagedClient;
+﻿using AntdUI;
+using IoTClient.Tool.Common;
 using MQTTnet;
 using MQTTnet.Client.Options;
-using System.Security.Cryptography.X509Certificates;
+using MQTTnet.Extensions.ManagedClient;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Windows.Forms;
+using Talk.Extensions;
+using Talk.Linq.Extensions;
 
 namespace IoTClient.Tool.Controls
 {
@@ -32,6 +33,28 @@ namespace IoTClient.Tool.Controls
             but_Stop.Enabled = false;
             txt_ClientID.Text = Guid.NewGuid().ToString();
             checkBox1_CheckedChanged(null, null);
+
+            var config = ConnectionConfig.GetConfig();
+            if (!string.IsNullOrWhiteSpace(config.Mqtt_Address)) txt_Address.Text = config.Mqtt_Address;
+            if (!string.IsNullOrWhiteSpace(config.Mqtt_Port)) txt_Port.Text = config.Mqtt_Port;
+            if (!string.IsNullOrWhiteSpace(config.Mqtt_ClientID)) txt_ClientID.Text = config.Mqtt_ClientID;
+            if (!string.IsNullOrWhiteSpace(config.Mqtt_UserName)) txt_UserName.Text = config.Mqtt_UserName;
+            if (!string.IsNullOrWhiteSpace(config.Mqtt_Password)) txt_Password.Text = config.Mqtt_Password;
+            if (!string.IsNullOrWhiteSpace(config.Mqtt_ca_file)) txt_ca_file.Text = config.Mqtt_ca_file;
+            if (!string.IsNullOrWhiteSpace(config.Mqtt_pfx_file)) txt_pfx_file.Text = config.Mqtt_pfx_file;
+            if (config.Mqtt_Topics.IsAny())
+            {
+                foreach (var topic in config.Mqtt_Topics)
+                {
+                    var tag = new Tag();
+                    tag.Text = topic;
+                    tag.AutoSize = true;
+                    tag.MinimumSize = new Size(18, 18);
+                    tag.CloseIcon = true;
+                    tag.CloseChanged += Tag_CloseChangedAsync;
+                    flowLayoutPanel1.Controls.Add(tag);
+                };
+            }
         }
 
         private IManagedMqttClient mqttClient;
@@ -103,15 +126,15 @@ namespace IoTClient.Tool.Controls
 
                 mqttClient.UseApplicationMessageReceivedHandler(e =>
                 {
-                    WriteLine_1("### 收到消息 ###");
+                    WriteLine_1($"### 收到消息 {DateTime.Now.yyyMMddHHmmss()} ###");
+                    WriteLine_1($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
+                    WriteLine_1($"+ Retain = {e.ApplicationMessage.Retain}");
                     WriteLine_1($"+ Topic = {e.ApplicationMessage.Topic}");
                     try
                     {
                         WriteLine_1($"+ Payload = {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}");
                     }
                     catch { }
-                    WriteLine_1($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
-                    WriteLine_1($"+ Retain = {e.ApplicationMessage.Retain}");
                     WriteLine_1();
                 });
 
@@ -124,6 +147,23 @@ namespace IoTClient.Tool.Controls
                     but_Publish.Enabled = true;
                     but_Stop.Enabled = true;
                 });
+
+                var config = ConnectionConfig.GetConfig();
+                config.Mqtt_Address = txt_Address.Text;
+                config.Mqtt_Port = txt_Port.Text;
+                config.Mqtt_ClientID = txt_ClientID.Text;
+                config.Mqtt_UserName = txt_UserName.Text;
+                config.Mqtt_Password = txt_Password.Text;
+                config.Mqtt_ca_file = txt_ca_file.Text;
+                config.Mqtt_pfx_file = txt_pfx_file.Text;
+                config.SaveConfig();
+                if (config.Mqtt_Topics.IsAny())
+                {
+                    foreach (var topic in config.Mqtt_Topics)
+                    {
+                        await mqttClient.SubscribeAsync(new TopicFilterBuilder().WithTopic(topic).Build());
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -147,7 +187,14 @@ namespace IoTClient.Tool.Controls
 
         private void WriteLine_1(string msg = "")
         {
-            txt_msg.AppendText($"{msg} \r\n");
+            //txt_msg.AppendText($"{msg} \r\n");
+            //设置存储最大存储
+            int maxLength = 200000;
+            if (txt_msg.Text.Length >= maxLength)
+            {
+                txt_msg.Text = txt_msg.Text.Substring(txt_msg.Text.Length - maxLength / 2);
+            }
+            txt_msg.AppendText($"{msg.Replace("},", "},\r\n")} \r\n");
         }
 
         private void WriteLine_2(string msg = "")
@@ -164,10 +211,44 @@ namespace IoTClient.Tool.Controls
                 WriteLine_1("### 请输入Topic ###");
                 return;
             }
+            if (mqttClient == null || !mqttClient.IsStarted || !mqttClient.IsConnected)
+            {
+                WriteLine_1("### 请先启动MQTT ###");
+                return;
+            }
+            var config = ConnectionConfig.GetConfig();
+            if (config.Mqtt_Topics.Any(t => t == topic))
+            {
+                WriteLine_1($"### 已订阅过Topic[ {topic} ] ###");
+                return;
+            }
 
             await mqttClient.SubscribeAsync(new TopicFilterBuilder().WithTopic(topic).Build());
 
-            WriteLine_1("### 订阅 ###");
+            WriteLine_1($"### 订阅Topic[ {topic} ] ###");
+
+            var tag = new Tag();
+            tag.Text = topic;
+            tag.AutoSize = true;
+            tag.MinimumSize = new Size(18, 18);
+            tag.CloseIcon = true;
+            tag.CloseChanged += Tag_CloseChangedAsync;
+            flowLayoutPanel1.Controls.Add(tag);
+            config.Mqtt_Topics.Add(topic);
+            config.SaveConfig();
+        }
+
+        private bool Tag_CloseChangedAsync(object sender, EventArgs e)
+        {
+            var obj = sender as Tag;
+            var topic = obj.Text;
+            if (!topic.IsNullOrWhiteSpace())
+                mqttClient.UnsubscribeAsync(topic).Wait();
+            var config = ConnectionConfig.GetConfig();
+            config.Mqtt_Topics.Remove(topic);
+            config.SaveConfig();
+            WriteLine_1($"### 取消订阅Topic[ {topic} ] ###");
+            return true;
         }
 
         private async void but_Publish_Click(object sender, EventArgs e)
@@ -220,6 +301,14 @@ namespace IoTClient.Tool.Controls
         {
             checkBox1.Enabled = comboBox1.SelectedIndex == 0;
             if (!checkBox1.Enabled) checkBox1.Checked = false;
+        }
+
+        private void txt_subscribe_topic_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                but_Subscribe_ClickAsync(sender, e);
+            }
         }
     }
 }

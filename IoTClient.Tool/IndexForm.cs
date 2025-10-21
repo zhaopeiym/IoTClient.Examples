@@ -20,6 +20,7 @@ namespace IoTClient.Tool
     {
         public IndexForm()
         {
+            InitializeComponent();
 
             #region 检查版本升级
 #if !DEBUG
@@ -35,7 +36,6 @@ namespace IoTClient.Tool
 #endif 
             #endregion
 
-            InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedSingle;
 
@@ -295,7 +295,7 @@ namespace IoTClient.Tool
             Task.Run(async () =>
             {
                 //检查版本升级
-                await CheckUpgradeAsync(true);
+                await CheckUpgradeAsync(true, null);
             });
         }
 
@@ -320,11 +320,14 @@ namespace IoTClient.Tool
         /// <summary>
         /// 检查当前是否需要升级
         /// </summary>
-        private async Task CheckUpgradeAsync(bool mandatoryShowLogForm = false)
+        /// <param name="showUpdateDialog">是否显示更新对话框</param>
+        /// <param name="isRelease">最新版本是否为发布版本</param>
+        /// <returns></returns>
+        private async Task CheckUpgradeAsync(bool showUpdateDialog = false, bool? isRelease = true)
         {
             UpgradeFileManage();
             HttpClient http = new HttpClient();
-            var content = new StringContent(JsonConvert.SerializeObject(new VersionCheckInput()));
+            var content = new StringContent(JsonConvert.SerializeObject(new VersionCheckInput() { IsRelease = isRelease }));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var response = await http.PostAsync("https://appmanager.haojima.net/api/AppDownloads/GetNewAppUrl", content);
             var result = await response.Content.ReadAsStringAsync();
@@ -346,7 +349,7 @@ namespace IoTClient.Tool
                     Environment.Exit(0);
                 }
             }
-            else if (mandatoryShowLogForm)
+            else if (showUpdateDialog)
             {
                 new UpdateLog(false).ShowDialog();
             }

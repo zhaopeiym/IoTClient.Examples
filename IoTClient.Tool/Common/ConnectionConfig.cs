@@ -1,5 +1,6 @@
 ﻿using IoTClient.Enums;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
 
@@ -134,6 +135,15 @@ namespace IoTClient.Tool.Common
         public string S71200_Rack { get; set; }
         public string S71500_Slot { get; set; }
         public string S71500_Rack { get; set; }
+
+        public string Mqtt_Address { get; set; }
+        public string Mqtt_Port { get; set; }
+        public string Mqtt_ClientID { get; set; }
+        public string Mqtt_UserName { get; set; }
+        public string Mqtt_Password { get; set; }
+        public string Mqtt_ca_file { get; set; }
+        public string Mqtt_pfx_file { get; set; }
+        public List<string> Mqtt_Topics { get; set; } = new List<string>();
 
         public static ConnectionConfig GetConfig()
         {

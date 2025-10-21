@@ -32,16 +32,14 @@
             this.txt_msg = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.txt_subscribe_topic = new IoTClient.Tool.Controls.TextBoxEx();
             this.but_Subscribe = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.txt_publish_payload = new IoTClient.Tool.Controls.TextBoxEx();
-            this.txt_publish_topic = new IoTClient.Tool.Controls.TextBoxEx();
             this.but_Publish = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.but_Stop = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.flowLayoutPanel1 = new AntdUI.In.FlowLayoutPanel();
             this.txt_pfx_file = new IoTClient.Tool.Controls.TextBoxEx();
             this.txt_ca_file = new IoTClient.Tool.Controls.TextBoxEx();
             this.txt_Password = new IoTClient.Tool.Controls.TextBoxEx();
@@ -49,6 +47,9 @@
             this.txt_ClientID = new IoTClient.Tool.Controls.TextBoxEx();
             this.txt_Port = new IoTClient.Tool.Controls.TextBoxEx();
             this.txt_Address = new IoTClient.Tool.Controls.TextBoxEx();
+            this.txt_subscribe_topic = new IoTClient.Tool.Controls.TextBoxEx();
+            this.txt_publish_payload = new IoTClient.Tool.Controls.TextBoxEx();
+            this.txt_publish_topic = new IoTClient.Tool.Controls.TextBoxEx();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -56,9 +57,10 @@
             // 
             // but_Start
             // 
-            this.but_Start.Location = new System.Drawing.Point(560, 15);
+            this.but_Start.Location = new System.Drawing.Point(1120, 30);
+            this.but_Start.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.but_Start.Name = "but_Start";
-            this.but_Start.Size = new System.Drawing.Size(75, 23);
+            this.but_Start.Size = new System.Drawing.Size(150, 46);
             this.but_Start.TabIndex = 0;
             this.but_Start.Text = "启动";
             this.but_Start.UseVisualStyleBackColor = true;
@@ -68,11 +70,12 @@
             // 
             this.txt_msg.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.txt_msg.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.txt_msg.Location = new System.Drawing.Point(3, 57);
+            this.txt_msg.Location = new System.Drawing.Point(6, 123);
+            this.txt_msg.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.txt_msg.Multiline = true;
             this.txt_msg.Name = "txt_msg";
             this.txt_msg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_msg.Size = new System.Drawing.Size(866, 281);
+            this.txt_msg.Size = new System.Drawing.Size(1732, 558);
             this.txt_msg.TabIndex = 1;
             // 
             // tabControl1
@@ -80,38 +83,34 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tabControl1.Location = new System.Drawing.Point(0, 83);
+            this.tabControl1.Location = new System.Drawing.Point(0, 166);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(880, 367);
+            this.tabControl1.Size = new System.Drawing.Size(1760, 734);
             this.tabControl1.TabIndex = 2;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.flowLayoutPanel1);
             this.tabPage1.Controls.Add(this.txt_subscribe_topic);
             this.tabPage1.Controls.Add(this.but_Subscribe);
             this.tabPage1.Controls.Add(this.txt_msg);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(8, 39);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(872, 341);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage1.Size = new System.Drawing.Size(1744, 687);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "订阅";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // txt_subscribe_topic
-            // 
-            this.txt_subscribe_topic.Location = new System.Drawing.Point(3, 17);
-            this.txt_subscribe_topic.Name = "txt_subscribe_topic";
-            this.txt_subscribe_topic.PlaceHolder = "Topic";
-            this.txt_subscribe_topic.Size = new System.Drawing.Size(406, 21);
-            this.txt_subscribe_topic.TabIndex = 8;
-            // 
             // but_Subscribe
             // 
-            this.but_Subscribe.Location = new System.Drawing.Point(414, 16);
+            this.but_Subscribe.Location = new System.Drawing.Point(828, 14);
+            this.but_Subscribe.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.but_Subscribe.Name = "but_Subscribe";
-            this.but_Subscribe.Size = new System.Drawing.Size(75, 23);
+            this.but_Subscribe.Size = new System.Drawing.Size(150, 46);
             this.but_Subscribe.TabIndex = 8;
             this.but_Subscribe.Text = "订阅";
             this.but_Subscribe.UseVisualStyleBackColor = true;
@@ -123,36 +122,21 @@
             this.tabPage2.Controls.Add(this.txt_publish_topic);
             this.tabPage2.Controls.Add(this.but_Publish);
             this.tabPage2.Controls.Add(this.textBox2);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(8, 39);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(872, 341);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage2.Size = new System.Drawing.Size(1744, 687);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "发布";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // txt_publish_payload
-            // 
-            this.txt_publish_payload.Location = new System.Drawing.Point(3, 37);
-            this.txt_publish_payload.Multiline = true;
-            this.txt_publish_payload.Name = "txt_publish_payload";
-            this.txt_publish_payload.PlaceHolder = "Payload";
-            this.txt_publish_payload.Size = new System.Drawing.Size(630, 49);
-            this.txt_publish_payload.TabIndex = 12;
-            // 
-            // txt_publish_topic
-            // 
-            this.txt_publish_topic.Location = new System.Drawing.Point(3, 10);
-            this.txt_publish_topic.Name = "txt_publish_topic";
-            this.txt_publish_topic.PlaceHolder = "Topic";
-            this.txt_publish_topic.Size = new System.Drawing.Size(630, 21);
-            this.txt_publish_topic.TabIndex = 11;
-            // 
             // but_Publish
             // 
-            this.but_Publish.Location = new System.Drawing.Point(673, 50);
+            this.but_Publish.Location = new System.Drawing.Point(1346, 100);
+            this.but_Publish.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.but_Publish.Name = "but_Publish";
-            this.but_Publish.Size = new System.Drawing.Size(75, 23);
+            this.but_Publish.Size = new System.Drawing.Size(150, 46);
             this.but_Publish.TabIndex = 10;
             this.but_Publish.Text = "发布";
             this.but_Publish.UseVisualStyleBackColor = true;
@@ -162,18 +146,20 @@
             // 
             this.textBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.textBox2.Font = new System.Drawing.Font("微软雅黑", 9F);
-            this.textBox2.Location = new System.Drawing.Point(3, 92);
+            this.textBox2.Location = new System.Drawing.Point(6, 193);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox2.Size = new System.Drawing.Size(866, 246);
+            this.textBox2.Size = new System.Drawing.Size(1732, 488);
             this.textBox2.TabIndex = 9;
             // 
             // but_Stop
             // 
-            this.but_Stop.Location = new System.Drawing.Point(641, 15);
+            this.but_Stop.Location = new System.Drawing.Point(1282, 30);
+            this.but_Stop.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.but_Stop.Name = "but_Stop";
-            this.but_Stop.Size = new System.Drawing.Size(75, 23);
+            this.but_Stop.Size = new System.Drawing.Size(150, 46);
             this.but_Stop.TabIndex = 8;
             this.but_Stop.Text = "停止";
             this.but_Stop.UseVisualStyleBackColor = true;
@@ -182,9 +168,10 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(777, 19);
+            this.checkBox1.Location = new System.Drawing.Point(1554, 38);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(90, 16);
+            this.checkBox1.Size = new System.Drawing.Size(174, 28);
             this.checkBox1.TabIndex = 9;
             this.checkBox1.Text = "开启SSL/TLS";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -198,75 +185,119 @@
             "tcp",
             "wss",
             "ws"});
-            this.comboBox1.Location = new System.Drawing.Point(724, 17);
+            this.comboBox1.Location = new System.Drawing.Point(1448, 34);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(43, 20);
+            this.comboBox1.Size = new System.Drawing.Size(82, 32);
             this.comboBox1.TabIndex = 12;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(6, 60);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1732, 54);
+            this.flowLayoutPanel1.TabIndex = 9;
+            // 
             // txt_pfx_file
             // 
-            this.txt_pfx_file.Location = new System.Drawing.Point(232, 42);
+            this.txt_pfx_file.Location = new System.Drawing.Point(464, 84);
+            this.txt_pfx_file.Margin = new System.Windows.Forms.Padding(6);
             this.txt_pfx_file.Name = "txt_pfx_file";
             this.txt_pfx_file.PlaceHolder = "双击选择pfx文件";
-            this.txt_pfx_file.Size = new System.Drawing.Size(224, 21);
+            this.txt_pfx_file.Size = new System.Drawing.Size(444, 35);
             this.txt_pfx_file.TabIndex = 11;
             this.txt_pfx_file.DoubleClick += new System.EventHandler(this.txt_pfx_file_Click);
             // 
             // txt_ca_file
             // 
-            this.txt_ca_file.Location = new System.Drawing.Point(2, 42);
+            this.txt_ca_file.Location = new System.Drawing.Point(4, 84);
+            this.txt_ca_file.Margin = new System.Windows.Forms.Padding(6);
             this.txt_ca_file.Name = "txt_ca_file";
             this.txt_ca_file.PlaceHolder = "双击选择ca.crt";
-            this.txt_ca_file.Size = new System.Drawing.Size(224, 21);
+            this.txt_ca_file.Size = new System.Drawing.Size(444, 35);
             this.txt_ca_file.TabIndex = 10;
             this.txt_ca_file.DoubleClick += new System.EventHandler(this.txt_ca_file_Click);
             // 
             // txt_Password
             // 
-            this.txt_Password.Location = new System.Drawing.Point(444, 15);
+            this.txt_Password.Location = new System.Drawing.Point(888, 30);
+            this.txt_Password.Margin = new System.Windows.Forms.Padding(6);
             this.txt_Password.Name = "txt_Password";
             this.txt_Password.PasswordChar = '*';
             this.txt_Password.PlaceHolder = "Password";
-            this.txt_Password.Size = new System.Drawing.Size(100, 21);
+            this.txt_Password.Size = new System.Drawing.Size(196, 35);
             this.txt_Password.TabIndex = 7;
             // 
             // txt_UserName
             // 
-            this.txt_UserName.Location = new System.Drawing.Point(338, 15);
+            this.txt_UserName.Location = new System.Drawing.Point(676, 30);
+            this.txt_UserName.Margin = new System.Windows.Forms.Padding(6);
             this.txt_UserName.Name = "txt_UserName";
             this.txt_UserName.PlaceHolder = "UserName";
-            this.txt_UserName.Size = new System.Drawing.Size(100, 21);
+            this.txt_UserName.Size = new System.Drawing.Size(196, 35);
             this.txt_UserName.TabIndex = 6;
             // 
             // txt_ClientID
             // 
-            this.txt_ClientID.Location = new System.Drawing.Point(232, 15);
+            this.txt_ClientID.Location = new System.Drawing.Point(464, 30);
+            this.txt_ClientID.Margin = new System.Windows.Forms.Padding(6);
             this.txt_ClientID.Name = "txt_ClientID";
             this.txt_ClientID.PlaceHolder = "ClientID";
-            this.txt_ClientID.Size = new System.Drawing.Size(100, 21);
+            this.txt_ClientID.Size = new System.Drawing.Size(196, 35);
             this.txt_ClientID.TabIndex = 5;
             // 
             // txt_Port
             // 
-            this.txt_Port.Location = new System.Drawing.Point(163, 15);
+            this.txt_Port.Location = new System.Drawing.Point(326, 30);
+            this.txt_Port.Margin = new System.Windows.Forms.Padding(6);
             this.txt_Port.Name = "txt_Port";
             this.txt_Port.PlaceHolder = "Port";
-            this.txt_Port.Size = new System.Drawing.Size(63, 21);
+            this.txt_Port.Size = new System.Drawing.Size(122, 35);
             this.txt_Port.TabIndex = 4;
             this.txt_Port.Text = "1883";
             // 
             // txt_Address
             // 
-            this.txt_Address.Location = new System.Drawing.Point(1, 15);
+            this.txt_Address.Location = new System.Drawing.Point(2, 30);
+            this.txt_Address.Margin = new System.Windows.Forms.Padding(6);
             this.txt_Address.Name = "txt_Address";
             this.txt_Address.PlaceHolder = "Address";
-            this.txt_Address.Size = new System.Drawing.Size(156, 21);
+            this.txt_Address.Size = new System.Drawing.Size(308, 35);
             this.txt_Address.TabIndex = 3;
+            // 
+            // txt_subscribe_topic
+            // 
+            this.txt_subscribe_topic.Location = new System.Drawing.Point(6, 16);
+            this.txt_subscribe_topic.Margin = new System.Windows.Forms.Padding(6);
+            this.txt_subscribe_topic.Name = "txt_subscribe_topic";
+            this.txt_subscribe_topic.PlaceHolder = "Topic";
+            this.txt_subscribe_topic.Size = new System.Drawing.Size(808, 35);
+            this.txt_subscribe_topic.TabIndex = 8;
+            this.txt_subscribe_topic.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txt_subscribe_topic_KeyUp);
+            // 
+            // txt_publish_payload
+            // 
+            this.txt_publish_payload.Location = new System.Drawing.Point(6, 74);
+            this.txt_publish_payload.Margin = new System.Windows.Forms.Padding(6);
+            this.txt_publish_payload.Multiline = true;
+            this.txt_publish_payload.Name = "txt_publish_payload";
+            this.txt_publish_payload.PlaceHolder = "Payload";
+            this.txt_publish_payload.Size = new System.Drawing.Size(1256, 94);
+            this.txt_publish_payload.TabIndex = 12;
+            // 
+            // txt_publish_topic
+            // 
+            this.txt_publish_topic.Location = new System.Drawing.Point(6, 20);
+            this.txt_publish_topic.Margin = new System.Windows.Forms.Padding(6);
+            this.txt_publish_topic.Name = "txt_publish_topic";
+            this.txt_publish_topic.PlaceHolder = "Topic";
+            this.txt_publish_topic.Size = new System.Drawing.Size(1256, 35);
+            this.txt_publish_topic.TabIndex = 11;
             // 
             // MQTTControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.txt_pfx_file);
@@ -280,8 +311,9 @@
             this.Controls.Add(this.txt_Address);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.but_Start);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "MQTTControl";
-            this.Size = new System.Drawing.Size(880, 450);
+            this.Size = new System.Drawing.Size(1760, 900);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -316,5 +348,6 @@
         private TextBoxEx txt_ca_file;
         private TextBoxEx txt_pfx_file;
         private System.Windows.Forms.ComboBox comboBox1;
+        private AntdUI.In.FlowLayoutPanel flowLayoutPanel1;
     }
 }
