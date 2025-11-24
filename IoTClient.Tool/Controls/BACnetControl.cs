@@ -12,6 +12,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Talk.Extensions;
 using Talk.Linq.Extensions;
 using Talk.NPOI;
 
@@ -27,6 +28,7 @@ namespace IoTClient.Tool
         }
         private static List<BacNode> devicesList = new List<BacNode>();
         private BacnetClient Bacnet_client;
+        private int lastSelectDeviceIndex = -1;
         //private BACnetServer Bacnet_server = new BACnetServer();
 
         private void BACnetControl_Load(object sender, EventArgs e)
@@ -39,8 +41,10 @@ namespace IoTClient.Tool
             toolTip1.SetToolTip(comboBox2, "写入优先级");
             toolTip1.SetToolTip(txt_address, "填入点名或地址");
             toolTip1.SetToolTip(button5, "按住Ctrl后点击会释放所有优先级的值");
-
+            button1.Text = "开始扫描";
             //这里会调用 comboBox1_TextChanged
+
+            load_devic_items();
         }
 
 
@@ -57,7 +61,21 @@ namespace IoTClient.Tool
 
         private void comboBox1_TextChanged(object sender, EventArgs e)
         {
-            button1_Click_1(null, null);
+            //button1_Click_1(null, null);
+        }
+
+        private void load_devic_items()
+        {
+            devicesList = new List<BacNode>();
+            listBox1.Items.Clear();
+            lastSelectDeviceIndex = -1;
+            Bacnet_client?.Dispose();
+            //BACnet的默认端口47808
+            Bacnet_client = new BacnetClient(new BacnetIpUdpProtocolTransport(47808, false, localEndpointIp: comboBox1.SelectedItem.ToString()));
+            Bacnet_client.OnIam -= new BacnetClient.IamHandler(handler_OnIam);
+            Bacnet_client.OnIam += new BacnetClient.IamHandler(handler_OnIam);
+            Bacnet_client.Start();
+            Bacnet_client.WhoIs();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -68,6 +86,7 @@ namespace IoTClient.Tool
             comboBox1.Enabled = false;
             but_export.Enabled = false;
             devicesList = new List<BacNode>();
+            var select_device = listBox1.SelectedItem?.ToString().Split(' ')[0];
             listBox1.Items.Clear();
             Bacnet_client?.Dispose();
             //BACnet的默认端口47808
@@ -78,7 +97,10 @@ namespace IoTClient.Tool
             Bacnet_client.OnIam -= new BacnetClient.IamHandler(handler_OnIam);
             Bacnet_client.OnIam += new BacnetClient.IamHandler(handler_OnIam);
             Bacnet_client.Start();
-            Bacnet_client.WhoIs();
+            if (select_device.IsNullOrWhiteSpace())
+                Bacnet_client.WhoIs();
+            else
+                Bacnet_client.WhoIs(receiver: new BacnetAddress(BacnetAddressTypes.IP, select_device?.Trim(), 0xFFFF));
             Task.Run(async () =>
             {
                 //Log("准备扫描...");
@@ -87,8 +109,8 @@ namespace IoTClient.Tool
                     await Task.Delay(100);
                     Log($"等待扫描...[{9 - i}]");
                 }
-                if (listBox1.Items.Count == 1)
-                    listBox1.SelectedIndex = 0;
+                //if (listBox1.Items.Count == 1)
+                //    listBox1.SelectedIndex = 0;
                 Scan();
                 button1.Enabled = true;
                 button1.Text = "重新扫描";
@@ -120,9 +142,10 @@ namespace IoTClient.Tool
         private void Scan()
         {
             bacnetPropertyInfos = new List<BacnetPropertyInfo>();
-            Log("开始扫描设备...");
+            //Log("开始扫描设备...");
             foreach (var device in devicesList)
             {
+                Log($"开始扫描设备{device?.Address}:{device?.DeviceId}...");
                 //获取子节点个数
                 var deviceCount = GetDeviceArrayIndexCount(device) + 1;
                 //TODO 20 可设置 配置
@@ -137,6 +160,7 @@ namespace IoTClient.Tool
                     bacnetPropertyInfos.Add(new BacnetPropertyInfo());
             }
             Log("扫描完成");
+            load_devic_items();
         }
 
         /// <summary>
@@ -195,7 +219,7 @@ namespace IoTClient.Tool
             }
             catch (Exception exp)
             {
-                Log("=== 【Err】" + exp.Message + " ===");
+                Log($"=== 【Err2】Address:{device?.Address}:{device?.DeviceId}" + exp.Message + " ===");
             }
         }
 
@@ -214,7 +238,7 @@ namespace IoTClient.Tool
             }
             catch (Exception ex)
             {
-                Log("=== 【Err】" + ex.Message + " ===");
+                Log("=== 【Err1】Address:{device?.Address}:{device?.DeviceId}" + ex.Message + " ===");
             }
             return 0;
         }
@@ -391,7 +415,7 @@ namespace IoTClient.Tool
                 return;
             }
             int retry = 0;//重试
-            tag_retry:
+        tag_retry:
             IList<BacnetValue> NoScalarValue = Bacnet_client.ReadPropertyRequest(bacnet.Address, rpop.ObjectId, BacnetPropertyIds.PROP_PRESENT_VALUE);
             if (NoScalarValue?.Any() ?? false)
             {
@@ -472,7 +496,7 @@ namespace IoTClient.Tool
             }
 
             int retry = 0;//重试
-            tag_retry:
+        tag_retry:
             try
             {
                 await Task.Delay(retry * 200);
@@ -637,7 +661,7 @@ namespace IoTClient.Tool
             List<BacnetValue> nullValue = new List<BacnetValue>() { new BacnetValue(null) };
             string address = $"{objectId.Instance}_{(uint)objectId.Type}";
             int retry = 0;//重试
-            tag_retry:
+        tag_retry:
             try
             {
                 await Task.Delay(retry * 200);
@@ -650,6 +674,19 @@ namespace IoTClient.Tool
                 retry++;
                 if (retry < 2) goto tag_retry;//强行重试                
                 ShwoText(string.Format(":[释放失败][{0}] 点:{1,-15} 优先级[{2}] {3}", retry, address, writePriority, ex.Message));
+            }
+        }
+
+        private void listBox1_Click(object sender, EventArgs e)
+        {
+            if (lastSelectDeviceIndex >= 0 && lastSelectDeviceIndex == listBox1.SelectedIndex)
+            {
+                lastSelectDeviceIndex = -1;
+                listBox1.SelectedIndex = -1;
+            }
+            else
+            {
+                lastSelectDeviceIndex = listBox1.SelectedIndex;
             }
         }
     }

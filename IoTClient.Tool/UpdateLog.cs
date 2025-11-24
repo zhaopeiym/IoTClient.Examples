@@ -108,6 +108,11 @@ namespace IoTClient.Tool
             logs.Add("1.MQTT配置持久储存");
             logs.Add("2.MQTT历史订阅可视");
 
+            logs.Add("\r\n版本：[1.1.03]");
+            logs.Add($"时间：2025-11-24");
+            logs.Add("内容");
+            logs.Add("1.BACnet可选中设备ip扫描");            
+
             textBox1.Text = string.Join("\r\n", logs);
             if (hasNew)
             {
