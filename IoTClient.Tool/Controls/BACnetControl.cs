@@ -160,7 +160,7 @@ namespace IoTClient.Tool
                     bacnetPropertyInfos.Add(new BacnetPropertyInfo());
             }
             Log("扫描完成");
-            load_devic_items();
+            //load_devic_items();
         }
 
         /// <summary>
