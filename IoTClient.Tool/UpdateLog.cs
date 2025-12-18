@@ -111,7 +111,12 @@ namespace IoTClient.Tool
             logs.Add("\r\n版本：[1.1.03]");
             logs.Add($"时间：2025-11-24");
             logs.Add("内容");
-            logs.Add("1.BACnet可选中设备ip扫描");            
+            logs.Add("1.BACnet可选中设备ip扫描");
+
+            logs.Add("\r\n版本：[1.1.04]");
+            logs.Add($"时间：2025-12-18");
+            logs.Add("内容");
+            logs.Add("1.fix - BACnet扫描后不能读写");
 
             textBox1.Text = string.Join("\r\n", logs);
             if (hasNew)
