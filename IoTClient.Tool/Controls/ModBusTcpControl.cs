@@ -102,7 +102,7 @@ namespace IoTClient.Tool
                 case "rd_ulong": rd_ulong.Checked = true; break;
                 case "rd_float": rd_float.Checked = true; break;
                 case "rd_double": rd_double.Checked = true; break;
-            };
+            }
             chb_show_package.Checked = config.ModBusTcp_ShowPackage;
         }
 
@@ -261,25 +261,25 @@ namespace IoTClient.Tool
                         {
                             var cAddress = (address + i * bLength).ToString();
                             if (rd_coil.Checked)
-                                AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadCoil(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
+                                AppendText($"[读取 {address + i * bLength} 成功]：{client.ReadCoil(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
                             else if (rd_discrete.Checked)
-                                AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadDiscrete(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
+                                AppendText($"[读取 {address + i * bLength} 成功]：{client.ReadDiscrete(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
                             else if (rd_short.Checked)
-                                AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadInt16(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
+                                AppendText($"[读取 {address + i * bLength} 成功]：{client.ReadInt16(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
                             else if (rd_ushort.Checked)
-                                AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadUInt16(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
+                                AppendText($"[读取 {address + i * bLength} 成功]：{client.ReadUInt16(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
                             else if (rd_int.Checked)
-                                AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadInt32(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
+                                AppendText($"[读取 {address + i * bLength} 成功]：{client.ReadInt32(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
                             else if (rd_uint.Checked)
-                                AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadUInt32(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
+                                AppendText($"[读取 {address + i * bLength} 成功]：{client.ReadUInt32(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
                             else if (rd_long.Checked)
-                                AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadInt64(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
+                                AppendText($"[读取 {address + i * bLength} 成功]：{client.ReadInt64(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
                             else if (rd_ulong.Checked)
-                                AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadUInt64(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
+                                AppendText($"[读取 {address + i * bLength} 成功]：{client.ReadUInt64(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
                             else if (rd_float.Checked)
-                                AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadFloat(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
+                                AppendText($"[读取 {address + i * bLength} 成功]：{client.ReadFloat(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
                             else if (rd_double.Checked)
-                                AppendText($"[读取 {address + i * bLength} 成功]：{ client.ReadDouble(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
+                                AppendText($"[读取 {address + i * bLength} 成功]：{client.ReadDouble(address.ToString(), cAddress, rValue).Value}\t\t耗时：{result.TimeConsuming}ms");
                         }
                     }
                     else
@@ -377,6 +377,13 @@ namespace IoTClient.Tool
                     {
                         var address = addressAndfunctionCode[0];
                         var functionCode = byte.Parse(addressAndfunctionCode[1]);
+                        if (addressAndfunctionCode.Length >= 4)
+                        {
+                            stationNumber = byte.Parse(addressAndfunctionCode[0]);
+                            address = addressAndfunctionCode[1];
+                            functionCode = byte.Parse(addressAndfunctionCode[2]);
+                        }
+
                         if (rd_coil.Checked)
                             result = client.ReadCoil(address, stationNumber, functionCode);
                         else if (rd_short.Checked)
@@ -465,11 +472,21 @@ namespace IoTClient.Tool
             }
             try
             {
-                var address = txt_address.Text.Split('-')[0].Split('_')[0];
+                var first_address = txt_address.Text.Split('-')[0];
+                var addressAndfunctionCode = first_address.Split('_');
+                var address = addressAndfunctionCode[0];
                 var functionCode = (byte)16;
-                if (txt_address.Text.Split('-')[0].Split('_').Length == 3)
+                if (addressAndfunctionCode.Length == 3)
                 {
-                    functionCode = byte.Parse(txt_address.Text.Split('-')[0].Split('_')[2]);
+                    //地址_读功能码_写功能码
+                    functionCode = byte.Parse(addressAndfunctionCode[2]);
+                }
+                else if (addressAndfunctionCode.Length == 4)
+                {
+                    //站号_地址_读功能码_写功能码
+                    stationNumber = byte.Parse(addressAndfunctionCode[0]);
+                    address = addressAndfunctionCode[1];
+                    functionCode = byte.Parse(addressAndfunctionCode[3]);
                 }
                 dynamic result = null;
                 if (rd_coil.Checked)

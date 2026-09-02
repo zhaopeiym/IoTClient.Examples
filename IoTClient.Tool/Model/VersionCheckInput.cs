@@ -2,7 +2,7 @@
 {
     public class VersionCheckInput
     {
-        public int AppVersion { get; set; } = 1106;
+        public int AppVersion { get; set; } = 1107;
         public string AppCode { get; set; } = "iotclient";
         public bool? IsRelease { get; set; }
     }
